@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#153e42">
+  <meta name="description" content="Private Stempeluhr mit automatischen Pausen, Zeitkonto, Urlaub und Datensicherung.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" href="./icons/icon-192.png">
+  <title>Meine Stempeluhr</title>
+<style>
+:root{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1b3032;background:#f3f6f4;font-synthesis:none}
+*{box-sizing:border-box}body{margin:0;min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.48}
+.app{max-width:1170px;margin:0 auto;padding:27px 22px 80px}.header{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:#153e42;color:#fff;display:grid;place-items:center}.logo svg{width:25px}h1{font-size:23px;letter-spacing:-.7px;line-height:1.1;margin:0}h2{margin:0 0 15px;font-size:18px;letter-spacing:-.35px}h3{margin:0;font-size:15px}.sub{font-size:13px;color:#748484;margin-top:5px}.header-right{font-size:12px;color:#54726c;background:#e5efe9;border:1px solid #d1e4d8;border-radius:999px;padding:9px 12px;white-space:nowrap}
+.grid-main{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);gap:18px;align-items:start}.card{background:#fff;border:1px solid #e2e9e5;border-radius:19px;padding:22px;box-shadow:0 6px 22px rgba(24,53,48,.035)}.hero{background:#153e42;color:white;border-radius:20px;padding:25px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:250px;height:250px;background:rgba(255,255,255,.045);border-radius:50%;right:-115px;top:-125px;pointer-events:none}.hero small{font-size:12px;color:#c4dcd8;letter-spacing:.4px}.hero h2{font-size:23px;margin:8px 0 20px;font-weight:630;letter-spacing:-.5px}.status{display:inline-flex;align-items:center;gap:7px;border:1px solid #6c9391;color:#d9f4e9;background:#2a5857;padding:7px 12px;border-radius:100px;font-size:12px}.dot{width:7px;height:7px;border-radius:50%;background:#a0f0bd}.status.off{background:#234548;color:#d0e5df}.status.off .dot{background:#acbcba}.hero-clock{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:24px 0 21px}.hero-clock .value{font-size:45px;line-height:1;letter-spacing:-2.2px;font-variant-numeric:tabular-nums;font-weight:680}.hero-clock .caption{font-size:12px;color:#bed5d1;margin-bottom:6px}.hero-time{color:#cee3df;font-size:14px;margin-bottom:3px}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:1px solid #cddbd6;background:#fff;border-radius:11px;padding:12px 14px;font-weight:600;font-size:13px;color:#214a47;transition:background .15s}.btn:hover{background:#f0f6f2}.btn-primary{background:#dcf6e6;color:#144438;border-color:#dcf6e6}.btn-primary:hover{background:#c9eedb}.btn-hero-alt{border-color:#6b8d8e;background:#1d4b4b;color:#e7f6ef}.btn-hero-alt:hover{background:#2b5b5b}.btn-danger{border-color:#f2c8c8;color:#a43f3c;background:#fff6f5}.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #94cbb7;outline-offset:2px}
+.projection{margin-top:15px;background:rgba(255,255,255,.09);padding:13px 14px;border-radius:11px;display:grid;gap:9px}.projection-row{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:#cde0dc}.projection-row strong{color:white;font-size:14px;font-variant-numeric:tabular-nums}.notice{font-size:12px;color:#607774;line-height:1.45;margin:12px 0 0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{border:1px solid #e2ebe6;border-radius:14px;padding:16px;min-width:0}.stat .label{font-size:12px;color:#6b8180}.stat .num{font-size:26px;font-weight:700;letter-spacing:-1px;margin-top:7px;font-variant-numeric:tabular-nums}.stat .hint{font-size:11px;color:#7b8e8b;margin-top:6px;line-height:1.35}.good{color:#15785c!important}.bad{color:#b25843!important}.muted{color:#6d8481!important}.progress{height:6px;background:#e8f0eb;border-radius:50px;overflow:hidden;margin-top:10px}.progress>span{display:block;height:100%;background:#4b9c85;border-radius:50px}.card-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.card-title h2{margin:0}.chip{font-size:12px;color:#637b73;background:#f0f6f1;padding:6px 9px;border-radius:30px}.full{grid-column:1/-1}.stack{display:grid;gap:17px;align-content:start}.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{min-width:0}.field label,.form-label{display:block;font-size:12px;color:#667f79;font-weight:650;margin-bottom:6px}.field input,.field select,.field textarea,.form-input{display:block;width:100%;background:#fbfcfb;color:#183d38;border:1px solid #d6e3dc;border-radius:10px;padding:11px 12px;min-height:43px;font-size:14px}.field textarea{min-height:78px;resize:vertical}.field-wide{grid-column:1/-1}.field-help{font-size:11px;color:#7e928b;margin-top:5px}.inline-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:13px}.inline-actions .btn{flex:1}.minor-link{border:0;background:transparent;text-decoration:underline;text-underline-offset:3px;color:#677d78;font-size:12px;padding:8px}.section-intro{font-size:13px;color:#6d817a;margin:-5px 0 16px;line-height:1.55}.monthnav{display:flex;align-items:center;gap:12px}.monthnav button{background:#f4f8f5;border:1px solid #dde9e1;border-radius:10px;width:33px;height:33px;color:#3e6258}.monthnav strong{min-width:125px;text-align:center;font-size:13px}.tablewrap{overflow:auto;border:1px solid #e1eae5;border-radius:13px}table{width:100%;border-collapse:collapse;text-align:left;font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#72877f;font-weight:650;background:#f7faf7;padding:12px}td{padding:12px;border-top:1px solid #edf1ee;white-space:nowrap;font-variant-numeric:tabular-nums}tr.entry{cursor:pointer}tr.entry:hover{background:#f4f8f5}.tag{display:inline-block;font-size:11px;padding:4px 7px;border-radius:7px;background:#edf4ee;color:#517462}.tag.leave{background:#e8f1ff;color:#456d9d}.tag.ill{background:#fff2e5;color:#936a40}.tag.rest{background:#f2f3f4;color:#777f82}.mini-btn{border:1px solid #dee9e1;background:#fff;border-radius:8px;padding:7px 9px;font-size:12px;color:#305d52}.norecord{color:#9aac9f}.legend{margin-top:12px;color:#75887f;font-size:11px;line-height:1.5}.yearstat{display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-size:12px;color:#687b75}.yearstat strong{color:#2b5c4d}.workdays{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px}.workdays label{border-radius:10px;border:1px solid #d9e6df;padding:9px 10px;display:flex;align-items:center;gap:5px;font-size:12px;color:#34564f}.workdays input{accent-color:#247b60;margin:0}.settings-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.settings-head .small{color:#758981;font-size:12px}details>summary{cursor:pointer;list-style:none}details>summary::-webkit-details-marker{display:none}details>summary:after{content:'⌄';font-size:18px;float:right;color:#748f7e}details[open]>summary:after{content:'⌃'}.setting-body{margin-top:21px}.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:10;background:#1e443b;color:#fff;border-radius:11px;padding:12px 17px;box-shadow:0 12px 28px rgba(0,0,0,.18);font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100% - 30px)}.toast.show{opacity:1}.divider{border:0;border-top:1px solid #edf1ed;margin:18px 0}.helper{font-size:12px;color:#82918a;line-height:1.5;margin-top:12px}.footer{font-size:11px;color:#91a29a;text-align:center;margin-top:27px}.hidden{display:none!important}
+@media(max-width:780px){.app{padding:17px 14px 65px}.grid-main{grid-template-columns:1fr;gap:14px}.card{padding:18px}.hero{padding:21px}.header{margin-bottom:18px}.header-right{display:none}.hero-clock .value{font-size:39px}.stats{grid-template-columns:1fr 1fr}.stat{padding:13px}.stat .num{font-size:24px}h1{font-size:21px}.monthnav strong{min-width:100px}th,td{padding:10px 8px;font-size:11px}.card-title{flex-wrap:wrap}}
+@media(max-width:365px){.field-grid{grid-template-columns:1fr}.field-wide{grid-column:auto}.hero-actions{grid-template-columns:1fr}.stat .num{font-size:21px}.monthnav strong{min-width:85px;font-size:11px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+  <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2.1"/></svg></div><div><h1>Meine Stempeluhr</h1><div class="sub">Arbeitszeit, Urlaub und Zeitkonto</div></div></div>
+  <div class="header-right">Privat gespeichert · Auch offline nutzbar</div>
+</header>
+<main class="grid-main">
+<section class="stack">
+  <div class="hero">
+    <div class="status off" id="punch-status"><span class="dot"></span><span>Aktuell nicht eingestempelt</span></div>
+    <h2 id="hero-date">Dein Arbeitstag</h2>
+    <small>HEUTIGE NETTOARBEITSZEIT</small>
+    <div class="hero-clock"><div><div class="value" id="live-net">0:00 <span style="font-size:16px;letter-spacing:0;font-weight:450">Std.</span></div><div class="hero-time" id="live-range">Noch keine Zeit erfasst</div></div><div class="caption" id="live-now"> </div></div>
+    <div class="hero-actions"><button class="btn btn-primary" id="punch-in">Einstempeln</button><button class="btn btn-hero-alt" id="punch-out">Ausstempeln</button></div>
+    <div class="projection" id="projection"><div class="projection-row"><span>Feierabend bei 8 Stunden netto</span><strong>–</strong></div><div class="projection-row"><span>Bei deinem regulären Tagesziel</span><strong>–</strong></div></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><h2>Dein Zeitkonto</h2><span class="chip" id="tracking-badge">Stand heute</span></div>
+    <div class="stats">
+      <div class="stat"><div class="label">Heute gearbeitet</div><div class="num" id="stat-today">0:00</div><div class="hint" id="today-plan">Tagesziel: 7:42 Std.</div></div>
+      <div class="stat"><div class="label">Diese Woche</div><div class="num" id="stat-week">0:00</div><div class="hint" id="week-plan">Soll bis heute: 0:00 Std.</div><div class="progress"><span id="week-progress" style="width:0%"></span></div></div>
+      <div class="stat"><div class="label">Dieser Monat</div><div class="num" id="stat-month">0:00</div><div class="hint" id="month-plan">Soll bis heute: 0:00 Std.</div><div class="progress"><span id="month-progress" style="width:0%"></span></div></div>
+      <div class="stat"><div class="label">Gesamtes Zeitkonto</div><div class="num" id="stat-balance">±0:00</div><div class="hint" id="balance-hint">Plus- oder Minusstunden seit Beginn</div></div>
+    </div>
+    <p class="notice" id="calculation-note">Urlaub, Krankheit und Feiertage werden mit deiner geplanten Tageszeit berücksichtigt und verursachen deshalb kein Minus.</p>
+  </div>
+  <div class="card" id="edit-card">
+    <div class="card-title"><h2>Arbeitstag erfassen</h2><button class="mini-btn" id="go-today">Heute</button></div>
+    <div class="field-grid">
+      <div class="field"><label for="edit-date">Datum</label><input type="date" id="edit-date"></div>
+      <div class="field"><label for="edit-type">Art des Tages</label><select id="edit-type"><option value="work">Arbeit</option><option value="vacation">Urlaub</option><option value="sick">Krank</option><option value="holiday">Feiertag</option><option value="free">Dienstfrei (kein Soll)</option></select></div>
+      <div class="field work-only"><label for="edit-start">Arbeitsbeginn</label><input type="time" id="edit-start" step="60"></div>
+      <div class="field work-only"><label for="edit-end">Feierabend</label><input type="time" id="edit-end" step="60"></div>
+      <div class="field work-only"><label for="edit-pause-mode">Pause</label><select id="edit-pause-mode"><option value="auto">Automatisch</option><option value="manual">Selbst eingeben</option></select></div>
+      <div class="field work-only" id="manual-pause-field"><label for="edit-pause">Pause in Minuten</label><input type="number" id="edit-pause" min="0" max="240" step="1" value="30"></div>
+      <div class="field field-wide"><label for="edit-note">Notiz (optional)</label><textarea id="edit-note" rows="2" placeholder="Zum Beispiel: früher Feierabend, Arzttermin ..."></textarea></div>
+    </div>
+    <div class="inline-actions"><button class="btn btn-primary" id="save-day">Tag speichern</button><button class="btn btn-danger" id="delete-day">Eintrag löschen</button></div>
+    <p class="helper" id="edit-preview">Deine Nettoarbeitszeit wird automatisch berechnet.</p><p class="helper">Standardmäßig werden 30 Minuten Pause abgezogen, bei besonders langen Arbeitstagen mindestens 45 Minuten. Falls du tatsächlich anders pausiert hast, wähle „Selbst eingeben“.</p>
+  </div>
+</section>
+<section class="stack">
+  <div class="card">
+    <div class="card-title"><h2>Monatsübersicht</h2><div class="monthnav"><button id="prev-month" aria-label="Voriger Monat">‹</button><strong id="month-label"></strong><button id="next-month" aria-label="Nächster Monat">›</button></div></div>
+    <div class="yearstat" id="month-summary"></div>
+    <div class="tablewrap" style="margin-top:15px"><table><thead><tr><th>Tag</th><th>Zeiten / Status</th><th>Netto</th><th>Saldo</th></tr></thead><tbody id="month-rows"></tbody></table></div>
+    <p class="legend">Tippe auf einen Tag, um ihn zu bearbeiten. Künftige Tage erzeugen noch kein Minus. Der Saldo bezieht sich auf das jeweilige Tagessoll.</p>
+  </div>
+  <div class="card">
+    <h2>Urlaub und Abwesenheit</h2>
+    <p class="section-intro">Trage einen oder mehrere Tage ein. Die geplanten Stunden werden gutgeschrieben, damit kein Minus entsteht.</p>
+    <div class="field-grid">
+      <div class="field"><label for="absence-from">Von</label><input type="date" id="absence-from"></div>
+      <div class="field"><label for="absence-to">Bis</label><input type="date" id="absence-to"></div>
+      <div class="field field-wide"><label for="absence-type">Abwesenheit</label><select id="absence-type"><option value="vacation">Urlaub</option><option value="sick">Krank</option><option value="holiday">Feiertag</option><option value="free">Dienstfrei (kein Soll)</option></select></div>
+    </div>
+    <button class="btn btn-primary" id="save-absence" style="width:100%;margin-top:13px">Zeitraum eintragen</button>
+    <div class="yearstat" id="vacation-stat" style="margin-top:15px"></div>
+  </div>
+  <details class="card" id="settings-panel">
+    <summary><span style="font-size:18px;font-weight:700">Einstellungen und Sicherung</span></summary>
+    <div class="setting-body">
+      <p class="section-intro">Die Einstellungen bestimmen dein tägliches Soll und die Stundenberechnung.</p>
+      <div class="field-grid">
+        <div class="field"><label for="setting-weekly">Wochenarbeitszeit (Std.)</label><input type="text" inputmode="decimal" id="setting-weekly" value="38,5"></div>
+        <div class="field"><label for="setting-daygoal">Feierabend-Ziel (Std.)</label><input type="text" inputmode="decimal" id="setting-daygoal" value="8"></div>
+        <div class="field"><label for="setting-break">Automatische Pause (Min.)</label><input type="number" id="setting-break" min="0" max="180" value="30"></div>
+        <div class="field"><label for="setting-start">Erfassung beginnt am</label><input type="date" id="setting-start"></div>
+        <div class="field field-wide"><label for="setting-vacation">Urlaubsanspruch pro Kalenderjahr (Tage, optional)</label><input type="number" id="setting-vacation" min="0" max="365" placeholder="Nicht festgelegt"></div>
+        <div class="field field-wide"><label>Reguläre Arbeitstage</label><div class="workdays" id="settings-workdays"></div><div class="field-help">Die Wochenstunden werden auf die ausgewählten Tage verteilt.</div></div>
+      </div>
+      <button class="btn btn-primary" id="save-settings" style="width:100%;margin-top:15px">Einstellungen speichern</button>
+      <hr class="divider"><h3>Datensicherung</h3>
+      <p class="helper">Alle Zeiten liegen ausschließlich in diesem Browser auf diesem Gerät. Sichere sie regelmäßig als Datei. Das Löschen von Browserdaten kann die Einträge entfernen.</p>
+      <div class="inline-actions"><button class="btn" id="export-json">Sicherung als JSON</button><button class="btn" id="export-csv">Tabelle als CSV</button></div>
+      <div class="inline-actions"><button class="btn" id="import-button">Sicherung wiederherstellen</button><input class="hidden" id="import-file" type="file" accept="application/json,.json"></div>
+      <hr class="divider"><button class="btn btn-danger" id="reset-all">Alle Daten zurücksetzen</button>
+    </div>
+  </details>
+</section>
+</main>
+<footer class="footer">Private Stempeluhr · Keine Anmeldung · Keine Cloud · Version 1.0</footer>
+</div><div role="status" aria-live="polite" class="toast" id="toast"></div>
+<script>
+(function(){'use strict';
+const STORAGE='meine-stempeluhr-v1';
+const DAY_NAMES=['So','Mo','Di','Mi','Do','Fr','Sa'];
+const WEEKDAY_NAMES=['Mo','Di','Mi','Do','Fr','Sa','So'];
+const TYPE_LABELS={work:'Arbeit',vacation:'Urlaub',sick:'Krank',holiday:'Feiertag',free:'Dienstfrei'};
+const $=(id)=>document.getElementById(id);
+const pad=(n)=>String(n).padStart(2,'0');
+const localISO=(d)=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parseDate=(s)=>new Date(`${s}T12:00:00`);
+const todayISO=()=>localISO(new Date());
+const today=()=>parseDate(todayISO());
+const addDays=(iso,n)=>{const d=parseDate(iso);d.setDate(d.getDate()+n);return localISO(d)};
+const isoCompare=(a,b)=>a.localeCompare(b);
+const mtime=(s)=>{if(!/^\d\d:\d\d$/.test(s||''))return null;const [h,m]=s.split(':').map(Number);return h<24&&m<60?h*60+m:null};
+const timetxt=(m)=>`${pad(Math.floor(((m%1440)+1440)%1440/60))}:${pad(((m%60)+60)%60)}`;
+const duration=(m)=>{const a=Math.round(Math.abs(m));return `${m<0?'-':''}${Math.floor(a/60)}:${pad(a%60)}`};
+const signed=(m)=>`${m>0?'+':m<0?'−':'±'}${duration(Math.abs(m))}`;
+const valNum=(v)=>Number(String(v).replace(',','.').trim());
+const safe=(s)=>String(s??'').replace(/[&<>"']/g,(x)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
+function defaultState(){return {version:1,settings:{weekly:2310,dayGoal:480,workdays:[1,2,3,4,5],trackingStart:todayISO(),defaultBreak:30,vacationAllowance:null},entries:{}}}
+function validateSettings(settings,base){const o={...base};if(Number.isInteger(settings.weekly)&&settings.weekly>=60&&settings.weekly<=4800)o.weekly=settings.weekly;if(Number.isInteger(settings.dayGoal)&&settings.dayGoal>=60&&settings.dayGoal<=960)o.dayGoal=settings.dayGoal;if(Number.isInteger(settings.defaultBreak)&&settings.defaultBreak>=0&&settings.defaultBreak<=180)o.defaultBreak=settings.defaultBreak;if(/^\d{4}-\d\d-\d\d$/.test(settings.trackingStart||'')&&!isNaN(parseDate(settings.trackingStart)))o.trackingStart=settings.trackingStart;if(settings.vacationAllowance===null||(Number.isInteger(settings.vacationAllowance)&&settings.vacationAllowance>=0&&settings.vacationAllowance<=365))o.vacationAllowance=settings.vacationAllowance;if(Array.isArray(settings.workdays)){const arr=[...new Set(settings.workdays)].filter(x=>Number.isInteger(x)&&x>=0&&x<=6).sort((a,b)=>(a+6)%7-(b+6)%7);if(arr.length)o.workdays=arr}return o;}
+function load(){const baseline=defaultState();try{const raw=JSON.parse(localStorage.getItem(STORAGE));if(raw&&raw.version===1){baseline.settings=validateSettings(raw.settings||{},baseline.settings);if(raw.entries&&typeof raw.entries==='object'&&!Array.isArray(raw.entries)){for(const [key,e] of Object.entries(raw.entries)){if(!/^\d{4}-\d\d-\d\d$/.test(key)||!e||!TYPE_LABELS[e.type])continue;baseline.entries[key]={type:e.type,start:mtime(e.start)!==null?e.start:'',end:mtime(e.end)!==null?e.end:'',pauseMode:e.pauseMode==='manual'?'manual':'auto',pause:Number.isInteger(e.pause)?Math.min(240,Math.max(0,e.pause)):30,running:e.running===true,note:String(e.note||'').slice(0,500)}}}}}catch(err){console.warn('Speicherdatei nicht lesbar',err)}return baseline}
+let state=load();let selected=todayISO();let monthCursor=todayISO().slice(0,7);let timer=null;
+function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(state));return true}catch(err){toast('Speichern fehlgeschlagen. Bitte Speicherplatz prüfen.');return false}}
+function toast(message){const e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>e.classList.remove('show'),3300)}
+function plan(iso){if(isoCompare(iso,state.settings.trackingStart)<0)return 0;const day=parseDate(iso).getDay();const days=state.settings.workdays;if(!days.includes(day))return 0;const e=state.entries[iso];if(e&&e.type==='free')return 0;const idx=days.indexOf(day),base=Math.floor(state.settings.weekly/days.length),extra=state.settings.weekly%days.length;return base+(idx<extra?1:0)}
+function pause(raw,e){if(e.pauseMode==='manual')return Math.max(0,Math.min(raw,e.pause||0));let b=Math.max(0,state.settings.defaultBreak);if(raw-b>540)b=Math.max(45,b);return Math.min(raw,b)}
+function rawMinutes(iso,e){const start=mtime(e.start),end=mtime(e.end);if(start===null)return null;if(end!==null)return end>=start?end-start:null;if(e.running&&iso===todayISO()){const n=new Date();return Math.max(0,n.getHours()*60+n.getMinutes()-start)}return null}
+function worked(iso,e){if(!e||e.type!=='work')return 0;const raw=rawMinutes(iso,e);if(raw===null)return 0;return Math.max(0,raw-pause(raw,e))}
+function credit(iso){const e=state.entries[iso];if(!e)return 0;return e.type==='work'?worked(iso,e):e.type==='free'?0:plan(iso)}
+function dayBalance(iso){return credit(iso)-plan(iso)}
+function sumRange(start,end,throughToday=true){let a=0,p=0,days=0;if(isoCompare(start,state.settings.trackingStart)<0)start=state.settings.trackingStart;if(throughToday&&isoCompare(end,todayISO())>0)end=todayISO();if(isoCompare(start,end)>0)return {actual:0,expected:0,balance:0,days:0};let cursor=start;while(isoCompare(cursor,end)<=0&&days<20000){a+=credit(cursor);p+=plan(cursor);days++;cursor=addDays(cursor,1)}return {actual:a,expected:p,balance:a-p,days}}
+function weekMonday(iso){const day=parseDate(iso).getDay();return addDays(iso,-((day+6)%7))}
+function monthBounds(ym){const first=ym+'-01';const d=parseDate(first);d.setMonth(d.getMonth()+1);d.setDate(0);return [first,localISO(d)]}
+function periodChange(ym,change){const d=parseDate(ym+'-01');d.setMonth(d.getMonth()+change);return localISO(d).slice(0,7)}
+function formatDate(iso,format){return new Intl.DateTimeFormat('de-DE',format||{day:'numeric',month:'long',year:'numeric'}).format(parseDate(iso))}
+function calcEnd(start,net){let gross=net+state.settings.defaultBreak;if(net>540)gross=net+Math.max(state.settings.defaultBreak,45);return timetxt(mtime(start)+gross)}
+function refreshClock(){const now=new Date(),iso=todayISO(),entry=state.entries[iso],live=entry?worked(iso,entry):0,running=!!(entry&&entry.type==='work'&&entry.running&&!entry.end);const hhmm=`${pad(now.getHours())}:${pad(now.getMinutes())}`;
+ $('hero-date').textContent=formatDate(iso,{weekday:'long',day:'numeric',month:'long'});
+ $('punch-status').classList.toggle('off',!running);
+ $('punch-status').lastElementChild.textContent=running?'Arbeitszeit läuft':entry?.end?'Für heute ausgestempelt':'Aktuell nicht eingestempelt';
+ $('live-net').innerHTML=`${duration(live)} <span style="font-size:16px;letter-spacing:0;font-weight:450">Std.</span>`;
+ $('live-range').textContent=entry?.type==='work'&&entry.start?`${entry.start} Uhr ${entry.end?'bis '+entry.end+' Uhr':running?'bis jetzt':'· noch offen'}`:'Noch keine Zeit erfasst';
+ $('live-now').textContent=hhmm+' Uhr';
+ $('punch-in').disabled=!!(entry&&(entry.type!=='work'||entry.start));$('punch-out').disabled=!running;
+ const proj=$('projection');const start=entry?.type==='work'?entry.start:'';
+ const planGoal=plan(iso);
+ proj.innerHTML=`<div class="projection-row"><span>Feierabend bei ${duration(state.settings.dayGoal)} Std. netto</span><strong>${start?calcEnd(start,state.settings.dayGoal)+' Uhr':'Startzeit fehlt'}</strong></div><div class="projection-row"><span>Bei deinem Tagesziel (${duration(planGoal)} Std.)</span><strong>${start&&planGoal?calcEnd(start,planGoal)+' Uhr':!planGoal?'Kein Soll':'Startzeit fehlt'}</strong></div>`;
+}
+function refreshStats(){const iso=todayISO(),wstart=weekMonday(iso),mstart=iso.slice(0,7)+'-01';const w=sumRange(wstart,iso),m=sumRange(mstart,iso),all=sumRange(state.settings.trackingStart,iso);const current=credit(iso),p=plan(iso);
+ $('stat-today').textContent=duration(current);$('today-plan').textContent=`Tagesziel: ${duration(p)} Std. · ${signed(current-p)} Std.`;
+ $('stat-week').textContent=duration(w.actual);$('week-plan').textContent=`Soll bis heute: ${duration(w.expected)} Std. · ${signed(w.balance)}`;
+ $('stat-month').textContent=duration(m.actual);$('month-plan').textContent=`Soll bis heute: ${duration(m.expected)} Std. · ${signed(m.balance)}`;
+ $('stat-balance').textContent=signed(all.balance);$('stat-balance').className='num '+(all.balance>0?'good':all.balance<0?'bad':'muted');
+ $('week-progress').style.width=`${w.expected?Math.min(100,100*w.actual/w.expected):0}%`;
+ $('month-progress').style.width=`${m.expected?Math.min(100,100*m.actual/m.expected):0}%`;
+ $('balance-hint').textContent=`Seit ${formatDate(state.settings.trackingStart)} · ${duration(all.expected)} Std. Soll`;
+ $('tracking-badge').textContent='Bis heute';
+}
+function displayMonth(){const ym=monthCursor,[from,to]=monthBounds(ym),past=sumRange(from,to),full=sumRange(from,to,false);
+ $('month-label').textContent=new Intl.DateTimeFormat('de-DE',{month:'long',year:'numeric'}).format(parseDate(from));
+ const curMonth=isoCompare(ym,todayISO().slice(0,7))===0;
+ const remainder=Math.max(0,full.expected-past.expected);
+ $('month-summary').innerHTML=`<span>Ist/Gutschrift: <strong>${duration(past.actual)} Std.</strong></span><span>Soll bis heute: <strong>${duration(past.expected)} Std.</strong></span><span>Saldo: <strong class="${past.balance>0?'good':past.balance<0?'bad':''}">${signed(past.balance)} Std.</strong></span><span>${curMonth?'Noch geplant':'Gesamtes Monatssoll'}: <strong>${duration(curMonth?remainder:full.expected)} Std.</strong></span>`;
+ const rows=[];for(let iso=from;isoCompare(iso,to)<=0;iso=addDays(iso,1)){const future=isoCompare(iso,todayISO())>0, e=state.entries[iso],p=plan(iso),c=future?0:credit(iso),bal=c-p;let status='';
+ if(e&&e.type!=='work'){status=`<span class="tag ${e.type==='vacation'?'leave':e.type==='sick'?'ill':'rest'}">${TYPE_LABELS[e.type]}</span>`}
+ else if(e&&e.type==='work'&&e.start){status=`${safe(e.start)} ${e.end?'– '+safe(e.end):e.running&&iso===todayISO()?'· läuft':'· offen'}`}
+ else status=`<span class="${future||!p?'norecord':'bad'}">${future?'Geplant':p?'Nicht erfasst':'Frei'}</span>`;
+ const d=parseDate(iso);const day=`${DAY_NAMES[d.getDay()]} ${pad(d.getDate())}.${pad(d.getMonth()+1)}.`;
+ const saldo=future?'–':p===0&&c===0?'±0:00':signed(bal);
+ rows.push(`<tr class="entry" data-date="${iso}" tabindex="0" aria-label="${safe(formatDate(iso))} bearbeiten"><td><strong>${day}</strong></td><td>${status}</td><td>${future?'–':duration(c)}</td><td class="${!future&&bal>0?'good':!future&&bal<0?'bad':''}">${saldo}</td></tr>`);
+ }
+ $('month-rows').innerHTML=rows.join('');
+ $('month-rows').querySelectorAll('tr').forEach(tr=>{const f=()=>{selected=tr.dataset.date;fillEditor();$('edit-card').scrollIntoView({behavior:'smooth',block:'start'})};tr.addEventListener('click',f);tr.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
+}
+function vacationYear(){const year=todayISO().slice(0,4);let count=0;for(const [iso,e] of Object.entries(state.entries)){if(iso.startsWith(year)&&e.type==='vacation'&&plan(iso)>0)count++}const allowance=state.settings.vacationAllowance;const rest=allowance===null?'':` · Rest: <strong>${allowance-count} Tage</strong>`;$('vacation-stat').innerHTML=`Urlaub ${year}: <strong>${count} Arbeitstage eingetragen</strong>${rest}`;}
+function toggleEditor(){const t=$('edit-type').value;document.querySelectorAll('.work-only').forEach(x=>x.classList.toggle('hidden',t!=='work'));$('manual-pause-field').classList.toggle('hidden',t!=='work'||$('edit-pause-mode').value!=='manual');previewEditor()}
+function fillEditor(){const e=state.entries[selected]||{type:'work',start:'',end:'',pauseMode:'auto',pause:state.settings.defaultBreak,note:''};$('edit-date').value=selected;$('edit-type').value=e.type;$('edit-start').value=e.start||'';$('edit-end').value=e.end||'';$('edit-pause-mode').value=e.pauseMode||'auto';$('edit-pause').value=e.pause??state.settings.defaultBreak;$('edit-note').value=e.note||'';toggleEditor()}
+function previewEditor(){let text='';const type=$('edit-type').value,iso=$('edit-date').value||selected,p=plan(iso);
+ if(type!=='work'){text=`${TYPE_LABELS[type]}: ${type==='free'?'kein Soll und keine Zeitgutschrift':duration(p)+' Std. Zeitgutschrift'} am Arbeitstag.`}
+ else{const a=mtime($('edit-start').value),b=mtime($('edit-end').value);if(a!==null&&b!==null&&b>=a){const raw=b-a,e={pauseMode:$('edit-pause-mode').value,pause:Number($('edit-pause').value)||0};const ps=pause(raw,e);text=`Anwesenheit: ${duration(raw)} Std. · Pause: ${ps} Min. · Netto: ${duration(raw-ps)} Std. · Tagessaldo: ${signed(raw-ps-p)} Std.`}
+ else if(a!==null){text=`Feierabend für ${duration(state.settings.dayGoal)} Std. netto: ${calcEnd($('edit-start').value,state.settings.dayGoal)} Uhr · reguläres Tagesziel: ${p?calcEnd($('edit-start').value,p)+' Uhr':'kein Soll'}.`}
+ else text=`Geplante Tagesarbeitszeit: ${duration(p)} Std.`}
+ $('edit-preview').textContent=text;}
+function refresh(){refreshClock();refreshStats();displayMonth();vacationYear();}
+function stampIn(){const iso=todayISO(),old=state.entries[iso];if(old&&old.start)return toast('Für heute ist bereits ein Arbeitsbeginn vorhanden.');if(old&&old.type!=='work')return toast('Der heutige Tag ist bereits als Abwesenheit eingetragen.');const d=new Date();state.entries[iso]={type:'work',start:`${pad(d.getHours())}:${pad(d.getMinutes())}`,end:'',pauseMode:'auto',pause:state.settings.defaultBreak,running:true,note:old?.note||''};persist();selected=iso;fillEditor();refresh();toast('Arbeitsbeginn gespeichert.');}
+function stampOut(){const iso=todayISO(),e=state.entries[iso];if(!e||!e.running)return;const d=new Date(),v=`${pad(d.getHours())}:${pad(d.getMinutes())}`;if(mtime(v)<mtime(e.start))return toast('Feierabend liegt vor dem Arbeitsbeginn. Bitte manuell korrigieren.');e.end=v;e.running=false;persist();selected=iso;fillEditor();refresh();toast('Feierabend gespeichert.');}
+function saveDay(){const iso=$('edit-date').value,type=$('edit-type').value,start=$('edit-start').value,end=$('edit-end').value;if(!/^\d{4}-\d\d-\d\d$/.test(iso)||isNaN(parseDate(iso)))return toast('Bitte gültiges Datum wählen.');if(type==='work'&&end&&!start)return toast('Bitte zuerst den Arbeitsbeginn eingeben.');if(type==='work'&&start&&end&&mtime(end)<mtime(start))return toast('Feierabend darf nicht vor dem Beginn liegen.');const p=Number($('edit-pause').value);if($('edit-pause-mode').value==='manual'&&(!Number.isInteger(p)||p<0||p>240))return toast('Bitte eine Pause zwischen 0 und 240 Minuten eingeben.');const e={type,start:type==='work'?start:'',end:type==='work'?end:'',pauseMode:$('edit-pause-mode').value,pause:$('edit-pause-mode').value==='manual'?p:state.settings.defaultBreak,running:!!(type==='work'&&start&&!end&&iso===todayISO()),note:$('edit-note').value.trim().slice(0,500)};if(iso!==todayISO())e.running=false;state.entries[iso]=e;persist();selected=iso;refresh();fillEditor();toast('Arbeitstag gespeichert.');}
+function deleteDay(){const iso=$('edit-date').value;if(!state.entries[iso])return toast('Für diesen Tag gibt es keinen Eintrag.');if(!confirm(`Eintrag vom ${formatDate(iso)} wirklich löschen?`))return;delete state.entries[iso];persist();selected=iso;fillEditor();refresh();toast('Eintrag gelöscht.');}
+function absence(){const from=$('absence-from').value,to=$('absence-to').value,type=$('absence-type').value;if(!from||!to||isoCompare(from,to)>0)return toast('Bitte einen gültigen Zeitraum wählen.');if((parseDate(to)-parseDate(from))/86400000>366)return toast('Bitte höchstens ein Jahr auf einmal eintragen.');let wrote=0,skipped=0;for(let d=from;isoCompare(d,to)<=0;d=addDays(d,1)){if(isoCompare(d,state.settings.trackingStart)<0){skipped++;continue}const old=state.entries[d];if(old&&old.type==='work'&&old.start){skipped++;continue}state.entries[d]={type,start:'',end:'',pauseMode:'auto',pause:state.settings.defaultBreak,running:false,note:old?.note||''};wrote++}persist();monthCursor=from.slice(0,7);refresh();toast(`${wrote} Tage eingetragen${skipped?', '+skipped+' vorhandene Arbeitstage/ältere Tage übersprungen':''}.`);}
+function fillSettings(){const s=state.settings;$('setting-weekly').value=String(s.weekly/60).replace('.',',');$('setting-daygoal').value=String(s.dayGoal/60).replace('.',',');$('setting-break').value=s.defaultBreak;$('setting-start').value=s.trackingStart;$('setting-vacation').value=s.vacationAllowance===null?'':s.vacationAllowance;
+ $('settings-workdays').innerHTML=WEEKDAY_NAMES.map((t,i)=>{const wd=(i+1)%7;return `<label><input type="checkbox" value="${wd}" ${s.workdays.includes(wd)?'checked':''}>${t}</label>`}).join('');}
+function saveSettings(){const weekly=valNum($('setting-weekly').value),daily=valNum($('setting-daygoal').value),br=Number($('setting-break').value),days=[...$('settings-workdays').querySelectorAll('input:checked')].map(x=>Number(x.value)),start=$('setting-start').value,allow=$('setting-vacation').value;
+ if(!Number.isFinite(weekly)||weekly<1||weekly>80||!Number.isInteger(Math.round(weekly*60))||Math.abs(weekly*60-Math.round(weekly*60))>.001)return toast('Bitte Wochenstunden in ganzen Minuten eingeben (z. B. 38,5).');
+ if(!Number.isFinite(daily)||daily<1||daily>16||Math.abs(daily*60-Math.round(daily*60))>.001)return toast('Bitte gültiges Tagesziel eingeben.');
+ if(!Number.isInteger(br)||br<0||br>180)return toast('Bitte gültige Pausenlänge angeben.');if(!days.length)return toast('Bitte mindestens einen Arbeitstag auswählen.');if(!start||isNaN(parseDate(start)))return toast('Bitte gültiges Startdatum eingeben.');if(allow!==''&&(!Number.isInteger(Number(allow))||Number(allow)<0||Number(allow)>365))return toast('Bitte gültigen Urlaubsanspruch eingeben.');
+ const old=state.settings.trackingStart;if(old!==start&&Object.keys(state.entries).some(k=>isoCompare(k,start)<0)&&!confirm('Einige Einträge liegen vor dem neuen Erfassungsbeginn und zählen dann nicht ins Zeitkonto. Fortfahren?'))return;
+ state.settings={weekly:Math.round(weekly*60),dayGoal:Math.round(daily*60),defaultBreak:br,workdays:days.sort((a,b)=>(a+6)%7-(b+6)%7),trackingStart:start,vacationAllowance:allow===''?null:Number(allow)};persist();refresh();fillEditor();toast('Einstellungen gespeichert.');}
+function download(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function exportJSON(){download(`stempeluhr-sicherung-${todayISO()}.json`,JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2),'application/json');toast('Sicherung als JSON erstellt.');}
+function exportCSV(){const header=['Datum','Tag','Art','Beginn','Ende','Pause Minuten','Netto Minuten','Soll Minuten','Saldo Minuten','Notiz'];const list=Object.keys(state.entries).sort();const lines=[header];for(const iso of list){const e=state.entries[iso],r=rawMinutes(iso,e),ps=e.type==='work'&&r!==null?pause(r,e):0,net=credit(iso),p=plan(iso);lines.push([iso,DAY_NAMES[parseDate(iso).getDay()],TYPE_LABELS[e.type],e.start||'',e.end||'',ps,net,p,net-p,e.note||''])}
+ const csv=lines.map(row=>row.map(v=>{let s=String(v);if(/^[=+@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}).join(';')).join('\r\n');download(`stempeluhr-zeiten-${todayISO()}.csv`,'\ufeff'+csv,'text/csv;charset=utf-8');toast('CSV-Tabelle erstellt.');}
+async function importJSON(file){if(!file)return;let parsed;try{parsed=JSON.parse(await file.text())}catch{return toast('Datei ist keine gültige JSON-Sicherung.')}if(parsed.version!==1||!parsed.settings||!parsed.entries||Array.isArray(parsed.entries))return toast('Diese Sicherung hat kein unterstütztes Format.');if(!confirm('Sicherung wiederherstellen? Deine bisherigen Einträge werden vollständig ersetzt.'))return;const clean=defaultState();clean.settings=validateSettings(parsed.settings,clean.settings);
+ for(const [iso,e] of Object.entries(parsed.entries)){if(!/^\d{4}-\d\d-\d\d$/.test(iso)||isNaN(parseDate(iso))||!e||!TYPE_LABELS[e.type])continue;clean.entries[iso]={type:e.type,start:mtime(e.start)!==null?e.start:'',end:mtime(e.end)!==null?e.end:'',pauseMode:e.pauseMode==='manual'?'manual':'auto',pause:Number.isInteger(e.pause)?Math.max(0,Math.min(240,e.pause)):30,running:e.running===true,note:String(e.note||'').slice(0,500)}}state=clean;persist();selected=todayISO();monthCursor=selected.slice(0,7);fillSettings();fillEditor();refresh();toast('Sicherung wiederhergestellt.');}
+function attach(){ $('punch-in').addEventListener('click',stampIn);$('punch-out').addEventListener('click',stampOut);
+ $('prev-month').addEventListener('click',()=>{monthCursor=periodChange(monthCursor,-1);displayMonth()});$('next-month').addEventListener('click',()=>{monthCursor=periodChange(monthCursor,1);displayMonth()});
+ $('go-today').addEventListener('click',()=>{selected=todayISO();monthCursor=selected.slice(0,7);fillEditor();displayMonth()});
+ $('edit-date').addEventListener('change',()=>{selected=$('edit-date').value||todayISO();fillEditor()});$('edit-type').addEventListener('change',toggleEditor);$('edit-pause-mode').addEventListener('change',toggleEditor);['edit-start','edit-end','edit-pause'].forEach(id=>$(id).addEventListener('input',previewEditor));
+ $('save-day').addEventListener('click',saveDay);$('delete-day').addEventListener('click',deleteDay);$('save-absence').addEventListener('click',absence);$('save-settings').addEventListener('click',saveSettings);
+ $('export-json').addEventListener('click',exportJSON);$('export-csv').addEventListener('click',exportCSV);$('import-button').addEventListener('click',()=>$('import-file').click());$('import-file').addEventListener('change',async(e)=>{await importJSON(e.target.files[0]);e.target.value=''});
+ $('reset-all').addEventListener('click',()=>{if(!confirm('Wirklich alle gespeicherten Zeiten und Einstellungen löschen? Dies kann nicht rückgängig gemacht werden.'))return;state=defaultState();persist();selected=todayISO();monthCursor=selected.slice(0,7);fillSettings();fillEditor();refresh();toast('Daten zurückgesetzt.');});
+ setInterval(()=>{if(todayISO()!==lastDay){lastDay=todayISO();selected=todayISO();monthCursor=selected.slice(0,7);fillEditor();}refreshClock();refreshStats();if(new Date().getSeconds()<3)displayMonth();},15000);
+ document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});}
+let lastDay=todayISO();$('absence-from').value=todayISO();$('absence-to').value=todayISO();fillSettings();fillEditor();attach();refresh();
+if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Offline-Modus nicht verfügbar',err));
+})();
+</script>
+</body></html>
