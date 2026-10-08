@@ -3,40 +3,39 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#153e42">
+  <meta name="theme-color" content="#171c2f">
   <meta name="description" content="Private Stempeluhr mit automatischen Pausen, Zeitkonto, Urlaub und Datensicherung.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" type="image/png" href="./icons/icon-192.png">
   <title>Meine Stempeluhr</title>
-<style>
-:root{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#1b3032;background:#f3f6f4;font-synthesis:none}
-*{box-sizing:border-box}body{margin:0;min-height:100vh}button,input,select,textarea{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.48}
-.app{max-width:1170px;margin:0 auto;padding:27px 22px 80px}.header{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:28px}.brand{display:flex;align-items:center;gap:12px}.logo{width:46px;height:46px;border-radius:14px;background:#153e42;color:#fff;display:grid;place-items:center}.logo svg{width:25px}h1{font-size:23px;letter-spacing:-.7px;line-height:1.1;margin:0}h2{margin:0 0 15px;font-size:18px;letter-spacing:-.35px}h3{margin:0;font-size:15px}.sub{font-size:13px;color:#748484;margin-top:5px}.header-right{font-size:12px;color:#54726c;background:#e5efe9;border:1px solid #d1e4d8;border-radius:999px;padding:9px 12px;white-space:nowrap}
-.grid-main{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(340px,.9fr);gap:18px;align-items:start}.card{background:#fff;border:1px solid #e2e9e5;border-radius:19px;padding:22px;box-shadow:0 6px 22px rgba(24,53,48,.035)}.hero{background:#153e42;color:white;border-radius:20px;padding:25px;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;width:250px;height:250px;background:rgba(255,255,255,.045);border-radius:50%;right:-115px;top:-125px;pointer-events:none}.hero small{font-size:12px;color:#c4dcd8;letter-spacing:.4px}.hero h2{font-size:23px;margin:8px 0 20px;font-weight:630;letter-spacing:-.5px}.status{display:inline-flex;align-items:center;gap:7px;border:1px solid #6c9391;color:#d9f4e9;background:#2a5857;padding:7px 12px;border-radius:100px;font-size:12px}.dot{width:7px;height:7px;border-radius:50%;background:#a0f0bd}.status.off{background:#234548;color:#d0e5df}.status.off .dot{background:#acbcba}.hero-clock{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:24px 0 21px}.hero-clock .value{font-size:45px;line-height:1;letter-spacing:-2.2px;font-variant-numeric:tabular-nums;font-weight:680}.hero-clock .caption{font-size:12px;color:#bed5d1;margin-bottom:6px}.hero-time{color:#cee3df;font-size:14px;margin-bottom:3px}.hero-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:1px solid #cddbd6;background:#fff;border-radius:11px;padding:12px 14px;font-weight:600;font-size:13px;color:#214a47;transition:background .15s}.btn:hover{background:#f0f6f2}.btn-primary{background:#dcf6e6;color:#144438;border-color:#dcf6e6}.btn-primary:hover{background:#c9eedb}.btn-hero-alt{border-color:#6b8d8e;background:#1d4b4b;color:#e7f6ef}.btn-hero-alt:hover{background:#2b5b5b}.btn-danger{border-color:#f2c8c8;color:#a43f3c;background:#fff6f5}.btn:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #94cbb7;outline-offset:2px}
-.projection{margin-top:15px;background:rgba(255,255,255,.11);padding:16px;border:1px solid rgba(220,246,230,.14);border-radius:13px;display:grid;gap:10px}.projection-lead{color:#c2e0d7;font-size:12px;font-weight:600}.projection-time{font-size:38px;color:#e1ffe9;letter-spacing:-1px;font-weight:750;line-height:1.12;font-variant-numeric:tabular-nums}.projection-sub{color:#c8e1da;font-size:12px;line-height:1.5}.projection-alert{color:#ffdfc3;font-size:12px;line-height:1.45;border-top:1px solid rgba(255,255,255,.15);padding-top:9px}.projection-overtime{color:#d5ffe6;font-size:12px;font-weight:650}.projection-row-secondary{border-top:1px solid rgba(255,255,255,.12);padding-top:9px}.projection-row{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:#cde0dc}.projection-row strong{color:white;font-size:14px;font-variant-numeric:tabular-nums}.notice{font-size:12px;color:#607774;line-height:1.45;margin:12px 0 0}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.stat{border:1px solid #e2ebe6;border-radius:14px;padding:16px;min-width:0}.stat .label{font-size:12px;color:#6b8180}.stat .num{font-size:26px;font-weight:700;letter-spacing:-1px;margin-top:7px;font-variant-numeric:tabular-nums}.stat .hint{font-size:11px;color:#7b8e8b;margin-top:6px;line-height:1.35}.good{color:#15785c!important}.bad{color:#c53737!important}.muted{color:#6d8481!important}.progress{height:6px;background:#e8f0eb;border-radius:50px;overflow:hidden;margin-top:10px}.progress>span{display:block;height:100%;background:#4b9c85;border-radius:50px}.card-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}.card-title h2{margin:0}.chip{font-size:12px;color:#637b73;background:#f0f6f1;padding:6px 9px;border-radius:30px}.full{grid-column:1/-1}.stack{display:grid;gap:17px;align-content:start}.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.field{min-width:0}.field label,.form-label{display:block;font-size:12px;color:#667f79;font-weight:650;margin-bottom:6px}.field input,.field select,.field textarea,.form-input{display:block;width:100%;background:#fbfcfb;color:#183d38;border:1px solid #d6e3dc;border-radius:10px;padding:11px 12px;min-height:43px;font-size:14px}.field textarea{min-height:78px;resize:vertical}.field-wide{grid-column:1/-1}.field-help{font-size:11px;color:#7e928b;margin-top:5px}.inline-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:13px}.inline-actions .btn{flex:1}.minor-link{border:0;background:transparent;text-decoration:underline;text-underline-offset:3px;color:#677d78;font-size:12px;padding:8px}.section-intro{font-size:13px;color:#6d817a;margin:-5px 0 16px;line-height:1.55}.monthnav{display:flex;align-items:center;gap:12px}.monthnav button{background:#f4f8f5;border:1px solid #dde9e1;border-radius:10px;width:33px;height:33px;color:#3e6258}.monthnav strong{min-width:125px;text-align:center;font-size:13px}.tablewrap{overflow:auto;border:1px solid #e1eae5;border-radius:13px}table{width:100%;border-collapse:collapse;text-align:left;font-size:13px}th{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#72877f;font-weight:650;background:#f7faf7;padding:12px}td{padding:12px;border-top:1px solid #edf1ee;white-space:nowrap;font-variant-numeric:tabular-nums}tr.entry{cursor:pointer}tr.entry:hover{background:#f4f8f5}.tag{display:inline-block;font-size:11px;padding:4px 7px;border-radius:7px;background:#edf4ee;color:#517462}.tag.leave{background:#e8f1ff;color:#456d9d}.tag.ill{background:#fff2e5;color:#936a40}.tag.rest{background:#f2f3f4;color:#777f82}.mini-btn{border:1px solid #dee9e1;background:#fff;border-radius:8px;padding:7px 9px;font-size:12px;color:#305d52}.norecord{color:#9aac9f}.legend{margin-top:12px;color:#75887f;font-size:11px;line-height:1.5}.yearstat{display:flex;flex-wrap:wrap;align-items:center;gap:9px;font-size:12px;color:#687b75}.yearstat strong{color:#2b5c4d}.workdays{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px}.workdays label{border-radius:10px;border:1px solid #d9e6df;padding:9px 10px;display:flex;align-items:center;gap:5px;font-size:12px;color:#34564f}.workdays input{accent-color:#247b60;margin:0}.settings-head{display:flex;align-items:center;justify-content:space-between;gap:8px}.settings-head .small{color:#758981;font-size:12px}details>summary{cursor:pointer;list-style:none}details>summary::-webkit-details-marker{display:none}details>summary:after{content:'⌄';font-size:18px;float:right;color:#748f7e}details[open]>summary:after{content:'⌃'}.setting-body{margin-top:21px}.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:10;background:#1e443b;color:#fff;border-radius:11px;padding:12px 17px;box-shadow:0 12px 28px rgba(0,0,0,.18);font-size:13px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100% - 30px)}.toast.show{opacity:1}.divider{border:0;border-top:1px solid #edf1ed;margin:18px 0}.helper{font-size:12px;color:#82918a;line-height:1.5;margin-top:12px}.footer{font-size:11px;color:#91a29a;text-align:center;margin-top:27px}.hidden{display:none!important}
-@media(max-width:780px){.app{padding:17px 14px 65px}.grid-main{grid-template-columns:1fr;gap:14px}.card{padding:18px}.hero{padding:21px}.header{margin-bottom:18px}.header-right{display:none}.hero-clock .value{font-size:39px}.stats{grid-template-columns:1fr 1fr}.stat{padding:13px}.stat .num{font-size:24px}h1{font-size:21px}.monthnav strong{min-width:100px}th,td{padding:10px 8px;font-size:11px}.card-title{flex-wrap:wrap}}
-@media(max-width:365px){.field-grid{grid-template-columns:1fr}.field-wide{grid-column:auto}.hero-actions{grid-template-columns:1fr}.stat .num{font-size:21px}.monthnav strong{min-width:85px;font-size:11px}}
-</style>
+<link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 <div class="app">
-<header class="header">
-  <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2.1"/></svg></div><div><h1>Meine Stempeluhr</h1><div class="sub">Arbeitszeit, Urlaub und Zeitkonto</div></div></div>
-  <div class="header-right">Privat gespeichert · Auch offline nutzbar</div>
+<header class="header" id="start">
+  <div class="brand">
+    <div class="logo" aria-hidden="true"><svg viewBox="0 0 42 42" fill="none"><path d="M21 5.5a15.5 15.5 0 1 0 15.5 15.5" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M21 11v11l7 4" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34" cy="8" r="3.5" fill="#C5F2D7"/></svg></div>
+    <div><div class="brand-kicker">DEIN PERSÖNLICHES ZEITKONTO</div><h1>Meine Stempeluhr<span class="brand-period">.</span></h1></div>
+  </div>
+  <nav class="top-nav" aria-label="Bereiche">
+    <a href="#dashboard">Übersicht</a><a href="#monat">Monat</a><a href="#edit-card">Einträge</a>
+  </nav>
+  <div class="header-right"><span class="secure-dot"></span> Privat &amp; offline</div>
 </header>
 <main class="grid-main">
 <section class="stack">
-  <div class="hero">
-    <div class="status off" id="punch-status"><span class="dot"></span><span>Aktuell nicht eingestempelt</span></div>
-    <h2 id="hero-date">Dein Arbeitstag</h2>
-    <small>HEUTIGE NETTOARBEITSZEIT</small>
-    <div class="hero-clock"><div><div class="value" id="live-net">0:00 <span style="font-size:16px;letter-spacing:0;font-weight:450">Std.</span></div><div class="hero-time" id="live-range">Noch keine Zeit erfasst</div></div><div class="caption" id="live-now"> </div></div>
-    <div class="hero-actions"><button class="btn btn-primary" id="punch-in">Einstempeln</button><button class="btn btn-hero-alt" id="punch-out">Ausstempeln</button></div>
-    <div class="projection" id="projection" aria-live="polite"><div class="projection-lead">FEIERABEND OHNE TAGESMINUS</div><div class="projection-time">Noch nicht eingestempelt</div><div class="projection-sub">8:00 Std. Nettoarbeit + 30 Min. Pause</div></div>
+  <div class="hero" id="dashboard">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="hero-header"><div class="hero-header-top"><span class="hero-eyebrow">DEIN ARBEITSTAG</span><span class="hero-date" id="hero-date">Heute</span></div><div class="status off" id="punch-status"><span class="dot"></span><span>Aktuell nicht eingestempelt</span></div></div>
+    <div class="hero-main">
+      <div class="projection" id="projection" aria-live="polite"><div class="projection-lead">FEIERABEND OHNE TAGESMINUS</div><div class="projection-time">Startzeit fehlt</div><div class="projection-sub">8:00 Std. Nettoarbeit + 30 Min. Pause</div></div>
+      <div class="time-ring" id="time-ring" style="--ring:0%"><div class="time-ring-inside"><span class="ring-label">HEUTE NETTO</span><span class="ring-value" id="live-net">0:00 <span>Std.</span></span><span class="ring-caption" id="ring-caption">von 8:00 Std.</span></div></div>
+    </div>
+    <div class="hero-foot"><span class="hero-range" id="live-range">Noch keine Zeit erfasst</span><span class="hero-now" id="live-now"> </span></div>
+    <div class="hero-actions"><button class="btn btn-primary" id="punch-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Einstempeln</button><button class="btn btn-hero-alt" id="punch-out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="5" width="14" height="14" rx="2"/></svg> Ausstempeln</button></div>
   </div>
   <div class="card">
-    <div class="card-title"><h2>Dein Zeitkonto</h2><span class="chip" id="tracking-badge">Stand heute</span></div>
+    <div class="card-title"><div><div class="section-eyebrow">AUF EINEN BLICK</div><h2>Dein Zeitkonto</h2></div><span class="chip" id="tracking-badge">Stand heute</span></div>
     <div class="stats">
       <div class="stat"><div class="label">Heute gearbeitet</div><div class="num" id="stat-today">0:00</div><div class="hint" id="today-plan">Tagesziel: 8:00 Std.</div></div>
       <div class="stat"><div class="label">Diese Woche</div><div class="num" id="stat-week">0:00</div><div class="hint" id="week-plan">Soll bis heute: 0:00 Std.</div><div class="progress"><span id="week-progress" style="width:0%"></span></div></div>
@@ -45,8 +44,13 @@
     </div>
     <p class="notice" id="calculation-note">Der Tagessaldo vergleicht mit 8 Stunden netto. Das Wochen- und Monatskonto verwendet deine 38,5 Wochenstunden. Urlaub, Krankheit und Feiertage werden für die Wochenstunden gutgeschrieben und erzeugen kein Minus.</p>
   </div>
+  <div class="card week-card" id="woche">
+    <div class="card-title"><div><div class="section-eyebrow">DEIN RHYTHMUS</div><h2>Diese Woche</h2></div><span class="chip">Mo – So</span></div>
+    <div class="week-chart" id="week-chart" aria-label="Arbeitszeit der aktuellen Woche"></div>
+    <p class="week-explainer">Jeder Balken zeigt deine erfasste Arbeitszeit im Verhältnis zum Tagesziel. Tippe auf einen Tag zum Bearbeiten.</p>
+  </div>
   <div class="card" id="edit-card">
-    <div class="card-title"><h2>Arbeitstag erfassen</h2><button class="mini-btn" id="go-today">Heute</button></div>
+    <div class="card-title"><div><div class="section-eyebrow">DEINE EINTRÄGE</div><h2>Arbeitstag erfassen</h2></div><button class="mini-btn" id="go-today">Heute</button></div>
     <div class="field-grid">
       <div class="field"><label for="edit-date">Datum</label><input type="date" id="edit-date"></div>
       <div class="field"><label for="edit-type">Art des Tages</label><select id="edit-type"><option value="work">Arbeit</option><option value="vacation">Urlaub</option><option value="sick">Krank</option><option value="holiday">Feiertag</option><option value="free">Dienstfrei (kein Soll)</option></select></div>
@@ -61,14 +65,14 @@
   </div>
 </section>
 <section class="stack">
-  <div class="card">
-    <div class="card-title"><h2>Monatsübersicht</h2><div class="monthnav"><button id="prev-month" aria-label="Voriger Monat">‹</button><strong id="month-label"></strong><button id="next-month" aria-label="Nächster Monat">›</button></div></div>
+  <div class="card" id="monat">
+    <div class="card-title"><div><div class="section-eyebrow">DEIN MONAT</div><h2>Monatsübersicht</h2></div><div class="monthnav"><button id="prev-month" aria-label="Voriger Monat">‹</button><strong id="month-label"></strong><button id="next-month" aria-label="Nächster Monat">›</button></div></div>
     <div class="yearstat" id="month-summary"></div>
     <div class="tablewrap" style="margin-top:15px"><table><thead><tr><th>Tag</th><th>Zeiten / Status</th><th>Netto</th><th>Saldo</th></tr></thead><tbody id="month-rows"></tbody></table></div>
     <p class="legend">Tippe auf einen Tag, um ihn zu bearbeiten. Künftige Tage erzeugen noch kein Minus. Der Tagessaldo bezieht sich auf dein eingestelltes 8-Stunden-Tagesziel, das Monatskonto auf deine Wochenarbeitszeit.</p>
   </div>
-  <div class="card">
-    <h2>Urlaub und Abwesenheit</h2>
+  <div class="card" id="abwesenheit">
+    <div class="section-eyebrow">GUT ZU WISSEN</div><h2>Urlaub &amp; Abwesenheit</h2>
     <p class="section-intro">Trage einen oder mehrere Tage ein. Die geplanten Stunden werden gutgeschrieben, damit kein Minus entsteht.</p>
     <div class="field-grid">
       <div class="field"><label for="absence-from">Von</label><input type="date" id="absence-from"></div>
@@ -79,7 +83,7 @@
     <div class="yearstat" id="vacation-stat" style="margin-top:15px"></div>
   </div>
   <details class="card" id="settings-panel">
-    <summary><span style="font-size:18px;font-weight:700">Einstellungen und Sicherung</span></summary>
+    <summary><span class="settings-icon">⚙</span><span>Einstellungen &amp; Sicherung</span></summary>
     <div class="setting-body">
       <p class="section-intro">Tagesziel und Wochenstunden sind getrennt: Der Tag wird mit 8 Stunden verglichen, die Woche mit 38,5 Stunden. Bei fünf Arbeitstagen entspricht das 7:42 Stunden pro Tag im Wochenkonto.</p>
       <div class="field-grid">
@@ -100,8 +104,15 @@
   </details>
 </section>
 </main>
-<footer class="footer">Private Stempeluhr · Keine Anmeldung · Keine Cloud · Version 1.1</footer>
-</div><div role="status" aria-live="polite" class="toast" id="toast"></div>
+<footer class="footer">Meine Stempeluhr <span class="footer-dot">●</span> Privat gespeichert <span class="footer-dot">●</span> Version 1.2</footer>
+</div>
+<nav class="mobile-dock" aria-label="Schnellnavigation">
+ <a href="#dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Heute</span></a>
+ <a href="#monat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2"/></svg><span>Monat</span></a>
+ <a href="#edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/><circle cx="12" cy="12" r="10"/></svg><span>Eintrag</span></a>
+ <a href="#settings-panel" id="dock-settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.1l2-1.6-2-3.4-2.3.9a7 7 0 0 0-1.9-1.1L14.3 3h-4.6l-.4 2.7a7 7 0 0 0-1.9 1.1l-2.3-.9-2 3.4 2 1.6a7 7 0 0 0 0 2.2l-2 1.6 2 3.4 2.3-.9a7 7 0 0 0 1.9 1.1l.4 2.7h4.6l.4-2.7a7 7 0 0 0 1.9-1.1l2.3.9 2-3.4-2-1.6A7 7 0 0 0 19 12Z"/></svg><span>Mehr</span></a>
+</nav>
+<div role="status" aria-live="polite" class="toast" id="toast"></div>
 <script>
 (function(){'use strict';
 const STORAGE='meine-stempeluhr-v1';
@@ -146,7 +157,9 @@ function refreshClock(){const now=new Date(),iso=todayISO(),entry=state.entries[
  $('hero-date').textContent=formatDate(iso,{weekday:'long',day:'numeric',month:'long'});
  $('punch-status').classList.toggle('off',!running);
  $('punch-status').lastElementChild.textContent=running?'Arbeitszeit läuft':entry?.end?'Für heute ausgestempelt':'Aktuell nicht eingestempelt';
- $('live-net').innerHTML=`${duration(live)} <span style="font-size:16px;letter-spacing:0;font-weight:450">Std.</span>`;
+ $('live-net').innerHTML=`${duration(live)} <span>Std.</span>`;
+ $('time-ring').style.setProperty('--ring',Math.min(100,Math.max(0,100*live/state.settings.dayGoal)).toFixed(1)+'%');
+ $('ring-caption').textContent=`von ${duration(state.settings.dayGoal)} Std.`;
  $('live-range').textContent=entry?.type==='work'&&entry.start?`${entry.start} Uhr ${entry.end?'bis '+entry.end+' Uhr':running?'bis jetzt':'· noch offen'}`:'Noch keine Zeit erfasst';
  $('live-now').textContent=hhmm+' Uhr';
  $('punch-in').disabled=!!(entry&&(entry.type!=='work'||entry.start));$('punch-out').disabled=!running;
@@ -155,14 +168,14 @@ function refreshClock(){const now=new Date(),iso=todayISO(),entry=state.entries[
  const targetEnd=start?calcEnd(start,daygoal,entry):null;
  const diff=net-daygoal;
  const netPause=entry?.pauseMode==='manual'?Math.max(0,entry.pause||0):state.settings.defaultBreak;
- let sub=start?`${duration(daygoal)} Std. netto + ${netPause} Min. Pause · Beginn ${start} Uhr`:`${duration(daygoal)} Std. Nettoarbeit + ${state.settings.defaultBreak} Min. Pause`;
+ let sub=start?`${duration(daygoal)} Std. netto + ${netPause} Min. Pause · Beginn ${start} Uhr`:`${duration(daygoal)} Std. netto + ${state.settings.defaultBreak} Min. Pause · Stemple dich ein, um die Uhrzeit zu sehen.`;
  let message='';
  if(start){
    if(running){const left=mtime(targetEnd)-mtime(hhmm);const remaining=left>0?`Noch ${duration(left)} Std. bis Feierabend`:`Feierabendziel erreicht · ${duration(-left)} Std. später`;message=`<div class="${left<=0?'projection-overtime':'projection-sub'}">${remaining}</div>`;}
-   else if(entry?.end){message=`<div class="${diff>=0?'projection-overtime':'projection-alert'}">${diff>=0?diff===0?'8 Stunden erreicht, kein Tagesminus':`Überstunden heute: +${duration(diff)} Std.`:`Heute fehlen ${duration(-diff)} Std. zum Tagesziel`}</div>`;}
+   else if(entry?.end){message=`<div class="${diff>=0?'projection-overtime':'projection-alert'}">${diff>=0?diff===0?'Tagesziel erreicht, kein Tagesminus':`Überstunden heute: +${duration(diff)} Std.`:`Heute fehlen ${duration(-diff)} Std. zum Tagesziel`}</div>`;}
  }
  const warning=start&&net>540&&netPause<45?'<div class="projection-alert">Hinweis: Über 9 Stunden Nettoarbeit erfordern mindestens 45 Minuten Pause. Bitte die tatsächliche Pause manuell eintragen.</div>':'';
- proj.innerHTML=`<div class="projection-lead">FEIERABEND OHNE TAGESMINUS</div><div class="projection-time">${targetEnd?targetEnd+' Uhr':'Startzeit fehlt'}</div><div class="projection-sub">${sub}</div>${message}${warning}`;
+ proj.innerHTML=`<div class="projection-lead">FEIERABEND OHNE TAGESMINUS</div><div class="projection-time">${targetEnd?targetEnd+' Uhr':'––:––'}</div><div class="projection-sub">${sub}</div>${message}${warning}`;
 }
 function refreshStats(){const iso=todayISO(),wstart=weekMonday(iso),mstart=iso.slice(0,7)+'-01';const w=sumRange(wstart,iso),m=sumRange(mstart,iso),all=sumRange(state.settings.trackingStart,iso);const current=credit(iso),p=plan(iso),dayDelta=dayBalance(iso);
  $('stat-today').textContent=duration(current);$('stat-today').className='num '+(dayDelta>=0?'good':'bad');$('today-plan').innerHTML=`Tagesziel: ${duration(dayTarget(iso))} Std. · <span class="${dayClass(dayDelta)}">${signed(dayDelta)} Std.</span>`;
@@ -185,7 +198,7 @@ function displayMonth(){const ym=monthCursor,[from,to]=monthBounds(ym),past=sumR
  else status=`<span class="${future||!p?'norecord':'bad'}">${future?'Geplant':p?'Nicht erfasst':'Frei'}</span>`;
  const d=parseDate(iso);const day=`${DAY_NAMES[d.getDay()]} ${pad(d.getDate())}.${pad(d.getMonth()+1)}.`;
  const saldo=future?'–':p===0&&c===0?'±0:00':signed(bal);
- rows.push(`<tr class="entry" data-date="${iso}" tabindex="0" aria-label="${safe(formatDate(iso))} bearbeiten"><td><strong>${day}</strong></td><td>${status}</td><td>${future?'–':duration(c)}</td><td class="${future?'':dayClass(bal)}">${saldo}</td></tr>`);
+ rows.push(`<tr class="entry" data-date="${iso}" tabindex="0" aria-label="${safe(formatDate(iso))} bearbeiten"><td><strong>${day}</strong></td><td class="cell-time">${status}</td><td class="cell-net">${future?'–':duration(c)}</td><td class="cell-saldo ${future?'':dayClass(bal)}">${saldo}</td></tr>`);
  }
  $('month-rows').innerHTML=rows.join('');
  $('month-rows').querySelectorAll('tr').forEach(tr=>{const f=()=>{selected=tr.dataset.date;fillEditor();$('edit-card').scrollIntoView({behavior:'smooth',block:'start'})};tr.addEventListener('click',f);tr.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
@@ -199,7 +212,17 @@ function previewEditor(){let text='';const type=$('edit-type').value,iso=$('edit
  else if(a!==null){text=`Feierabend für ${duration(state.settings.dayGoal)} Std. netto: ${calcEnd($('edit-start').value,state.settings.dayGoal,{pauseMode:$('edit-pause-mode').value,pause:Number($('edit-pause').value)||0})} Uhr · reguläres Tagesziel: ${p?calcEnd($('edit-start').value,p,{pauseMode:$('edit-pause-mode').value,pause:Number($('edit-pause').value)||0})+' Uhr':'kein Soll'}.`}
  else text=`Geplante Tagesarbeitszeit: ${duration(p)} Std.`}
  $('edit-preview').textContent=text;}
-function refresh(){refreshClock();refreshStats();displayMonth();vacationYear();}
+function renderWeek(){const start=weekMonday(todayISO());const bars=[];
+ for(let i=0;i<7;i++){const iso=addDays(start,i),e=state.entries[iso],isToday=iso===todayISO(),isFuture=iso>todayISO(),isWork=state.settings.workdays.includes(parseDate(iso).getDay()),goal=dayTarget(iso),net=credit(iso),hasRecord=!!e;
+ const ratio=goal>0?Math.min(100,net/goal*100):0;const height=goal>0?Math.max(7,Math.round(ratio)):hasRecord&&net>0?100:4;
+ const status=isFuture?'future':!isWork?'rest':e&&e.type!=='work'?'absence':net>=goal?'fulfilled':hasRecord?'missing':'empty';
+ const short=DAY_NAMES[parseDate(iso).getDay()];const current=isToday?' current':'';
+ bars.push(`<button type="button" class="week-day ${status}${current}" data-week-date="${iso}" aria-label="${safe(formatDate(iso))}, ${duration(net)} Stunden">
+ <span class="bar-value">${isFuture?'':net?duration(net):'·'}</span><span class="bar-track"><span class="bar-fill" style="height:${height}%"></span></span><span class="bar-day">${short}</span><span class="bar-daynum">${Number(iso.slice(-2))}</span></button>`);
+ }
+ $('week-chart').innerHTML=bars.join('');$('week-chart').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{selected=b.dataset.weekDate;fillEditor();$('edit-card').scrollIntoView({behavior:'smooth',block:'start'});}));
+}
+function refresh(){refreshClock();refreshStats();renderWeek();displayMonth();vacationYear();}
 function stampIn(){const iso=todayISO(),old=state.entries[iso];if(old&&old.start)return toast('Für heute ist bereits ein Arbeitsbeginn vorhanden.');if(old&&old.type!=='work')return toast('Der heutige Tag ist bereits als Abwesenheit eingetragen.');const d=new Date();state.entries[iso]={type:'work',start:`${pad(d.getHours())}:${pad(d.getMinutes())}`,end:'',pauseMode:'auto',pause:state.settings.defaultBreak,running:true,note:old?.note||''};persist();selected=iso;fillEditor();refresh();toast('Arbeitsbeginn gespeichert.');}
 function stampOut(){const iso=todayISO(),e=state.entries[iso];if(!e||!e.running)return;const d=new Date(),v=`${pad(d.getHours())}:${pad(d.getMinutes())}`;if(mtime(v)<mtime(e.start))return toast('Feierabend liegt vor dem Arbeitsbeginn. Bitte manuell korrigieren.');e.end=v;e.running=false;persist();selected=iso;fillEditor();refresh();toast('Feierabend gespeichert.');}
 function saveDay(){const iso=$('edit-date').value,type=$('edit-type').value,start=$('edit-start').value,end=$('edit-end').value;if(!/^\d{4}-\d\d-\d\d$/.test(iso)||isNaN(parseDate(iso)))return toast('Bitte gültiges Datum wählen.');if(type==='work'&&end&&!start)return toast('Bitte zuerst den Arbeitsbeginn eingeben.');if(type==='work'&&start&&end&&mtime(end)<mtime(start))return toast('Feierabend darf nicht vor dem Beginn liegen.');const p=Number($('edit-pause').value);if($('edit-pause-mode').value==='manual'&&(!Number.isInteger(p)||p<0||p>240))return toast('Bitte eine Pause zwischen 0 und 240 Minuten eingeben.');const e={type,start:type==='work'?start:'',end:type==='work'?end:'',pauseMode:$('edit-pause-mode').value,pause:$('edit-pause-mode').value==='manual'?p:state.settings.defaultBreak,running:!!(type==='work'&&start&&!end&&iso===todayISO()),note:$('edit-note').value.trim().slice(0,500)};if(iso!==todayISO())e.running=false;state.entries[iso]=e;if(iso<state.settings.trackingStart)state.settings.trackingStart=iso;persist();selected=iso;fillSettings();refresh();fillEditor();toast('Arbeitstag gespeichert.');}
@@ -219,14 +242,14 @@ function exportCSV(){const header=['Datum','Tag','Art','Beginn','Ende','Pause Mi
  const csv=lines.map(row=>row.map(v=>{let s=String(v);if(/^[=+@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}).join(';')).join('\r\n');download(`stempeluhr-zeiten-${todayISO()}.csv`,'\ufeff'+csv,'text/csv;charset=utf-8');toast('CSV-Tabelle erstellt.');}
 async function importJSON(file){if(!file)return;let parsed;try{parsed=JSON.parse(await file.text())}catch{return toast('Datei ist keine gültige JSON-Sicherung.')}if(parsed.version!==1||!parsed.settings||!parsed.entries||Array.isArray(parsed.entries))return toast('Diese Sicherung hat kein unterstütztes Format.');if(!confirm('Sicherung wiederherstellen? Deine bisherigen Einträge werden vollständig ersetzt.'))return;const clean=defaultState();clean.settings=validateSettings(parsed.settings,clean.settings);
  for(const [iso,e] of Object.entries(parsed.entries)){if(!/^\d{4}-\d\d-\d\d$/.test(iso)||isNaN(parseDate(iso))||!e||!TYPE_LABELS[e.type])continue;clean.entries[iso]={type:e.type,start:mtime(e.start)!==null?e.start:'',end:mtime(e.end)!==null?e.end:'',pauseMode:e.pauseMode==='manual'?'manual':'auto',pause:Number.isInteger(e.pause)?Math.max(0,Math.min(240,e.pause)):30,running:e.running===true,note:String(e.note||'').slice(0,500)}}state=clean;persist();selected=todayISO();monthCursor=selected.slice(0,7);fillSettings();fillEditor();refresh();toast('Sicherung wiederhergestellt.');}
-function attach(){ $('punch-in').addEventListener('click',stampIn);$('punch-out').addEventListener('click',stampOut);
+function attach(){ $('dock-settings').addEventListener('click',()=>{$('settings-panel').open=true}); $('punch-in').addEventListener('click',stampIn);$('punch-out').addEventListener('click',stampOut);
  $('prev-month').addEventListener('click',()=>{monthCursor=periodChange(monthCursor,-1);displayMonth()});$('next-month').addEventListener('click',()=>{monthCursor=periodChange(monthCursor,1);displayMonth()});
  $('go-today').addEventListener('click',()=>{selected=todayISO();monthCursor=selected.slice(0,7);fillEditor();displayMonth()});
  $('edit-date').addEventListener('change',()=>{selected=$('edit-date').value||todayISO();fillEditor()});$('edit-type').addEventListener('change',toggleEditor);$('edit-pause-mode').addEventListener('change',toggleEditor);['edit-start','edit-end','edit-pause'].forEach(id=>$(id).addEventListener('input',previewEditor));
  $('save-day').addEventListener('click',saveDay);$('delete-day').addEventListener('click',deleteDay);$('save-absence').addEventListener('click',absence);$('save-settings').addEventListener('click',saveSettings);
  $('export-json').addEventListener('click',exportJSON);$('export-csv').addEventListener('click',exportCSV);$('import-button').addEventListener('click',()=>$('import-file').click());$('import-file').addEventListener('change',async(e)=>{await importJSON(e.target.files[0]);e.target.value=''});
  $('reset-all').addEventListener('click',()=>{if(!confirm('Wirklich alle gespeicherten Zeiten und Einstellungen löschen? Dies kann nicht rückgängig gemacht werden.'))return;state=defaultState();persist();selected=todayISO();monthCursor=selected.slice(0,7);fillSettings();fillEditor();refresh();toast('Daten zurückgesetzt.');});
- setInterval(()=>{if(todayISO()!==lastDay){lastDay=todayISO();selected=todayISO();monthCursor=selected.slice(0,7);fillEditor();}refreshClock();refreshStats();if(new Date().getSeconds()<3)displayMonth();},15000);
+ setInterval(()=>{if(todayISO()!==lastDay){lastDay=todayISO();selected=todayISO();monthCursor=selected.slice(0,7);fillEditor();}refreshClock();refreshStats();if(new Date().getSeconds()<3){renderWeek();displayMonth();}},15000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});}
 let lastDay=todayISO();$('absence-from').value=todayISO();$('absence-to').value=todayISO();fillSettings();fillEditor();attach();refresh();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Offline-Modus nicht verfügbar',err));
