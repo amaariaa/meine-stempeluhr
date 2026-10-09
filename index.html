@@ -18,7 +18,7 @@
     <div><div class="brand-kicker">DEIN PERSÖNLICHES ZEITKONTO</div><h1>Meine Stempeluhr<span class="brand-period">.</span></h1></div>
   </div>
   <nav class="top-nav" aria-label="Bereiche">
-    <a href="#dashboard">Übersicht</a><a href="#monat">Monat</a><a href="#edit-card">Einträge</a>
+    <a href="#dashboard">Übersicht</a><a href="#monat">Monat</a><a href="#urlaubsplaner">Kalender & Urlaub</a><a href="#edit-card">Einträge</a>
   </nav>
   <div class="header-right"><span class="secure-dot"></span> Privat &amp; offline</div>
 </header>
@@ -42,7 +42,7 @@
       <div class="stat"><div class="label">Dieser Monat</div><div class="num" id="stat-month">0:00</div><div class="hint" id="month-plan">Soll bis heute: 0:00 Std.</div><div class="progress"><span id="month-progress" style="width:0%"></span></div></div>
       <div class="stat"><div class="label">Gesamtes Zeitkonto</div><div class="num" id="stat-balance">±0:00</div><div class="hint" id="balance-hint">Plus- oder Minusstunden seit Beginn</div></div>
     </div>
-    <p class="notice" id="calculation-note">Der Tagessaldo vergleicht mit 8 Stunden netto. Das Wochen- und Monatskonto verwendet deine 38,5 Wochenstunden. Urlaub, Krankheit und Feiertage werden für die Wochenstunden gutgeschrieben und erzeugen kein Minus.</p>
+    <p class="notice" id="calculation-note">Der Tagessaldo vergleicht mit 8 Stunden netto. Das Wochen- und Monatskonto verwendet deine 38,5 Wochenstunden. Urlaub und Krankheit werden ohne Minusstunden berücksichtigt. Gesetzliche Feiertage des eingestellten Arbeitsortes werden automatisch erkannt und verringern das Soll.</p>
   </div>
   <div class="card week-card" id="woche">
     <div class="card-title"><div><div class="section-eyebrow">DEIN RHYTHMUS</div><h2>Diese Woche</h2></div><span class="chip">Mo – So</span></div>
@@ -71,6 +71,46 @@
     <div class="tablewrap" style="margin-top:15px"><table><thead><tr><th>Tag</th><th>Zeiten / Status</th><th>Netto</th><th>Saldo</th></tr></thead><tbody id="month-rows"></tbody></table></div>
     <p class="legend">Tippe auf einen Tag, um ihn zu bearbeiten. Künftige Tage erzeugen noch kein Minus. Der Tagessaldo bezieht sich auf dein eingestelltes 8-Stunden-Tagesziel, das Monatskonto auf deine Wochenarbeitszeit.</p>
   </div>
+  <section class="planner-card" id="urlaubsplaner" aria-label="Kalender und Urlaubsplaner">
+    <div class="planner-cover">
+      <div class="planner-eyebrow">DEINE AUSZEITEN IM BLICK</div>
+      <h2>Kalender <span>& Urlaub.</span></h2>
+      <p>Feiertage erkennen, Brückentage nutzen und deinen Urlaub planen, ohne die Stempeluhr aus dem Blick zu verlieren.</p>
+      <div class="planner-highlight"><span class="planner-highlight-icon">✦</span><span>Dein Urlaub 2027 lässt sich in zwei Varianten vergleichen.</span></div>
+    </div>
+    <div class="planner-body">
+      <div class="planner-control-grid">
+        <div class="field"><label for="planner-year">Kalenderjahr</label><select id="planner-year"></select></div>
+        <div class="field"><label for="planner-region">Arbeitsort / Bundesland</label><select id="planner-region">
+          <option value="augsburg">Augsburg (Stadt)</option><option value="BY">Bayern (andere Gemeinde)</option><option value="BW">Baden-Württemberg</option><option value="BE">Berlin</option><option value="BB">Brandenburg</option><option value="HB">Bremen</option><option value="HH">Hamburg</option><option value="HE">Hessen</option><option value="MV">Mecklenburg-Vorpommern</option><option value="NI">Niedersachsen</option><option value="NW">Nordrhein-Westfalen</option><option value="RP">Rheinland-Pfalz</option><option value="SL">Saarland</option><option value="SN">Sachsen</option><option value="ST">Sachsen-Anhalt</option><option value="SH">Schleswig-Holstein</option><option value="TH">Thüringen</option>
+        </select></div>
+      </div>
+      <label class="planner-option" id="planner-maria-wrap"><input type="checkbox" id="planner-maria"> Mariä Himmelfahrt ist an meinem Arbeitsort Feiertag</label>
+      <p class="planner-region-note" id="planner-region-note"></p>
+      <div class="planner-divider"></div>
+      <div class="planner-balance">
+        <div><span>Urlaubsanspruch <strong id="planner-allowance-year">2027</strong></span><div class="planner-allowance-control"><input type="number" min="0" max="365" id="planner-allowance" aria-label="Urlaubsanspruch" value="30"><small>Tage</small><button class="planner-save-small" id="planner-allowance-save" type="button">Speichern</button></div></div>
+        <div><span>Bereits eingetragen</span><strong class="planner-metric" id="planner-used">0 <small>Tage</small></strong></div>
+        <div><span>Noch verfügbar</span><strong class="planner-metric planner-metric-green" id="planner-left">30 <small>Tage</small></strong></div>
+      </div>
+      <div class="planner-divider"></div>
+      <div class="planner-heading"><div><div class="section-eyebrow">DEINE MÖGLICHKEITEN</div><h3>Urlaubsvarianten vergleichen</h3></div><span class="planner-badge" id="planner-preset-badge">2027</span></div>
+      <p class="planner-help">Die Vorschläge sind zunächst unverbindlich. Du entscheidest selbst, ob du Tage übernehmen möchtest.</p>
+      <div class="planner-options" id="planner-options"></div>
+      <div class="planner-selection" id="planner-selection"></div>
+      <div class="planner-action-row"><button type="button" class="btn btn-primary" id="planner-apply">Ausgewählten Urlaub eintragen</button><button type="button" class="btn" id="planner-clear-preview">Vorschau ausblenden</button></div>
+      <div class="planner-divider"></div>
+      <div class="planner-heading"><div><div class="section-eyebrow">AUCH FÜR ANDERE JAHRE</div><h3>Automatische Brückentag-Tipps</h3></div><span class="planner-badge">1 Urlaubstag</span></div>
+      <p class="planner-help">Die App findet jedes Jahr Möglichkeiten für vier oder mehr freie Tage mit nur einem Urlaubstag.</p>
+      <div class="planner-bridge-tips" id="planner-bridge-tips"></div>
+      <div class="planner-divider"></div>
+      <div class="planner-heading"><div><div class="section-eyebrow">FREIE TAGE AUF EINEN BLICK</div><h3>Jahreskalender</h3></div><div class="planner-month-nav"><button type="button" id="planner-month-prev" aria-label="Voriger Monat">‹</button><strong id="planner-month-name">Mai 2027</strong><button type="button" id="planner-month-next" aria-label="Nächster Monat">›</button></div></div>
+      <div class="planner-calendar" id="planner-calendar" aria-label="Kalender mit Urlaub und Feiertagen"></div>
+      <div class="planner-legend"><span><i class="legend-vacation"></i> Eingetragener Urlaub</span><span><i class="legend-draft"></i> Planvorschlag</span><span><i class="legend-holiday"></i> Feiertag</span><span><i class="legend-weekend"></i> Wochenende</span></div>
+      <div class="planner-holiday-list" id="planner-holidays"></div>
+      <p class="planner-smallprint">Maßgeblich ist dein Arbeitsort. Regionale Ausnahmen (z. B. einzelne Gemeinden) bitte prüfen. 24. und 31. Dezember gelten ohne abweichende Betriebsregelung als normale Arbeitstage. Vorschläge begründen keinen Urlaubsanspruch.</p>
+    </div>
+  </section>
   <div class="card" id="abwesenheit">
     <div class="section-eyebrow">GUT ZU WISSEN</div><h2>Urlaub &amp; Abwesenheit</h2>
     <p class="section-intro">Trage einen oder mehrere Tage ein. Die geplanten Stunden werden gutgeschrieben, damit kein Minus entsteht.</p>
@@ -104,11 +144,12 @@
   </details>
 </section>
 </main>
-<footer class="footer">Meine Stempeluhr <span class="footer-dot">●</span> Privat gespeichert <span class="footer-dot">●</span> Version 1.2</footer>
+<footer class="footer">Meine Stempeluhr <span class="footer-dot">●</span> Privat gespeichert <span class="footer-dot">●</span> Version 1.3</footer>
 </div>
 <nav class="mobile-dock" aria-label="Schnellnavigation">
  <a href="#dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Heute</span></a>
  <a href="#monat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v4M17 3v4M3 10h18M8 14h2M14 14h2"/></svg><span>Monat</span></a>
+ <a href="#urlaubsplaner"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18m-11 5h2m4 0h2"/></svg><span>Urlaub</span></a>
  <a href="#edit-card"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/><circle cx="12" cy="12" r="10"/></svg><span>Eintrag</span></a>
  <a href="#settings-panel" id="dock-settings"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.1l2-1.6-2-3.4-2.3.9a7 7 0 0 0-1.9-1.1L14.3 3h-4.6l-.4 2.7a7 7 0 0 0-1.9 1.1l-2.3-.9-2 3.4 2 1.6a7 7 0 0 0 0 2.2l-2 1.6 2 3.4 2.3-.9a7 7 0 0 0 1.9 1.1l.4 2.7h4.6l.4-2.7a7 7 0 0 0 1.9-1.1l2.3.9 2-3.4-2-1.6A7 7 0 0 0 19 12Z"/></svg><span>Mehr</span></a>
 </nav>
@@ -119,6 +160,7 @@ const STORAGE='meine-stempeluhr-v1';
 const DAY_NAMES=['So','Mo','Di','Mi','Do','Fr','Sa'];
 const WEEKDAY_NAMES=['Mo','Di','Mi','Do','Fr','Sa','So'];
 const TYPE_LABELS={work:'Arbeit',vacation:'Urlaub',sick:'Krank',holiday:'Feiertag',free:'Dienstfrei'};
+const REGIONS={BY:'Bayern',BW:'Baden-Württemberg',BE:'Berlin',BB:'Brandenburg',HB:'Bremen',HH:'Hamburg',HE:'Hessen',MV:'Mecklenburg-Vorpommern',NI:'Niedersachsen',NW:'Nordrhein-Westfalen',RP:'Rheinland-Pfalz',SL:'Saarland',SN:'Sachsen',ST:'Sachsen-Anhalt',SH:'Schleswig-Holstein',TH:'Thüringen'};
 const $=(id)=>document.getElementById(id);
 const pad=(n)=>String(n).padStart(2,'0');
 const localISO=(d)=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
@@ -133,18 +175,18 @@ const duration=(m)=>{const a=Math.round(Math.abs(m));return `${m<0?'-':''}${Math
 const signed=(m)=>`${m>0?'+':m<0?'−':'±'}${duration(Math.abs(m))}`;
 const valNum=(v)=>Number(String(v).replace(',','.').trim());
 const safe=(s)=>String(s??'').replace(/[&<>"']/g,(x)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
-function defaultState(){return {version:1,settings:{weekly:2310,dayGoal:480,workdays:[1,2,3,4,5],trackingStart:todayISO().slice(0,7)+'-01',defaultBreak:30,vacationAllowance:null},entries:{}}}
-function validateSettings(settings,base){const o={...base};if(Number.isInteger(settings.weekly)&&settings.weekly>=60&&settings.weekly<=4800)o.weekly=settings.weekly;if(Number.isInteger(settings.dayGoal)&&settings.dayGoal>=60&&settings.dayGoal<=960)o.dayGoal=settings.dayGoal;if(Number.isInteger(settings.defaultBreak)&&settings.defaultBreak>=0&&settings.defaultBreak<=180)o.defaultBreak=settings.defaultBreak;if(/^\d{4}-\d\d-\d\d$/.test(settings.trackingStart||'')&&!isNaN(parseDate(settings.trackingStart)))o.trackingStart=settings.trackingStart;if(settings.vacationAllowance===null||(Number.isInteger(settings.vacationAllowance)&&settings.vacationAllowance>=0&&settings.vacationAllowance<=365))o.vacationAllowance=settings.vacationAllowance;if(Array.isArray(settings.workdays)){const arr=[...new Set(settings.workdays)].filter(x=>Number.isInteger(x)&&x>=0&&x<=6).sort((a,b)=>(a+6)%7-(b+6)%7);if(arr.length)o.workdays=arr}return o;}
+function defaultState(){return {version:1,settings:{weekly:2310,dayGoal:480,workdays:[1,2,3,4,5],trackingStart:todayISO().slice(0,7)+'-01',defaultBreak:30,vacationAllowance:null,vacationAllowances:{'2027':30},region:'augsburg',mariaHoliday:true},entries:{}}}
+function validateSettings(settings,base){const o={...base};if(Number.isInteger(settings.weekly)&&settings.weekly>=60&&settings.weekly<=4800)o.weekly=settings.weekly;if(Number.isInteger(settings.dayGoal)&&settings.dayGoal>=60&&settings.dayGoal<=960)o.dayGoal=settings.dayGoal;if(Number.isInteger(settings.defaultBreak)&&settings.defaultBreak>=0&&settings.defaultBreak<=180)o.defaultBreak=settings.defaultBreak;if(/^\d{4}-\d\d-\d\d$/.test(settings.trackingStart||'')&&!isNaN(parseDate(settings.trackingStart)))o.trackingStart=settings.trackingStart;if(settings.vacationAllowance===null||(Number.isInteger(settings.vacationAllowance)&&settings.vacationAllowance>=0&&settings.vacationAllowance<=365))o.vacationAllowance=settings.vacationAllowance;if(settings.region==='augsburg'||REGIONS[settings.region])o.region=settings.region;if(typeof settings.mariaHoliday==='boolean')o.mariaHoliday=settings.mariaHoliday;if(settings.vacationAllowances&&typeof settings.vacationAllowances==='object'&&!Array.isArray(settings.vacationAllowances)){o.vacationAllowances={...o.vacationAllowances};for(const [y,n] of Object.entries(settings.vacationAllowances)){if(/^20\d{2}$/.test(y)&&Number.isInteger(n)&&n>=0&&n<=365)o.vacationAllowances[y]=n}}if(Array.isArray(settings.workdays)){const arr=[...new Set(settings.workdays)].filter(x=>Number.isInteger(x)&&x>=0&&x<=6).sort((a,b)=>(a+6)%7-(b+6)%7);if(arr.length)o.workdays=arr}return o;}
 function load(){const baseline=defaultState();try{const raw=JSON.parse(localStorage.getItem(STORAGE));if(raw&&raw.version===1){baseline.settings=validateSettings(raw.settings||{},baseline.settings);if(raw.entries&&typeof raw.entries==='object'&&!Array.isArray(raw.entries)){for(const [key,e] of Object.entries(raw.entries)){if(!/^\d{4}-\d\d-\d\d$/.test(key)||!e||!TYPE_LABELS[e.type])continue;baseline.entries[key]={type:e.type,start:mtime(e.start)!==null?e.start:'',end:mtime(e.end)!==null?e.end:'',pauseMode:e.pauseMode==='manual'?'manual':'auto',pause:Number.isInteger(e.pause)?Math.min(240,Math.max(0,e.pause)):30,running:e.running===true,note:String(e.note||'').slice(0,500)}}}}}catch(err){console.warn('Speicherdatei nicht lesbar',err)}const earliest=Object.keys(baseline.entries).sort()[0];if(earliest&&earliest<baseline.settings.trackingStart){baseline.settings.trackingStart=earliest;try{localStorage.setItem(STORAGE,JSON.stringify(baseline))}catch(_){}}return baseline}
 let state=load();let selected=todayISO();let monthCursor=todayISO().slice(0,7);let timer=null;
 function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(state));return true}catch(err){toast('Speichern fehlgeschlagen. Bitte Speicherplatz prüfen.');return false}}
 function toast(message){const e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>e.classList.remove('show'),3300)}
-function plan(iso){if(isoCompare(iso,state.settings.trackingStart)<0)return 0;const day=parseDate(iso).getDay();const days=state.settings.workdays;if(!days.includes(day))return 0;const e=state.entries[iso];if(e&&e.type==='free')return 0;const idx=days.indexOf(day),base=Math.floor(state.settings.weekly/days.length),extra=state.settings.weekly%days.length;return base+(idx<extra?1:0)}
+function plan(iso){if(isoCompare(iso,state.settings.trackingStart)<0||getHoliday(iso))return 0;const day=parseDate(iso).getDay();const days=state.settings.workdays;if(!days.includes(day))return 0;const e=state.entries[iso];if(e&&e.type==='free')return 0;const idx=days.indexOf(day),base=Math.floor(state.settings.weekly/days.length),extra=state.settings.weekly%days.length;return base+(idx<extra?1:0)}
 function pause(raw,e){if(e.pauseMode==='manual')return Math.max(0,Math.min(raw,e.pause||0));return Math.min(raw,Math.max(0,state.settings.defaultBreak))}
 function rawMinutes(iso,e){const start=mtime(e.start),end=mtime(e.end);if(start===null)return null;if(end!==null)return end>=start?end-start:null;if(e.running&&iso===todayISO()){const n=new Date();return Math.max(0,n.getHours()*60+n.getMinutes()-start)}return null}
 function worked(iso,e){if(!e||e.type!=='work')return 0;const raw=rawMinutes(iso,e);if(raw===null)return 0;return Math.max(0,raw-pause(raw,e))}
 function credit(iso){const e=state.entries[iso];if(!e)return 0;return e.type==='work'?worked(iso,e):e.type==='free'?0:plan(iso)}
-function dayTarget(iso){if(isoCompare(iso,state.settings.trackingStart)<0)return 0;const e=state.entries[iso];if(e&&e.type==='free')return 0;if(!state.settings.workdays.includes(parseDate(iso).getDay()))return 0;return state.settings.dayGoal}
+function dayTarget(iso){if(isoCompare(iso,state.settings.trackingStart)<0||getHoliday(iso))return 0;const e=state.entries[iso];if(e&&e.type==='free')return 0;if(!state.settings.workdays.includes(parseDate(iso).getDay()))return 0;return state.settings.dayGoal}
 function dayBalance(iso){const e=state.entries[iso];if(e&&e.type!=='work')return 0;return credit(iso)-dayTarget(iso)}
 function dayClass(n){return n<0?'bad':'good'}
 function sumRange(start,end,throughToday=true){let a=0,p=0,days=0;if(isoCompare(start,state.settings.trackingStart)<0)start=state.settings.trackingStart;if(throughToday&&isoCompare(end,todayISO())>0)end=todayISO();if(isoCompare(start,end)>0)return {actual:0,expected:0,balance:0,days:0};let cursor=start;while(isoCompare(cursor,end)<=0&&days<20000){a+=credit(cursor);p+=plan(cursor);days++;cursor=addDays(cursor,1)}return {actual:a,expected:p,balance:a-p,days}}
@@ -195,7 +237,7 @@ function displayMonth(){const ym=monthCursor,[from,to]=monthBounds(ym),past=sumR
  const rows=[];for(let iso=from;isoCompare(iso,to)<=0;iso=addDays(iso,1)){const future=isoCompare(iso,todayISO())>0, e=state.entries[iso],p=dayTarget(iso),c=future?0:credit(iso),bal=dayBalance(iso);let status='';
  if(e&&e.type!=='work'){status=`<span class="tag ${e.type==='vacation'?'leave':e.type==='sick'?'ill':'rest'}">${TYPE_LABELS[e.type]}</span>`}
  else if(e&&e.type==='work'&&e.start){status=`${safe(e.start)} ${e.end?'– '+safe(e.end):e.running&&iso===todayISO()?'· läuft':'· offen'}`}
- else status=`<span class="${future||!p?'norecord':'bad'}">${future?'Geplant':p?'Nicht erfasst':'Frei'}</span>`;
+ else if(getHoliday(iso)){status=`<span class="tag holiday">${safe(getHoliday(iso))}</span>`}else status=`<span class="${future||!p?'norecord':'bad'}">${future?'Geplant':p?'Nicht erfasst':'Frei'}</span>`;
  const d=parseDate(iso);const day=`${DAY_NAMES[d.getDay()]} ${pad(d.getDate())}.${pad(d.getMonth()+1)}.`;
  const saldo=future?'–':p===0&&c===0?'±0:00':signed(bal);
  rows.push(`<tr class="entry" data-date="${iso}" tabindex="0" aria-label="${safe(formatDate(iso))} bearbeiten"><td><strong>${day}</strong></td><td class="cell-time">${status}</td><td class="cell-net">${future?'–':duration(c)}</td><td class="cell-saldo ${future?'':dayClass(bal)}">${saldo}</td></tr>`);
@@ -203,7 +245,179 @@ function displayMonth(){const ym=monthCursor,[from,to]=monthBounds(ym),past=sumR
  $('month-rows').innerHTML=rows.join('');
  $('month-rows').querySelectorAll('tr').forEach(tr=>{const f=()=>{selected=tr.dataset.date;fillEditor();$('edit-card').scrollIntoView({behavior:'smooth',block:'start'})};tr.addEventListener('click',f);tr.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();f()}})});
 }
-function vacationYear(){const year=todayISO().slice(0,4);let count=0;for(const [iso,e] of Object.entries(state.entries)){if(iso.startsWith(year)&&e.type==='vacation'&&plan(iso)>0)count++}const allowance=state.settings.vacationAllowance;const rest=allowance===null?'':` · Rest: <strong>${allowance-count} Tage</strong>`;$('vacation-stat').innerHTML=`Urlaub ${year}: <strong>${count} Arbeitstage eingetragen</strong>${rest}`;}
+/* Kalender & Urlaub, v1.3. Feiertage am Arbeitsort, keine externen Dienste. */
+const YEAR_PLANS={
+  verteilt:{name:'Über das Jahr verteilt',sub:'Viele kurze Auszeiten und Urlaub zum Jahresende',blocks:[
+    ['2027-01-01','2027-01-10','Jahresbeginn'],
+    ['2027-03-20','2027-04-04','Ostern'],
+    ['2027-05-06','2027-05-09','Christi Himmelfahrt'],
+    ['2027-05-14','2027-05-17','Pfingsten'],
+    ['2027-05-27','2027-05-30','Fronleichnam'],
+    ['2027-09-18','2027-09-26','September'],
+    ['2027-10-29','2027-11-07','Allerheiligen'],
+    ['2027-12-25','2028-01-02','Jahreswechsel']
+  ]},
+  sommer:{name:'Langer Septemberurlaub',sub:'16 Tage im September und dafür kein Weihnachtsurlaub',blocks:[
+    ['2027-01-01','2027-01-10','Jahresbeginn'],
+    ['2027-03-20','2027-04-04','Ostern'],
+    ['2027-05-06','2027-05-09','Christi Himmelfahrt'],
+    ['2027-05-14','2027-05-17','Pfingsten'],
+    ['2027-05-27','2027-05-30','Fronleichnam'],
+    ['2027-09-18','2027-10-03','Langer September'],
+    ['2027-10-29','2027-11-07','Allerheiligen']
+  ]}
+};
+let plannerYear=2027,plannerMonth=5,chosenPlan='verteilt';
+const mnames=['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+function dateRun(a,b){const result=[];for(let d=a;d<=b;d=addDays(d,1))result.push(d);return result}
+function easter(year){const a=year%19,b=Math.floor(year/100),c=year%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k+7)%7,m=Math.floor((a+11*h+22*l)/451),month=Math.floor((h+l-7*m+114)/31),day=(h+l-7*m+114)%31+1;return `${year}-${pad(month)}-${pad(day)}`}
+function holidaysForYear(year){
+  const region=state.settings.region||'augsburg',by=region==='BY'||region==='augsburg';
+  const map={},fixed=(md,name)=>{map[`${year}-${md}`]=name},move=(delta,name)=>{map[addDays(easter(year),delta)]=name};
+  fixed('01-01','Neujahr');fixed('05-01','Tag der Arbeit');fixed('10-03','Tag der Deutschen Einheit');fixed('12-25','1. Weihnachtstag');fixed('12-26','2. Weihnachtstag');
+  move(-2,'Karfreitag');move(1,'Ostermontag');move(39,'Christi Himmelfahrt');move(50,'Pfingstmontag');
+  if(by||['BW','ST'].includes(region))fixed('01-06','Heilige Drei Könige');
+  if(by||['BW','HE','NW','RP','SL'].includes(region))move(60,'Fronleichnam');
+  if(['BE','MV'].includes(region))fixed('03-08','Internationaler Frauentag');
+  if(['BB','HB','HH','MV','NI','SN','ST','SH','TH'].includes(region))fixed('10-31','Reformationstag');
+  if(['BW','NW','RP','SL'].includes(region)||by)fixed('11-01','Allerheiligen');
+  if(region==='SL'||(by&&(region==='augsburg'||state.settings.mariaHoliday)))fixed('08-15','Mariä Himmelfahrt');
+  if(region==='augsburg')fixed('08-08','Augsburger Friedensfest');
+  if(region==='TH')fixed('09-20','Weltkindertag');
+  if(region==='SN'){const nov=localISO(new Date(year,10,23,12,0,0));let d=nov;while(parseDate(d).getDay()!==3)d=addDays(d,-1);map[d]='Buß- und Bettag'}
+  if(region==='BB'){move(0,'Ostersonntag');move(49,'Pfingstsonntag')}
+  return map
+}
+const holidayCache=new Map();
+function getHoliday(iso){
+  if(!/^\d{4}-\d\d-\d\d$/.test(iso))return null;
+  const year=Number(iso.slice(0,4)),r=state.settings.region||'augsburg',key=`${year}:${r}:${state.settings.mariaHoliday}`;
+  if(!holidayCache.has(key))holidayCache.set(key,holidaysForYear(year));
+  return holidayCache.get(key)[iso]||null
+}
+function isWorkingVacationDay(iso){return state.settings.workdays.includes(parseDate(iso).getDay())&&!getHoliday(iso)}
+function presetDates(key){const plan=YEAR_PLANS[key];if(!plan)return[];const seen=new Set();for(const [from,to]of plan.blocks)for(const iso of dateRun(from,to))if(isWorkingVacationDay(iso))seen.add(iso);return[...seen].sort()}
+function usedVacation(year){return Object.keys(state.entries).filter(iso=>iso.startsWith(String(year))&&state.entries[iso].type==='vacation'&&isWorkingVacationDay(iso)).length}
+function getAnnualAllowance(year){return state.settings.vacationAllowances?.[String(year)]??state.settings.vacationAllowance}
+function fmtShort(iso){return `${iso.slice(8,10)}.${iso.slice(5,7)}.${iso.slice(0,4)}`}
+function formatBlock(from,to){return `${fmtShort(from)} – ${fmtShort(to)}`}
+function availablePreset(){return plannerYear===2027&&['BY','augsburg'].includes(state.settings.region)}
+function chosenDates(){return availablePreset()&&chosenPlan?presetDates(chosenPlan):[]}
+function initPlanner(){
+  $('planner-year').innerHTML=Array.from({length:14},(_,i)=>2025+i).map(y=>`<option value="${y}">${y}</option>`).join('');
+  $('planner-year').value=String(plannerYear);
+  $('planner-region').value=state.settings.region||'augsburg';
+  $('planner-maria').checked=state.settings.mariaHoliday!==false;
+}
+function renderPlanner(){
+  if(!$('planner-year'))return;
+  $('planner-year').value=String(plannerYear);
+  $('planner-region').value=state.settings.region||'augsburg';
+  $('planner-maria').checked=state.settings.mariaHoliday!==false;
+  const reg=state.settings.region||'augsburg',by=reg==='BY'||reg==='augsburg';
+  $('planner-maria-wrap').classList.toggle('hidden',reg!=='BY');
+  $('planner-region-note').textContent=reg==='augsburg'?'Stadt Augsburg: Friedensfest (8. August) und Mariä Himmelfahrt sind berücksichtigt.':reg==='BY'?'Bei Mariä Himmelfahrt entscheidet die genaue Gemeinde. Prüfe die Auswahl für deinen Arbeitsort.': 'Gesetzliche Feiertage des Bundeslandes. Örtliche Sonderregelungen sind möglicherweise nicht vollständig enthalten.';
+  $('planner-allowance-year').textContent=plannerYear;
+  const allowed=getAnnualAllowance(plannerYear),used=usedVacation(plannerYear),left=allowed===null?null:allowed-used;
+  $('planner-allowance').value=allowed===null?'':allowed;
+  $('planner-used').innerHTML=`${used} <small>Tage</small>`;
+  $('planner-left').innerHTML=left===null?'Noch offen':`${left} <small>Tage</small>`;
+  $('planner-left').classList.toggle('planner-metric-red',left!==null&&left<0);
+  $('planner-preset-badge').textContent=plannerYear;
+  if(availablePreset()){
+    $('planner-options').innerHTML=Object.entries(YEAR_PLANS).map(([key,item])=>{
+      const days=presetDates(key),total=item.blocks.reduce((sum,[a,b])=>sum+dateRun(a,b).length,0),newDays=days.filter(d=>state.entries[d]?.type!=='vacation').length;
+      return `<button type="button" class="planner-choice ${chosenPlan===key?'is-selected':''}" data-plan="${key}" aria-pressed="${chosenPlan===key?'true':'false'}"><span class="planner-choice-top"><span class="planner-choice-radio"></span><span class="planner-choice-title">${item.name}</span></span><span class="planner-choice-sub">${item.sub}</span><span class="planner-choice-stats"><strong>${total} <small>Tage frei</small></strong><strong>${days.length} <small>Urlaubstage</small></strong></span><span class="planner-choice-foot">${item.blocks.length} Auszeiten · ${newDays} Tage noch nicht eingetragen</span></button>`;
+    }).join('');
+    $('planner-options').querySelectorAll('[data-plan]').forEach(b=>b.addEventListener('click',()=>{chosenPlan=b.dataset.plan;renderPlanner()}));
+  }else{
+    $('planner-options').innerHTML=`<div class="planner-empty">Die zwei ausgearbeiteten Musterpläne gelten für <strong>2027 in Bayern / Augsburg</strong>. Für ${plannerYear} zeigt der Kalender automatisch die Feiertage deiner Region. Wähle 2027 und Bayern oder Augsburg, um die Varianten zu vergleichen.</div>`;
+  }
+  renderPlanDetails();renderBridgeTips();renderPlannerCalendar();renderHolidayList();
+}
+function renderPlanDetails(){
+  const box=$('planner-selection'),on=availablePreset()&&chosenPlan;
+  $('planner-apply').disabled=!on;
+  $('planner-clear-preview').disabled=!on;
+  if(!on){box.innerHTML='';return}
+  const item=YEAR_PLANS[chosenPlan],days=presetDates(chosenPlan),used=usedVacation(plannerYear),newDates=days.filter(iso=>state.entries[iso]?.type!=='vacation'&&!state.entries[iso]),conflict=days.filter(iso=>state.entries[iso]&&state.entries[iso].type!=='vacation');
+  const allowance=getAnnualAllowance(plannerYear),otherUsed=Object.keys(state.entries).filter(iso=>iso.startsWith('2027')&&state.entries[iso].type==='vacation'&&!days.includes(iso)&&isWorkingVacationDay(iso)).length;
+  const after=allowance===null?null:allowance-otherUsed-days.length;
+  box.innerHTML=`<div class="planner-planhead"><span>VORSCHAU · ${safe(item.name)}</span><strong>${days.length} Urlaubstage</strong></div>
+    <div class="planner-blocks">${item.blocks.map(([a,b,n])=>{const cnt=dateRun(a,b).filter(isWorkingVacationDay).length;return `<div class="planner-block"><span>${safe(n)}<small>${formatBlock(a,b)}</small></span><strong>${cnt} Urlaubst.</strong></div>`}).join('')}</div>
+    <div class="planner-planbottom"><span>Neuer Eintrag: <strong>${newDates.length} Tage</strong>${conflict.length?` · ${conflict.length} bereits anders belegt`:''}</span><span>Rest nach dieser Variante: <strong class="${after!==null&&after<0?'bad':'good'}">${after===null?'nicht festgelegt':after+' Tage'}</strong></span></div>`;
+}
+function oneDayBridgeTips(year){
+  const from=`${year}-01-01`,to=`${year}-12-31`,results=[];
+  const off=(date,extra)=>date===extra||!state.settings.workdays.includes(parseDate(date).getDay())||!!getHoliday(date)||state.entries[date]?.type==='vacation';
+  for(let d=from;d<=to;d=addDays(d,1)){
+    if(!isWorkingVacationDay(d)||state.entries[d])continue;
+    let a=d,b=d;
+    for(let i=0;i<35&&off(addDays(a,-1),d);i++)a=addDays(a,-1);
+    for(let i=0;i<35&&off(addDays(b,1),d);i++)b=addDays(b,1);
+    const n=dateRun(a,b).length;
+    if(n>=4)results.push({date:d,from:a,to:b,free:n});
+  }
+  return results.sort((a,b)=>b.free-a.free||a.date.localeCompare(b.date)).slice(0,6)
+}
+function renderBridgeTips(){
+  const box=$('planner-bridge-tips'),tips=oneDayBridgeTips(plannerYear);
+  box.innerHTML=tips.length?tips.map(t=>`<div class="planner-bridge"><div><span class="planner-bridge-date">${fmtShort(t.date)}</span><strong>${t.free} Tage am Stück frei</strong><small>${formatBlock(t.from,t.to)}</small></div><button type="button" data-bridge="${t.date}" aria-label="Urlaub am ${fmtShort(t.date)} eintragen">Eintragen</button></div>`).join(''):'<div class="planner-holidays-empty">Für dieses Jahr wurden keine passenden Brückentage mit nur einem Urlaubstag gefunden.</div>';
+  box.querySelectorAll('button[data-bridge]').forEach(b=>b.addEventListener('click',()=>{
+    const d=b.dataset.bridge;
+    if(state.entries[d])return toast('Dieser Tag ist bereits eingetragen.');
+    const allowance=getAnnualAllowance(plannerYear);
+    if(allowance!==null&&usedVacation(plannerYear)+1>allowance)return toast('Dein Urlaubskonto reicht für diesen Tag nicht.');
+    if(!confirm(`Den ${fmtShort(d)} als Urlaubstag eintragen?`))return;
+    if(d<state.settings.trackingStart)return toast('Das Datum liegt vor deinem Erfassungsbeginn.');
+    state.entries[d]={type:'vacation',start:'',end:'',pauseMode:'auto',pause:state.settings.defaultBreak,running:false,note:'Brückentag aus dem Urlaubsplaner'};
+    persist();refresh();toast(`Urlaub am ${fmtShort(d)} eingetragen.`);
+  }));
+}
+function renderPlannerCalendar(){
+  const month=`${plannerYear}-${pad(plannerMonth)}`,first=`${month}-01`,[a,b]=monthBounds(month),offset=(parseDate(a).getDay()+6)%7,
+     planned=new Set(chosenDates()),existing=state.entries;
+  $('planner-month-name').textContent=`${mnames[plannerMonth-1]} ${plannerYear}`;
+  $('planner-month-prev').disabled=plannerMonth===1;
+  $('planner-month-next').disabled=plannerMonth===12;
+  let html=['Mo','Di','Mi','Do','Fr','Sa','So'].map(d=>`<span class="planner-weeklabel">${d}</span>`).join('');
+  for(let i=0;i<offset;i++)html+='<span class="planner-blank"></span>';
+  for(let d=a;d<=b;d=addDays(d,1)){
+    const entry=existing[d],holiday=getHoliday(d),vac=entry?.type==='vacation'&&isWorkingVacationDay(d),draft=planned.has(d)&&!vac,weekend=[0,6].includes(parseDate(d).getDay()),day=Number(d.slice(-2));
+    const kinds=[vac?'pl-vac':'',holiday?'pl-holiday':'',draft?'pl-draft':'',weekend?'pl-weekend':'',d===todayISO()?'pl-today':''].filter(Boolean).join(' ');
+    const tip=holiday|| (vac?'Urlaub eingetragen':draft?'Urlaubsvorschlag':entry?TYPE_LABELS[entry.type]:'Tag bearbeiten');
+    html+=`<button type="button" class="planner-date ${kinds}" data-date="${d}" title="${safe(tip)}" aria-label="${safe(formatDate(d))}: ${safe(tip)}"><span>${day}</span>${holiday?'<i class="planner-dot"></i>':vac?'<i class="planner-dot"></i>':draft?'<i class="planner-dot"></i>':''}</button>`;
+  }
+  $('planner-calendar').innerHTML=html;
+  $('planner-calendar').querySelectorAll('button[data-date]').forEach(b=>b.addEventListener('click',()=>{selected=b.dataset.date;monthCursor=selected.slice(0,7);fillEditor();displayMonth();$('edit-card').scrollIntoView({behavior:'smooth',block:'start'})}));
+}
+function renderHolidayList(){
+  const year=plannerYear,items=Object.entries(holidaysForYear(year)).filter(([day])=>day.startsWith(`${year}-${pad(plannerMonth)}`)).sort(([a],[b])=>a.localeCompare(b));
+  $('planner-holidays').innerHTML=items.length?`<div class="planner-holidays-title">Feiertage im ${mnames[plannerMonth-1]}</div>`+items.map(([d,n])=>`<div class="planner-holiday-row"><span>${fmtShort(d)}</span><strong>${safe(n)}</strong><small>${state.settings.workdays.includes(parseDate(d).getDay())?'Arbeitsfrei':'Wochenende / arbeitsfrei'}</small></div>`).join(''):`<div class="planner-holidays-empty">In diesem Monat gibt es keine gesetzlichen Feiertage für den gewählten Arbeitsort.</div>`;
+}
+function attachPlanner(){
+  $('planner-year').addEventListener('change',()=>{plannerYear=Number($('planner-year').value);plannerMonth=5;chosenPlan=plannerYear===2027?'verteilt':null;renderPlanner()});
+  $('planner-region').addEventListener('change',()=>{state.settings.region=$('planner-region').value;holidayCache.clear();persist();refresh();fillEditor()});
+  $('planner-maria').addEventListener('change',()=>{state.settings.mariaHoliday=$('planner-maria').checked;holidayCache.clear();persist();refresh();fillEditor()});
+  $('planner-allowance-save').addEventListener('click',()=>{const v=$('planner-allowance').value.trim();if(v===''||!Number.isInteger(Number(v))||Number(v)<0||Number(v)>365)return toast('Bitte eine gültige Anzahl Urlaubstage eingeben.');state.settings.vacationAllowances={...(state.settings.vacationAllowances||{}),[String(plannerYear)]:Number(v)};persist();refresh();toast(`${v} Urlaubstage für ${plannerYear} gespeichert.`)});
+  $('planner-month-prev').addEventListener('click',()=>{plannerMonth=Math.max(1,plannerMonth-1);renderPlannerCalendar();renderHolidayList()});
+  $('planner-month-next').addEventListener('click',()=>{plannerMonth=Math.min(12,plannerMonth+1);renderPlannerCalendar();renderHolidayList()});
+  $('planner-clear-preview').addEventListener('click',()=>{chosenPlan=null;renderPlanner()});
+  $('planner-apply').addEventListener('click',()=>{
+    if(!availablePreset()||!chosenPlan)return;
+    const dates=presetDates(chosenPlan),already=dates.filter(d=>state.entries[d]?.type==='vacation').length,other=dates.filter(d=>state.entries[d]&&state.entries[d].type!=='vacation');
+    const fresh=dates.filter(d=>!state.entries[d]&&d>=state.settings.trackingStart),blockedByStart=dates.filter(d=>d<state.settings.trackingStart);
+    const allowed=getAnnualAllowance(plannerYear),used=usedVacation(plannerYear);
+    if(allowed!==null&&used+fresh.length>allowed)return toast(`Dein Urlaub reicht nicht: ${used+fresh.length} von ${allowed} Tagen wären belegt. Bitte zunächst anpassen.`);
+    if(!fresh.length)return toast('Keine neuen freien Urlaubstage zum Eintragen vorhanden.');
+    const msg=`${YEAR_PLANS[chosenPlan].name}: ${fresh.length} neue Urlaubstage für 2027 eintragen?\n\n${already} sind schon als Urlaub erfasst. ${other.length} anders belegte Tage und ${blockedByStart.length} Tage vor Erfassungsbeginn werden nicht überschrieben.\n\nDie Zeiten werden lokal gespeichert.`;
+    if(!confirm(msg))return;
+    for(const d of fresh)state.entries[d]={type:'vacation',start:'',end:'',pauseMode:'auto',pause:state.settings.defaultBreak,running:false,note:'Aus dem Urlaubsplaner 2027'};
+    persist();refresh();toast(`${fresh.length} Urlaubstage eingetragen. Sicherung empfohlen.`);
+  });
+}
+
+function vacationYear(){const year=todayISO().slice(0,4);let count=0;for(const [iso,e] of Object.entries(state.entries)){if(iso.startsWith(year)&&e.type==='vacation'&&plan(iso)>0)count++}const allowance=state.settings.vacationAllowances?.[year]??state.settings.vacationAllowance;const rest=allowance===null?'':` · Rest: <strong>${allowance-count} Tage</strong>`;$('vacation-stat').innerHTML=`Urlaub ${year}: <strong>${count} Arbeitstage eingetragen</strong>${rest}`;}
 function toggleEditor(){const t=$('edit-type').value;document.querySelectorAll('.work-only').forEach(x=>x.classList.toggle('hidden',t!=='work'));$('manual-pause-field').classList.toggle('hidden',t!=='work'||$('edit-pause-mode').value!=='manual');previewEditor()}
 function fillEditor(){const e=state.entries[selected]||{type:'work',start:'',end:'',pauseMode:'auto',pause:state.settings.defaultBreak,note:''};$('edit-date').value=selected;$('edit-type').value=e.type;$('edit-start').value=e.start||'';$('edit-end').value=e.end||'';$('edit-pause-mode').value=e.pauseMode||'auto';$('edit-pause').value=e.pause??state.settings.defaultBreak;$('edit-note').value=e.note||'';toggleEditor()}
 function previewEditor(){let text='';const type=$('edit-type').value,iso=$('edit-date').value||selected,p=dayTarget(iso);
@@ -222,12 +436,12 @@ function renderWeek(){const start=weekMonday(todayISO());const bars=[];
  }
  $('week-chart').innerHTML=bars.join('');$('week-chart').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{selected=b.dataset.weekDate;fillEditor();$('edit-card').scrollIntoView({behavior:'smooth',block:'start'});}));
 }
-function refresh(){refreshClock();refreshStats();renderWeek();displayMonth();vacationYear();}
+function refresh(){refreshClock();refreshStats();renderWeek();displayMonth();vacationYear();renderPlanner();}
 function stampIn(){const iso=todayISO(),old=state.entries[iso];if(old&&old.start)return toast('Für heute ist bereits ein Arbeitsbeginn vorhanden.');if(old&&old.type!=='work')return toast('Der heutige Tag ist bereits als Abwesenheit eingetragen.');const d=new Date();state.entries[iso]={type:'work',start:`${pad(d.getHours())}:${pad(d.getMinutes())}`,end:'',pauseMode:'auto',pause:state.settings.defaultBreak,running:true,note:old?.note||''};persist();selected=iso;fillEditor();refresh();toast('Arbeitsbeginn gespeichert.');}
 function stampOut(){const iso=todayISO(),e=state.entries[iso];if(!e||!e.running)return;const d=new Date(),v=`${pad(d.getHours())}:${pad(d.getMinutes())}`;if(mtime(v)<mtime(e.start))return toast('Feierabend liegt vor dem Arbeitsbeginn. Bitte manuell korrigieren.');e.end=v;e.running=false;persist();selected=iso;fillEditor();refresh();toast('Feierabend gespeichert.');}
 function saveDay(){const iso=$('edit-date').value,type=$('edit-type').value,start=$('edit-start').value,end=$('edit-end').value;if(!/^\d{4}-\d\d-\d\d$/.test(iso)||isNaN(parseDate(iso)))return toast('Bitte gültiges Datum wählen.');if(type==='work'&&end&&!start)return toast('Bitte zuerst den Arbeitsbeginn eingeben.');if(type==='work'&&start&&end&&mtime(end)<mtime(start))return toast('Feierabend darf nicht vor dem Beginn liegen.');const p=Number($('edit-pause').value);if($('edit-pause-mode').value==='manual'&&(!Number.isInteger(p)||p<0||p>240))return toast('Bitte eine Pause zwischen 0 und 240 Minuten eingeben.');const e={type,start:type==='work'?start:'',end:type==='work'?end:'',pauseMode:$('edit-pause-mode').value,pause:$('edit-pause-mode').value==='manual'?p:state.settings.defaultBreak,running:!!(type==='work'&&start&&!end&&iso===todayISO()),note:$('edit-note').value.trim().slice(0,500)};if(iso!==todayISO())e.running=false;state.entries[iso]=e;if(iso<state.settings.trackingStart)state.settings.trackingStart=iso;persist();selected=iso;fillSettings();refresh();fillEditor();toast('Arbeitstag gespeichert.');}
 function deleteDay(){const iso=$('edit-date').value;if(!state.entries[iso])return toast('Für diesen Tag gibt es keinen Eintrag.');if(!confirm(`Eintrag vom ${formatDate(iso)} wirklich löschen?`))return;delete state.entries[iso];persist();selected=iso;fillEditor();refresh();toast('Eintrag gelöscht.');}
-function absence(){const from=$('absence-from').value,to=$('absence-to').value,type=$('absence-type').value;if(!from||!to||isoCompare(from,to)>0)return toast('Bitte einen gültigen Zeitraum wählen.');if((parseDate(to)-parseDate(from))/86400000>366)return toast('Bitte höchstens ein Jahr auf einmal eintragen.');let wrote=0,skipped=0;for(let d=from;isoCompare(d,to)<=0;d=addDays(d,1)){if(isoCompare(d,state.settings.trackingStart)<0){skipped++;continue}const old=state.entries[d];if(old&&old.type==='work'&&old.start){skipped++;continue}state.entries[d]={type,start:'',end:'',pauseMode:'auto',pause:state.settings.defaultBreak,running:false,note:old?.note||''};wrote++}persist();monthCursor=from.slice(0,7);refresh();toast(`${wrote} Tage eingetragen${skipped?', '+skipped+' vorhandene Arbeitstage/ältere Tage übersprungen':''}.`);}
+function absence(){const from=$('absence-from').value,to=$('absence-to').value,type=$('absence-type').value;if(!from||!to||isoCompare(from,to)>0)return toast('Bitte einen gültigen Zeitraum wählen.');if((parseDate(to)-parseDate(from))/86400000>366)return toast('Bitte höchstens ein Jahr auf einmal eintragen.');let wrote=0,skipped=0;for(let d=from;isoCompare(d,to)<=0;d=addDays(d,1)){if(isoCompare(d,state.settings.trackingStart)<0){skipped++;continue}const old=state.entries[d];if((type==='vacation'&&(!state.settings.workdays.includes(parseDate(d).getDay())||getHoliday(d)))||(old&&old.type==='work'&&old.start)){skipped++;continue}state.entries[d]={type,start:'',end:'',pauseMode:'auto',pause:state.settings.defaultBreak,running:false,note:old?.note||''};wrote++}persist();monthCursor=from.slice(0,7);refresh();toast(`${wrote} Tage eingetragen${skipped?', '+skipped+' vorhandene Arbeitstage/ältere Tage übersprungen':''}.`);}
 function fillSettings(){const s=state.settings;$('setting-weekly').value=String(s.weekly/60).replace('.',',');$('setting-daygoal').value=String(s.dayGoal/60).replace('.',',');$('setting-break').value=s.defaultBreak;$('setting-start').value=s.trackingStart;$('setting-vacation').value=s.vacationAllowance===null?'':s.vacationAllowance;
  $('settings-workdays').innerHTML=WEEKDAY_NAMES.map((t,i)=>{const wd=(i+1)%7;return `<label><input type="checkbox" value="${wd}" ${s.workdays.includes(wd)?'checked':''}>${t}</label>`}).join('');}
 function saveSettings(){const weekly=valNum($('setting-weekly').value),daily=valNum($('setting-daygoal').value),br=Number($('setting-break').value),days=[...$('settings-workdays').querySelectorAll('input:checked')].map(x=>Number(x.value)),start=$('setting-start').value,allow=$('setting-vacation').value;
@@ -235,23 +449,23 @@ function saveSettings(){const weekly=valNum($('setting-weekly').value),daily=val
  if(!Number.isFinite(daily)||daily<1||daily>16||Math.abs(daily*60-Math.round(daily*60))>.001)return toast('Bitte gültiges Tagesziel eingeben.');
  if(!Number.isInteger(br)||br<0||br>180)return toast('Bitte gültige Pausenlänge angeben.');if(!days.length)return toast('Bitte mindestens einen Arbeitstag auswählen.');if(!start||isNaN(parseDate(start)))return toast('Bitte gültiges Startdatum eingeben.');if(allow!==''&&(!Number.isInteger(Number(allow))||Number(allow)<0||Number(allow)>365))return toast('Bitte gültigen Urlaubsanspruch eingeben.');
  const old=state.settings.trackingStart;if(old!==start&&Object.keys(state.entries).some(k=>isoCompare(k,start)<0)&&!confirm('Einige Einträge liegen vor dem neuen Erfassungsbeginn und zählen dann nicht ins Zeitkonto. Fortfahren?'))return;
- state.settings={weekly:Math.round(weekly*60),dayGoal:Math.round(daily*60),defaultBreak:br,workdays:days.sort((a,b)=>(a+6)%7-(b+6)%7),trackingStart:start,vacationAllowance:allow===''?null:Number(allow)};persist();refresh();fillEditor();toast('Einstellungen gespeichert.');}
+ state.settings={...state.settings,weekly:Math.round(weekly*60),dayGoal:Math.round(daily*60),defaultBreak:br,workdays:days.sort((a,b)=>(a+6)%7-(b+6)%7),trackingStart:start,vacationAllowance:allow===''?null:Number(allow)};persist();refresh();fillEditor();toast('Einstellungen gespeichert.');}
 function download(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function exportJSON(){download(`stempeluhr-sicherung-${todayISO()}.json`,JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2),'application/json');toast('Sicherung als JSON erstellt.');}
 function exportCSV(){const header=['Datum','Tag','Art','Beginn','Ende','Pause Minuten','Netto Minuten','Wochensoll-Anteil Minuten','Wochenkonto-Differenz Minuten','Tagessoll Minuten','Tagessaldo Minuten','Notiz'];const list=Object.keys(state.entries).sort();const lines=[header];for(const iso of list){const e=state.entries[iso],r=rawMinutes(iso,e),ps=e.type==='work'&&r!==null?pause(r,e):0,net=credit(iso),p=plan(iso);lines.push([iso,DAY_NAMES[parseDate(iso).getDay()],TYPE_LABELS[e.type],e.start||'',e.end||'',ps,net,p,net-p,dayTarget(iso),dayBalance(iso),e.note||''])}
  const csv=lines.map(row=>row.map(v=>{let s=String(v);if(/^[=+@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}).join(';')).join('\r\n');download(`stempeluhr-zeiten-${todayISO()}.csv`,'\ufeff'+csv,'text/csv;charset=utf-8');toast('CSV-Tabelle erstellt.');}
 async function importJSON(file){if(!file)return;let parsed;try{parsed=JSON.parse(await file.text())}catch{return toast('Datei ist keine gültige JSON-Sicherung.')}if(parsed.version!==1||!parsed.settings||!parsed.entries||Array.isArray(parsed.entries))return toast('Diese Sicherung hat kein unterstütztes Format.');if(!confirm('Sicherung wiederherstellen? Deine bisherigen Einträge werden vollständig ersetzt.'))return;const clean=defaultState();clean.settings=validateSettings(parsed.settings,clean.settings);
- for(const [iso,e] of Object.entries(parsed.entries)){if(!/^\d{4}-\d\d-\d\d$/.test(iso)||isNaN(parseDate(iso))||!e||!TYPE_LABELS[e.type])continue;clean.entries[iso]={type:e.type,start:mtime(e.start)!==null?e.start:'',end:mtime(e.end)!==null?e.end:'',pauseMode:e.pauseMode==='manual'?'manual':'auto',pause:Number.isInteger(e.pause)?Math.max(0,Math.min(240,e.pause)):30,running:e.running===true,note:String(e.note||'').slice(0,500)}}state=clean;persist();selected=todayISO();monthCursor=selected.slice(0,7);fillSettings();fillEditor();refresh();toast('Sicherung wiederhergestellt.');}
+ for(const [iso,e] of Object.entries(parsed.entries)){if(!/^\d{4}-\d\d-\d\d$/.test(iso)||isNaN(parseDate(iso))||!e||!TYPE_LABELS[e.type])continue;clean.entries[iso]={type:e.type,start:mtime(e.start)!==null?e.start:'',end:mtime(e.end)!==null?e.end:'',pauseMode:e.pauseMode==='manual'?'manual':'auto',pause:Number.isInteger(e.pause)?Math.max(0,Math.min(240,e.pause)):30,running:e.running===true,note:String(e.note||'').slice(0,500)}}state=clean;persist();selected=todayISO();monthCursor=selected.slice(0,7);fillSettings();fillEditor();holidayCache.clear();refresh();toast('Sicherung wiederhergestellt.');}
 function attach(){ $('dock-settings').addEventListener('click',()=>{$('settings-panel').open=true}); $('punch-in').addEventListener('click',stampIn);$('punch-out').addEventListener('click',stampOut);
  $('prev-month').addEventListener('click',()=>{monthCursor=periodChange(monthCursor,-1);displayMonth()});$('next-month').addEventListener('click',()=>{monthCursor=periodChange(monthCursor,1);displayMonth()});
  $('go-today').addEventListener('click',()=>{selected=todayISO();monthCursor=selected.slice(0,7);fillEditor();displayMonth()});
  $('edit-date').addEventListener('change',()=>{selected=$('edit-date').value||todayISO();fillEditor()});$('edit-type').addEventListener('change',toggleEditor);$('edit-pause-mode').addEventListener('change',toggleEditor);['edit-start','edit-end','edit-pause'].forEach(id=>$(id).addEventListener('input',previewEditor));
- $('save-day').addEventListener('click',saveDay);$('delete-day').addEventListener('click',deleteDay);$('save-absence').addEventListener('click',absence);$('save-settings').addEventListener('click',saveSettings);
+ $('save-day').addEventListener('click',saveDay);$('delete-day').addEventListener('click',deleteDay);$('save-absence').addEventListener('click',absence);attachPlanner();$('save-settings').addEventListener('click',saveSettings);
  $('export-json').addEventListener('click',exportJSON);$('export-csv').addEventListener('click',exportCSV);$('import-button').addEventListener('click',()=>$('import-file').click());$('import-file').addEventListener('change',async(e)=>{await importJSON(e.target.files[0]);e.target.value=''});
- $('reset-all').addEventListener('click',()=>{if(!confirm('Wirklich alle gespeicherten Zeiten und Einstellungen löschen? Dies kann nicht rückgängig gemacht werden.'))return;state=defaultState();persist();selected=todayISO();monthCursor=selected.slice(0,7);fillSettings();fillEditor();refresh();toast('Daten zurückgesetzt.');});
+ $('reset-all').addEventListener('click',()=>{if(!confirm('Wirklich alle gespeicherten Zeiten und Einstellungen löschen? Dies kann nicht rückgängig gemacht werden.'))return;state=defaultState();persist();selected=todayISO();monthCursor=selected.slice(0,7);fillSettings();fillEditor();holidayCache.clear();refresh();toast('Daten zurückgesetzt.');});
  setInterval(()=>{if(todayISO()!==lastDay){lastDay=todayISO();selected=todayISO();monthCursor=selected.slice(0,7);fillEditor();}refreshClock();refreshStats();if(new Date().getSeconds()<3){renderWeek();displayMonth();}},15000);
  document.addEventListener('visibilitychange',()=>{if(!document.hidden)refresh()});}
-let lastDay=todayISO();$('absence-from').value=todayISO();$('absence-to').value=todayISO();fillSettings();fillEditor();attach();refresh();
+let lastDay=todayISO();$('absence-from').value=todayISO();$('absence-to').value=todayISO();fillSettings();fillEditor();initPlanner();attach();refresh();
 if('serviceWorker' in navigator&&location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Offline-Modus nicht verfügbar',err));
 })();
 </script>

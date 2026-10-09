@@ -249,3 +249,108 @@ details[open]>summary:after{content:"⌃"}
   .field-wide{grid-column:auto}
 }
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;animation-duration:.01ms!important;transition-duration:.01ms!important}}
+/* Kalender & Urlaub: Premium planner, Version 1.3 */
+.planner-card{background:#fff;border:1px solid #edecf0;border-radius:24px;overflow:hidden;box-shadow:0 13px 38px rgba(42,48,74,.035);scroll-margin-top:24px}
+.planner-cover{background:linear-gradient(132deg,#242843 0%,#29304f 56%,#4a4478 100%);color:#fff;padding:28px 27px 23px;position:relative;overflow:hidden}
+.planner-cover:before{content:"";position:absolute;right:-82px;top:-110px;width:280px;height:280px;border-radius:50%;border:1px solid rgba(255,255,255,.13);box-shadow:0 0 0 38px rgba(255,255,255,.03),0 0 0 78px rgba(255,255,255,.017);pointer-events:none}
+.planner-cover:after{content:"";position:absolute;right:35px;top:20px;width:80px;height:80px;background:rgba(172,156,255,.28);filter:blur(50px)}
+.planner-eyebrow{font-size:10px;letter-spacing:2px;color:#b8c2e0;font-weight:820;position:relative}
+.planner-cover h2{font-size:clamp(29px,3vw,36px);color:#fff;margin:9px 0 10px;letter-spacing:-1.4px;position:relative}
+.planner-cover h2 span{color:#c5f2d7}
+.planner-cover p{margin:0;color:#d0d7e9;font-size:12px;line-height:1.7;max-width:410px;position:relative}
+.planner-highlight{display:flex;gap:9px;align-items:center;border:1px solid rgba(198,237,219,.25);background:rgba(189,237,218,.1);color:#ddffeb;border-radius:12px;font-size:11px;line-height:1.4;margin-top:19px;padding:11px 13px;position:relative}
+.planner-highlight-icon{font-size:14px;color:#c4f9de}
+.planner-body{padding:24px 24px 23px}
+.planner-control-grid{display:grid;grid-template-columns:1fr 1.4fr;gap:12px}
+.planner-option{display:flex;gap:9px;align-items:flex-start;color:#4f5771;font-size:11px;line-height:1.5;margin-top:14px;padding:11px 12px;background:#f8f8fe;border:1px solid #eeeefa;border-radius:12px}
+.planner-option input{margin:2px 0 0;accent-color:#655df2}
+.planner-region-note,.planner-smallprint{font-size:10px;line-height:1.65;color:#9095a4;margin:10px 0 0}
+.planner-divider{height:1px;background:#efedf3;margin:22px 0}
+.planner-balance{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:10px}
+.planner-balance>div{background:#f8f8fb;border:1px solid #efeff3;border-radius:14px;padding:13px 10px;min-width:0}
+.planner-balance>div:last-child{background:#f0fbf5;border-color:#dbf3e6}
+.planner-balance>div>span{display:block;color:#798096;font-size:10px;line-height:1.35;font-weight:650;min-height:25px}
+.planner-balance>div>span strong{color:#525d79}
+.planner-allowance-control{display:flex;align-items:center;gap:5px;flex-wrap:wrap;margin-top:9px}
+.planner-allowance-control input{max-width:52px;width:52px;min-height:29px;border:1px solid #e3e2ef;border-radius:8px;font-weight:800;color:#2c3250;font-size:16px;padding:4px 5px;background:#fff}
+.planner-allowance-control small,.planner-metric small{font-size:10px;color:#878d9d;font-weight:650}
+.planner-save-small{border:0;border-radius:7px;color:#5a53da;background:#e8e5ff;font-size:10px;font-weight:800;padding:8px;min-height:30px}
+.planner-metric{display:block;margin-top:12px;font-size:23px;line-height:1.1;letter-spacing:-.8px;color:#32374f;font-variant-numeric:tabular-nums}
+.planner-metric-green{color:#148b61}
+.planner-metric-red{color:#d14b5b}
+.planner-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+.planner-heading h3{font-size:17px;letter-spacing:-.55px}
+.planner-heading .section-eyebrow{margin-bottom:6px}
+.planner-badge{font-size:11px;font-weight:800;color:#6d64db;background:#f0edff;border-radius:50px;padding:7px 12px}
+.planner-help{color:#868a9c;font-size:11px;line-height:1.6;margin:0 0 14px}
+.planner-options{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.planner-choice{font:inherit;text-align:left;background:#fafafe;border:1px solid #e9e7f2;border-radius:15px;padding:15px 13px;min-width:0;color:#343a55;transition:background .15s,border-color .15s,box-shadow .15s}
+.planner-choice.is-selected{background:#f3f1ff;border-color:#8e85ec;box-shadow:0 0 0 2px rgba(142,133,236,.11)}
+.planner-choice:hover{border-color:#a7a1f0}
+.planner-choice-top{display:flex;gap:7px;align-items:center}
+.planner-choice-radio{height:14px;width:14px;flex:0 0 14px;border:2px solid #adaaca;border-radius:50%}
+.planner-choice.is-selected .planner-choice-radio{border:4px solid #6960e5}
+.planner-choice-title{font-size:12px;font-weight:820;line-height:1.3}
+.planner-choice-sub{display:block;color:#8a8ea0;font-size:10px;line-height:1.5;min-height:44px;margin:9px 0}
+.planner-choice-stats{display:flex;flex-wrap:wrap;gap:9px 14px;align-items:baseline}
+.planner-choice-stats strong{font-size:21px;letter-spacing:-.5px;color:#313650}
+.planner-choice-stats small{display:inline-block;font-weight:650;letter-spacing:0;font-size:9px;color:#858ba0}
+.planner-choice-foot{display:block;color:#797f94;font-size:10px;line-height:1.5;margin-top:11px;border-top:1px solid #eae9f3;padding-top:10px}
+.planner-empty{border-radius:14px;background:#f6f5fb;border:1px solid #eeedf5;padding:15px;color:#6c7188;line-height:1.7;font-size:11px}
+.planner-selection{background:#faf9fe;border:1px solid #eeebf5;border-radius:16px;padding:14px;margin-top:12px}
+.planner-selection:empty{display:none}
+.planner-planhead{display:flex;justify-content:space-between;gap:7px;align-items:center;color:#787398;font-size:9px;letter-spacing:.8px;font-weight:820;padding:0 0 10px}
+.planner-planhead strong{color:#6059d5;letter-spacing:0;font-size:11px;white-space:nowrap}
+.planner-blocks{display:grid;gap:0}
+.planner-block{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid #ebe9f2}
+.planner-block>span{font-size:11px;font-weight:760;color:#4c5268;min-width:0}
+.planner-block>span small{display:block;color:#9599a9;font-size:10px;margin-top:4px;font-weight:500}
+.planner-block>strong{white-space:nowrap;font-size:10px;color:#6469a1;font-weight:740}
+.planner-planbottom{display:grid;gap:6px;font-size:10px;line-height:1.5;color:#777f95;padding-top:10px}
+.planner-planbottom strong{color:#3f4863}
+.planner-action-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:13px}
+.planner-action-row button:first-child{flex:1.35}.planner-action-row button:last-child{flex:1}
+.planner-action-row .btn{font-size:11px;padding:12px 10px}
+.planner-month-nav{display:flex;gap:6px;align-items:center}
+.planner-month-nav button{width:29px;height:31px;border:1px solid #e5e5ef;background:#fafaff;border-radius:9px;font-size:19px;line-height:1;color:#6760c9}
+.planner-month-nav strong{font-size:11px;color:#4c4d69;min-width:72px;text-align:center}
+.planner-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-top:15px}
+.planner-weeklabel{font-size:10px;font-weight:800;color:#8b8fa1;text-align:center;padding:8px 0}
+.planner-blank{min-height:38px}
+.planner-date{position:relative;display:grid;place-items:center;align-content:center;gap:3px;min-height:41px;border-radius:10px;border:1px solid #f0eff5;background:#fafafb;color:#4e566b;font-size:12px;font-weight:760;font-variant-numeric:tabular-nums;line-height:1}
+.planner-date:hover{border-color:#9a91e9;transform:translateY(-1px)}
+.planner-date.pl-weekend{background:#f0f1f5;color:#8c90a3}
+.planner-date.pl-holiday{background:#d9f3e7;color:#277358;border-color:#c6ebd8}
+.planner-date.pl-draft{background:#f8e9cb;color:#8a6327;border-color:#eed7a5}
+.planner-date.pl-vac{background:#e5e1ff;color:#534ab5;border-color:#cfc9fa}
+.planner-date.pl-today{outline:2px solid #7469f5;outline-offset:1px}
+.planner-date .planner-dot{width:4px;height:4px;background:currentColor;border-radius:50%}
+.planner-date.pl-vac.pl-holiday{background:#d9f3e7;color:#277358}
+.planner-legend{display:flex;flex-wrap:wrap;gap:10px 12px;margin-top:14px;color:#8a8d9f;font-size:10px}
+.planner-legend span{display:flex;gap:5px;align-items:center}
+.planner-legend i{width:10px;height:10px;display:block;border-radius:3px}
+.legend-vacation{background:#e5e1ff}.legend-draft{background:#f8e9cb}.legend-holiday{background:#d9f3e7}.legend-weekend{background:#f0f1f5}
+.planner-holiday-list{border-radius:13px;background:#fafbfd;margin-top:16px;overflow:hidden}
+.planner-holidays-title{padding:12px 12px 8px;color:#5d6381;font-size:10px;font-weight:810}
+.planner-holiday-row{display:flex;gap:8px;align-items:center;padding:10px 12px;border-top:1px solid #eeeff4;flex-wrap:wrap}
+.planner-holiday-row span{font-size:10px;color:#898fa1;font-variant-numeric:tabular-nums}
+.planner-holiday-row strong{font-size:10px;color:#3c6355}
+.planner-holiday-row small{margin-left:auto;color:#9aa0b0;font-size:9px}
+.planner-holidays-empty{font-size:10px;color:#9396a5;line-height:1.5;padding:13px}
+.tag.holiday{background:#e6f6ed;color:#337b5d}
+@media(max-width:1090px){.planner-body{padding:20px 18px}.planner-cover{padding:24px 20px}.planner-allowance-control input{max-width:47px}.planner-balance{gap:6px}.planner-balance>div{padding:10px 7px}}
+@media(max-width:850px){.planner-card{border-radius:23px}.planner-body{padding:24px}.planner-cover{padding:25px}}
+@media(max-width:520px){.planner-body{padding:20px 16px}.planner-cover{padding:24px 20px}.planner-control-grid{grid-template-columns:1fr 1.35fr;gap:10px}.planner-control-grid .field select{font-size:12px;padding-left:8px}.planner-balance{grid-template-columns:1.4fr 1fr 1fr;gap:7px}.planner-balance>div{padding:10px 7px}.planner-allowance-control input{width:40px;max-width:40px}.planner-save-small{padding:7px 5px}.planner-metric{font-size:22px}.planner-choice{padding:12px 9px}.planner-choice-title{font-size:11px}.planner-choice-stats strong{font-size:21px}.planner-choice-stats{gap:5px}.planner-choice-stats small{display:block;font-size:9px}.planner-choice-sub{min-height:50px}.planner-heading h3{font-size:16px}.planner-month-nav strong{min-width:75px}.planner-date{min-height:39px}.planner-calendar{gap:4px}.planner-holiday-row small{margin-left:0}}
+@media(max-width:360px){.planner-body{padding:17px 11px}.planner-control-grid{grid-template-columns:1fr}.planner-balance{grid-template-columns:1fr 1fr}.planner-balance>div:first-child{grid-column:1/-1}.planner-choice-stats{flex-direction:column}.planner-date{min-height:34px}}
+
+.planner-bridge-tips{display:grid;gap:7px}
+.planner-bridge{display:flex;gap:10px;justify-content:space-between;align-items:center;background:#fafbfd;border:1px solid #efeff5;border-radius:12px;padding:11px 12px}
+.planner-bridge>div{display:grid;gap:3px;min-width:0}
+.planner-bridge-date{font-size:10px;font-weight:780;color:#655bd1}
+.planner-bridge strong{font-size:12px;color:#343c54}
+.planner-bridge small{font-size:10px;color:#969cac}
+.planner-bridge button{background:#ebe9ff;color:#5954c5;border:1px solid #dedafd;border-radius:9px;font-size:10px;font-weight:800;padding:10px 9px;white-space:nowrap}
+.planner-bridge button:hover{background:#ddd8ff}
+/* Make the complete annual allowance visible on compact phones. */
+.planner-allowance-control input[type="number"]{appearance:textfield;-moz-appearance:textfield;text-align:center;letter-spacing:0;padding:4px 2px;width:46px;max-width:46px}
+.planner-allowance-control input[type="number"]::-webkit-inner-spin-button,.planner-allowance-control input[type="number"]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
