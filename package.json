@@ -1,9 +1,0 @@
-{
-  "name": "litterum",
-  "version": "1.9.5.5",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "npx vercel dev"
-  }
-}
