@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#171c2f">
-  <meta name="description" content="Private Stempeluhr mit automatischen Pausen, Zeitkonto, Urlaub und Datensicherung.">
+  <meta name="theme-color" content="#143c39">
+  <meta name="description" content="Meine Stempeluhr: Zeitkonto, ATOSS-Vergleich, Pausen, Urlaub und lokale Datensicherung.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" type="image/png" href="./icons/icon-192.png">
   <title>Meine Stempeluhr</title>
@@ -15,12 +15,12 @@
 <header class="header" id="start">
   <div class="brand">
     <div class="logo" aria-hidden="true"><svg viewBox="0 0 42 42" fill="none"><path d="M21 5.5a15.5 15.5 0 1 0 15.5 15.5" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M21 11v11l7 4" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34" cy="8" r="3.5" fill="#C5F2D7"/></svg></div>
-    <div><div class="brand-kicker">DEIN PERSÖNLICHES ZEITKONTO</div><h1>Meine Stempeluhr<span class="brand-period">.</span></h1></div>
+    <div><div class="brand-kicker">ZEIT, DIE DIR GEHÖRT</div><h1>Meine Stempeluhr<span class="brand-period">.</span></h1><span class="brand-version">VERSION 1.4</span></div>
   </div>
   <nav class="top-nav" aria-label="Bereiche">
     <a href="#dashboard">Übersicht</a><a href="#monat">Monat</a><a href="#urlaubsplaner">Kalender & Urlaub</a><a href="#edit-card">Einträge</a>
   </nav>
-  <div class="header-right"><span class="secure-dot"></span> Privat &amp; offline</div>
+  <div class="header-right"><span class="secure-dot"></span> Lokal gespeichert <span class="header-date" id="header-date"></span></div>
 </header>
 <main class="grid-main">
 <section class="stack">
@@ -28,21 +28,22 @@
     <div class="hero-glow" aria-hidden="true"></div>
     <div class="hero-header"><div class="hero-header-top"><span class="hero-eyebrow">DEIN ARBEITSTAG</span><span class="hero-date" id="hero-date">Heute</span></div><div class="status off" id="punch-status"><span class="dot"></span><span>Aktuell nicht eingestempelt</span></div></div>
     <div class="hero-main">
-      <div class="projection" id="projection" aria-live="polite"><div class="projection-lead">FEIERABEND OHNE TAGESMINUS</div><div class="projection-time">Startzeit fehlt</div><div class="projection-sub">8:00 Std. Nettoarbeit + 30 Min. Pause</div></div>
-      <div class="time-ring" id="time-ring" style="--ring:0%"><div class="time-ring-inside"><span class="ring-label">HEUTE NETTO</span><span class="ring-value" id="live-net">0:00 <span>Std.</span></span><span class="ring-caption" id="ring-caption">von 8:00 Std.</span></div></div>
+      <div class="projection" id="projection" aria-live="polite"><div class="projection-lead">FEIERABEND OHNE MINUS</div><div class="projection-time">––:––</div><div class="projection-sub">Sollzeit und Pausen werden automatisch berücksichtigt.</div></div>
+      <div class="time-ring" id="time-ring" style="--ring:0%"><div class="time-ring-inside"><span class="ring-label">HEUTE NETTO</span><span class="ring-value" id="live-net">0:00 <span>Std.</span></span><span class="ring-caption" id="ring-caption">von 7:42 Std.</span></div></div>
     </div>
+    <div class="hero-targets" id="hero-targets" aria-label="Feierabendziele"><div class="hero-target"><span>Reguläres Soll</span><strong id="target-regular">––:––</strong></div><div class="hero-target"><span>Dein Wunschziel</span><strong id="target-personal">––:––</strong></div></div>
     <div class="hero-foot"><span class="hero-range" id="live-range">Noch keine Zeit erfasst</span><span class="hero-now" id="live-now"> </span></div>
     <div class="hero-actions"><button class="btn btn-primary" id="punch-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Einstempeln</button><button class="btn btn-hero-alt" id="punch-out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="5" width="14" height="14" rx="2"/></svg> Ausstempeln</button></div>
   </div>
   <div class="card">
     <div class="card-title"><div><div class="section-eyebrow">AUF EINEN BLICK</div><h2>Dein Zeitkonto</h2></div><span class="chip" id="tracking-badge">Stand heute</span></div>
     <div class="stats">
-      <div class="stat"><div class="label">Heute gearbeitet</div><div class="num" id="stat-today">0:00</div><div class="hint" id="today-plan">Tagesziel: 8:00 Std.</div></div>
+      <div class="stat"><div class="label">Heute netto</div><div class="num" id="stat-today">0:00</div><div class="hint" id="today-plan">Sollzeit: 7:42 Std.</div></div>
       <div class="stat"><div class="label">Diese Woche</div><div class="num" id="stat-week">0:00</div><div class="hint" id="week-plan">Soll bis heute: 0:00 Std.</div><div class="progress"><span id="week-progress" style="width:0%"></span></div></div>
       <div class="stat"><div class="label">Dieser Monat</div><div class="num" id="stat-month">0:00</div><div class="hint" id="month-plan">Soll bis heute: 0:00 Std.</div><div class="progress"><span id="month-progress" style="width:0%"></span></div></div>
       <div class="stat"><div class="label">Gesamtes Zeitkonto</div><div class="num" id="stat-balance">±0:00</div><div class="hint" id="balance-hint">Plus- oder Minusstunden seit Beginn</div></div>
     </div>
-    <p class="notice" id="calculation-note">Der Tagessaldo vergleicht mit 8 Stunden netto. Das Wochen- und Monatskonto verwendet deine 38,5 Wochenstunden. Urlaub und Krankheit werden ohne Minusstunden berücksichtigt. Gesetzliche Feiertage des eingestellten Arbeitsortes werden automatisch erkannt und verringern das Soll.</p>
+    <p class="notice" id="calculation-note">Dein Zeitkonto berechnet Plus- und Minusstunden aus der vertraglichen Wochenarbeitszeit. Dein persönliches 8-Stunden-Ziel ist ein zweiter Feierabendwert. Automatische Pausen sind eine Annahme: Maßgeblich sind deine tatsächlichen Pausen und die offiziellen ATOSS-Buchungen.</p>
   </div>
   <div class="card week-card" id="woche">
     <div class="card-title"><div><div class="section-eyebrow">DEIN RHYTHMUS</div><h2>Diese Woche</h2></div><span class="chip">Mo – So</span></div>
@@ -61,7 +62,7 @@
       <div class="field field-wide"><label for="edit-note">Notiz (optional)</label><textarea id="edit-note" rows="2" placeholder="Zum Beispiel: früher Feierabend, Arzttermin ..."></textarea></div>
     </div>
     <div class="inline-actions"><button class="btn btn-primary" id="save-day">Tag speichern</button><button class="btn btn-danger" id="delete-day">Eintrag löschen</button></div>
-    <p class="helper" id="edit-preview">Deine Nettoarbeitszeit wird automatisch berechnet.</p><p class="helper">Automatisch werden vorerst immer 30 Minuten abgezogen. Bei mehr als 9 Stunden Nettoarbeit sind rechtlich mindestens 45 Minuten Pause erforderlich. Trage die tatsächlich genommene Pause dann unter „Selbst eingeben“ ein.</p>
+    <p class="helper" id="edit-preview">Deine Nettoarbeitszeit wird automatisch berechnet.</p><p class="helper">Automatische Pausenregel: bis 6 Stunden Anwesenheit kein Abzug, darüber in der Regel 30 Minuten, bei mehr als 9 Stunden errechneter Nettoarbeit mindestens 45 Minuten. Diese Automatik ersetzt keine echte Pausenerfassung. Abweichende oder tatsächlich genommene Pausen bitte manuell eintragen.</p>
   </div>
 </section>
 <section class="stack">
@@ -69,7 +70,15 @@
     <div class="card-title"><div><div class="section-eyebrow">DEIN MONAT</div><h2>Monatsübersicht</h2></div><div class="monthnav"><button id="prev-month" aria-label="Voriger Monat">‹</button><strong id="month-label"></strong><button id="next-month" aria-label="Nächster Monat">›</button></div></div>
     <div class="yearstat" id="month-summary"></div>
     <div class="tablewrap" style="margin-top:15px"><table><thead><tr><th>Tag</th><th>Zeiten / Status</th><th>Netto</th><th>Saldo</th></tr></thead><tbody id="month-rows"></tbody></table></div>
-    <p class="legend">Tippe auf einen Tag, um ihn zu bearbeiten. Künftige Tage erzeugen noch kein Minus. Der Tagessaldo bezieht sich auf dein eingestelltes 8-Stunden-Tagesziel, das Monatskonto auf deine Wochenarbeitszeit.</p>
+    <p class="legend">Tippe auf einen Tag, um ihn zu bearbeiten. Nettozeiten, Salden und die Monatssumme verwenden dieselbe vertragliche Sollzeit. Künftige Tage erzeugen noch kein Minus.</p>
+  </div>
+  <div class="card atoss-card" id="atoss-card">
+    <div class="card-title"><div><div class="section-eyebrow">DEIN ORIGINALAUSDRUCK</div><h2>ATOSS-Abgleich</h2></div><span class="chip">Oktober 2026</span></div>
+    <p class="section-intro">Vergleiche die sechs gut lesbaren Arbeitstage vom Foto mit deinen Einträgen. Bereits gespeicherte Daten werden niemals automatisch überschrieben.</p>
+    <div class="atoss-summary" id="atoss-summary"></div>
+    <div class="atoss-records" id="atoss-records"></div>
+    <button type="button" class="btn btn-primary atoss-action" id="atoss-import">Fehlende Tage vom Ausdruck übernehmen</button>
+    <p class="helper atoss-footnote">Referenz: 1., 2., 5., 6., 7. und 8. Oktober 2026. Der Eintrag vom 9. Oktober ist auf dem Foto noch nicht abgeschlossen und wird bewusst ausgelassen.</p>
   </div>
   <section class="planner-card" id="urlaubsplaner" aria-label="Kalender und Urlaubsplaner">
     <div class="planner-cover">
@@ -125,14 +134,14 @@
   <details class="card" id="settings-panel">
     <summary><span class="settings-icon">⚙</span><span>Einstellungen &amp; Sicherung</span></summary>
     <div class="setting-body">
-      <p class="section-intro">Tagesziel und Wochenstunden sind getrennt: Der Tag wird mit 8 Stunden verglichen, die Woche mit 38,5 Stunden. Bei fünf Arbeitstagen entspricht das 7:42 Stunden pro Tag im Wochenkonto.</p>
+      <p class="section-intro">Die vertragliche Sollzeit bestimmt dein Arbeitszeitkonto. Bei 38,5 Wochenstunden und fünf Arbeitstagen sind das 7:42 Stunden pro Tag. Das persönliche Ziel von 8 Stunden wird zusätzlich als Feierabend-Uhrzeit angezeigt, ändert aber keine Plus- und Minusstunden.</p>
       <div class="field-grid">
         <div class="field"><label for="setting-weekly">Wochenarbeitszeit (Std.)</label><input type="text" inputmode="decimal" id="setting-weekly" value="38,5"></div>
-        <div class="field"><label for="setting-daygoal">Feierabend-Ziel (Std.)</label><input type="text" inputmode="decimal" id="setting-daygoal" value="8"></div>
-        <div class="field"><label for="setting-break">Automatische Pause (Min.)</label><input type="number" id="setting-break" min="0" max="180" value="30"></div>
+        <div class="field"><label for="setting-daygoal">Persönliches Tagesziel (Std.)</label><input type="text" inputmode="decimal" id="setting-daygoal" value="8"></div>
+        <div class="field"><label for="setting-break">Automatische Regelpause (Min.)</label><input type="number" id="setting-break" min="0" max="180" value="30"></div>
         <div class="field"><label for="setting-start">Erfassung beginnt am</label><input type="date" id="setting-start"></div>
         <div class="field field-wide"><label for="setting-vacation">Urlaubsanspruch pro Kalenderjahr (Tage, optional)</label><input type="number" id="setting-vacation" min="0" max="365" placeholder="Nicht festgelegt"></div>
-        <div class="field field-wide"><label>Reguläre Arbeitstage</label><div class="workdays" id="settings-workdays"></div><div class="field-help">Die 38,5 Wochenstunden werden gleichmäßig für das Wochen- und Monatskonto verteilt. Das Tagesziel von 8 Stunden bleibt davon unabhängig.</div></div>
+        <div class="field field-wide"><label>Reguläre Arbeitstage</label><div class="workdays" id="settings-workdays"></div><div class="field-help">Die Wochenstunden werden auf deine gewählten Arbeitstage verteilt. Auf dieser Grundlage berechnet die App die täglichen ATOSS-ähnlichen Salden.</div></div>
       </div>
       <button class="btn btn-primary" id="save-settings" style="width:100%;margin-top:15px">Einstellungen speichern</button>
       <hr class="divider"><h3>Datensicherung</h3>
@@ -144,7 +153,7 @@
   </details>
 </section>
 </main>
-<footer class="footer">Meine Stempeluhr <span class="footer-dot">●</span> Privat gespeichert <span class="footer-dot">●</span> Version 1.3</footer>
+<footer class="footer">Meine Stempeluhr <span class="footer-dot">●</span> Auf deinem Gerät gespeichert <span class="footer-dot">●</span> Version 1.4</footer>
 </div>
 <nav class="mobile-dock" aria-label="Schnellnavigation">
  <a href="#dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Heute</span></a>
@@ -182,11 +191,19 @@ let state=load();let selected=todayISO();let monthCursor=todayISO().slice(0,7);l
 function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(state));return true}catch(err){toast('Speichern fehlgeschlagen. Bitte Speicherplatz prüfen.');return false}}
 function toast(message){const e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>e.classList.remove('show'),3300)}
 function plan(iso){if(isoCompare(iso,state.settings.trackingStart)<0||getHoliday(iso))return 0;const day=parseDate(iso).getDay();const days=state.settings.workdays;if(!days.includes(day))return 0;const e=state.entries[iso];if(e&&e.type==='free')return 0;const idx=days.indexOf(day),base=Math.floor(state.settings.weekly/days.length),extra=state.settings.weekly%days.length;return base+(idx<extra?1:0)}
-function pause(raw,e){if(e.pauseMode==='manual')return Math.max(0,Math.min(raw,e.pause||0));return Math.min(raw,Math.max(0,state.settings.defaultBreak))}
+function pause(raw,e){
+ if(e.pauseMode==='manual')return Math.max(0,Math.min(raw,e.pause||0));
+ // Auto is an estimation of planned breaks, not proof a real break was taken.
+ if(raw<=360)return 0;
+ const usual=Math.max(0,state.settings.defaultBreak);
+ const base=Math.max(30,usual);
+ // Over 9 hours of net work a total of 45 minutes is required.
+ return Math.min(raw,raw-base>540?Math.max(45,usual):base);
+}
 function rawMinutes(iso,e){const start=mtime(e.start),end=mtime(e.end);if(start===null)return null;if(end!==null)return end>=start?end-start:null;if(e.running&&iso===todayISO()){const n=new Date();return Math.max(0,n.getHours()*60+n.getMinutes()-start)}return null}
 function worked(iso,e){if(!e||e.type!=='work')return 0;const raw=rawMinutes(iso,e);if(raw===null)return 0;return Math.max(0,raw-pause(raw,e))}
 function credit(iso){const e=state.entries[iso];if(!e)return 0;return e.type==='work'?worked(iso,e):e.type==='free'?0:plan(iso)}
-function dayTarget(iso){if(isoCompare(iso,state.settings.trackingStart)<0||getHoliday(iso))return 0;const e=state.entries[iso];if(e&&e.type==='free')return 0;if(!state.settings.workdays.includes(parseDate(iso).getDay()))return 0;return state.settings.dayGoal}
+function dayTarget(iso){if(isoCompare(iso,state.settings.trackingStart)<0||getHoliday(iso))return 0;const e=state.entries[iso];if(e&&e.type==='free')return 0;if(!state.settings.workdays.includes(parseDate(iso).getDay()))return 0;return plan(iso)}
 function dayBalance(iso){const e=state.entries[iso];if(e&&e.type!=='work')return 0;return credit(iso)-dayTarget(iso)}
 function dayClass(n){return n<0?'bad':'good'}
 function sumRange(start,end,throughToday=true){let a=0,p=0,days=0;if(isoCompare(start,state.settings.trackingStart)<0)start=state.settings.trackingStart;if(throughToday&&isoCompare(end,todayISO())>0)end=todayISO();if(isoCompare(start,end)>0)return {actual:0,expected:0,balance:0,days:0};let cursor=start;while(isoCompare(cursor,end)<=0&&days<20000){a+=credit(cursor);p+=plan(cursor);days++;cursor=addDays(cursor,1)}return {actual:a,expected:p,balance:a-p,days}}
@@ -194,33 +211,54 @@ function weekMonday(iso){const day=parseDate(iso).getDay();return addDays(iso,-(
 function monthBounds(ym){const first=ym+'-01';const d=parseDate(first);d.setMonth(d.getMonth()+1);d.setDate(0);return [first,localISO(d)]}
 function periodChange(ym,change){const d=parseDate(ym+'-01');d.setMonth(d.getMonth()+change);return localISO(d).slice(0,7)}
 function formatDate(iso,format){return new Intl.DateTimeFormat('de-DE',format||{day:'numeric',month:'long',year:'numeric'}).format(parseDate(iso))}
-function calcEnd(start,net,e){const minutes=e?.pauseMode==='manual'?Math.max(0,e.pause||0):state.settings.defaultBreak;return timetxt(mtime(start)+net+minutes)}
-function refreshClock(){const now=new Date(),iso=todayISO(),entry=state.entries[iso],live=entry?worked(iso,entry):0,running=!!(entry&&entry.type==='work'&&entry.running&&!entry.end);const hhmm=`${pad(now.getHours())}:${pad(now.getMinutes())}`;
+function calcEnd(start,net,e){
+ const n=mtime(start);if(n===null||!Number.isFinite(net))return null;
+ if(net<=0)return timetxt(n);
+ if(e?.pauseMode==='manual')return timetxt(n+net+Math.max(0,e.pause||0));
+ // Find earliest attendance duration that fulfils net target after auto break.
+ for(let raw=0;raw<=1440;raw++)if(raw-pause(raw,{pauseMode:'auto'})>=net)return timetxt(n+raw);
+ return null;
+}
+function refreshClock(){
+ const now=new Date(),iso=todayISO(),entry=state.entries[iso],live=entry?worked(iso,entry):0;
+ const running=!!(entry&&entry.type==='work'&&entry.running&&!entry.end);
+ const hhmm=`${pad(now.getHours())}:${pad(now.getMinutes())}`;
+ const required=plan(iso),personal=state.settings.dayGoal;
  $('hero-date').textContent=formatDate(iso,{weekday:'long',day:'numeric',month:'long'});
+ $('header-date').textContent=new Intl.DateTimeFormat('de-DE',{day:'2-digit',month:'short',year:'numeric'}).format(now);
  $('punch-status').classList.toggle('off',!running);
  $('punch-status').lastElementChild.textContent=running?'Arbeitszeit läuft':entry?.end?'Für heute ausgestempelt':'Aktuell nicht eingestempelt';
  $('live-net').innerHTML=`${duration(live)} <span>Std.</span>`;
- $('time-ring').style.setProperty('--ring',Math.min(100,Math.max(0,100*live/state.settings.dayGoal)).toFixed(1)+'%');
- $('ring-caption').textContent=`von ${duration(state.settings.dayGoal)} Std.`;
+ $('time-ring').style.setProperty('--ring',Math.min(100,Math.max(0,100*live/(required||personal))).toFixed(1)+'%');
+ $('ring-caption').textContent=`von ${duration(required||personal)} Std.`;
  $('live-range').textContent=entry?.type==='work'&&entry.start?`${entry.start} Uhr ${entry.end?'bis '+entry.end+' Uhr':running?'bis jetzt':'· noch offen'}`:'Noch keine Zeit erfasst';
  $('live-now').textContent=hhmm+' Uhr';
  $('punch-in').disabled=!!(entry&&(entry.type!=='work'||entry.start));$('punch-out').disabled=!running;
- const proj=$('projection');const start=entry?.type==='work'?entry.start:'';
- const daygoal=state.settings.dayGoal, net=entry?.type==='work'?live:0;
- const targetEnd=start?calcEnd(start,daygoal,entry):null;
- const diff=net-daygoal;
- const netPause=entry?.pauseMode==='manual'?Math.max(0,entry.pause||0):state.settings.defaultBreak;
- let sub=start?`${duration(daygoal)} Std. netto + ${netPause} Min. Pause · Beginn ${start} Uhr`:`${duration(daygoal)} Std. netto + ${state.settings.defaultBreak} Min. Pause · Stemple dich ein, um die Uhrzeit zu sehen.`;
+ const start=entry?.type==='work'?entry.start:'';
+ const regularEnd=start&&required?calcEnd(start,required,entry):null;
+ const personalEnd=start?calcEnd(start,personal,entry):null;
+ $('target-regular').textContent=regularEnd?regularEnd+' Uhr':required?'Nach Einstempeln':'Heute frei';
+ $('target-personal').textContent=personalEnd?personalEnd+' Uhr':'Nach Einstempeln';
+ const targetEnd=regularEnd;
+ const diff=live-required;
+ const target=required?duration(required):'0:00';
+ const breakPlanned=entry?.pauseMode==='manual'?Math.max(0,entry.pause||0):state.settings.defaultBreak;
+ const info=start?`Soll ${target} Std. netto · Beginn ${safe(start)} Uhr`:`Sollzeit ${target} Std. · Regelpause ab 6 Std. Anwesenheit`;
  let message='';
- if(start){
-   if(running){const left=mtime(targetEnd)-mtime(hhmm);const remaining=left>0?`Noch ${duration(left)} Std. bis Feierabend`:`Feierabendziel erreicht · ${duration(-left)} Std. später`;message=`<div class="${left<=0?'projection-overtime':'projection-sub'}">${remaining}</div>`;}
-   else if(entry?.end){message=`<div class="${diff>=0?'projection-overtime':'projection-alert'}">${diff>=0?diff===0?'Tagesziel erreicht, kein Tagesminus':`Überstunden heute: +${duration(diff)} Std.`:`Heute fehlen ${duration(-diff)} Std. zum Tagesziel`}</div>`;}
+ if(start&&required){
+   if(running&&targetEnd){const left=mtime(targetEnd)-mtime(hhmm);message=`<div class="${left<=0?'projection-overtime':'projection-sub'}">${left>0?'Noch '+duration(left)+' Std. bis Feierabend':'Soll erfüllt · '+duration(-left)+' Std. danach'}</div>`}
+   else if(entry?.end){message=`<div class="${diff>=0?'projection-overtime':'projection-alert'}">${diff===0?'Sollzeit genau erreicht':diff>0?`Plus heute: ${signed(diff)} Std.`:`Minus heute: ${signed(diff)} Std.`}</div>`}
  }
- const warning=start&&net>540&&netPause<45?'<div class="projection-alert">Hinweis: Über 9 Stunden Nettoarbeit erfordern mindestens 45 Minuten Pause. Bitte die tatsächliche Pause manuell eintragen.</div>':'';
- proj.innerHTML=`<div class="projection-lead">FEIERABEND OHNE TAGESMINUS</div><div class="projection-time">${targetEnd?targetEnd+' Uhr':'––:––'}</div><div class="projection-sub">${sub}</div>${message}${warning}`;
+ const raw=entry?.type==='work'?rawMinutes(iso,entry):null;
+ const realPause=raw!==null?pause(raw,entry):0;
+ const warning=raw!==null&&raw-realPause>540&&realPause<45?'<div class="projection-alert">Mehr als 9 Stunden Nettoarbeit: Bitte mindestens 45 Minuten tatsächliche Pause erfassen.</div>':'';
+ const label=required?'FEIERABEND OHNE MINUS':'HEUTE KEINE SOLLZEIT';
+ const mainTime=targetEnd?targetEnd+' Uhr':required?'--:--':'Heute frei';
+ const displayInfo=required?info:'Keine reguläre Arbeitszeit geplant';
+ $('projection').innerHTML=`<div class="projection-lead">${label}</div><div class="projection-time ${required?'':'projection-off'}">${mainTime}</div><div class="projection-sub">${displayInfo}</div>${message}${warning}`;
 }
 function refreshStats(){const iso=todayISO(),wstart=weekMonday(iso),mstart=iso.slice(0,7)+'-01';const w=sumRange(wstart,iso),m=sumRange(mstart,iso),all=sumRange(state.settings.trackingStart,iso);const current=credit(iso),p=plan(iso),dayDelta=dayBalance(iso);
- $('stat-today').textContent=duration(current);$('stat-today').className='num '+(dayDelta>=0?'good':'bad');$('today-plan').innerHTML=`Tagesziel: ${duration(dayTarget(iso))} Std. · <span class="${dayClass(dayDelta)}">${signed(dayDelta)} Std.</span>`;
+ $('stat-today').textContent=duration(current);$('stat-today').className='num '+(dayDelta>=0?'good':'bad');$('today-plan').innerHTML=`Sollzeit: ${duration(dayTarget(iso))} Std. · <span class="${dayClass(dayDelta)}">${signed(dayDelta)} Std.</span>`;
  $('stat-week').textContent=duration(w.actual);$('week-plan').innerHTML=`Soll bis heute: ${duration(w.expected)} Std. · <span class="${dayClass(w.balance)}">${signed(w.balance)}</span>`;
  $('stat-month').textContent=duration(m.actual);$('month-plan').innerHTML=`Soll bis heute: ${duration(m.expected)} Std. · <span class="${dayClass(m.balance)}">${signed(m.balance)}</span>`;
  $('stat-balance').textContent=signed(all.balance);$('stat-balance').className='num '+dayClass(all.balance);
@@ -238,6 +276,7 @@ function displayMonth(){const ym=monthCursor,[from,to]=monthBounds(ym),past=sumR
  if(e&&e.type!=='work'){status=`<span class="tag ${e.type==='vacation'?'leave':e.type==='sick'?'ill':'rest'}">${TYPE_LABELS[e.type]}</span>`}
  else if(e&&e.type==='work'&&e.start){status=`${safe(e.start)} ${e.end?'– '+safe(e.end):e.running&&iso===todayISO()?'· läuft':'· offen'}`}
  else if(getHoliday(iso)){status=`<span class="tag holiday">${safe(getHoliday(iso))}</span>`}else status=`<span class="${future||!p?'norecord':'bad'}">${future?'Geplant':p?'Nicht erfasst':'Frei'}</span>`;
+ if(e?.type==='work'&&e.start&&e.end){const raw=rawMinutes(iso,e);status+=`<small class="month-pause">${pause(raw,e)} Min. Pause</small>`}
  const d=parseDate(iso);const day=`${DAY_NAMES[d.getDay()]} ${pad(d.getDate())}.${pad(d.getMonth()+1)}.`;
  const saldo=future?'–':p===0&&c===0?'±0:00':signed(bal);
  rows.push(`<tr class="entry" data-date="${iso}" tabindex="0" aria-label="${safe(formatDate(iso))} bearbeiten"><td><strong>${day}</strong></td><td class="cell-time">${status}</td><td class="cell-net">${future?'–':duration(c)}</td><td class="cell-saldo ${future?'':dayClass(bal)}">${saldo}</td></tr>`);
@@ -422,7 +461,7 @@ function toggleEditor(){const t=$('edit-type').value;document.querySelectorAll('
 function fillEditor(){const e=state.entries[selected]||{type:'work',start:'',end:'',pauseMode:'auto',pause:state.settings.defaultBreak,note:''};$('edit-date').value=selected;$('edit-type').value=e.type;$('edit-start').value=e.start||'';$('edit-end').value=e.end||'';$('edit-pause-mode').value=e.pauseMode||'auto';$('edit-pause').value=e.pause??state.settings.defaultBreak;$('edit-note').value=e.note||'';toggleEditor()}
 function previewEditor(){let text='';const type=$('edit-type').value,iso=$('edit-date').value||selected,p=dayTarget(iso);
  if(type!=='work'){text=`${TYPE_LABELS[type]}: ${type==='free'?'kein Soll und keine Zeitgutschrift':duration(plan(iso))+' Std. Zeitgutschrift'} am Arbeitstag.`}
- else{const a=mtime($('edit-start').value),b=mtime($('edit-end').value);if(a!==null&&b!==null&&b>=a){const raw=b-a,e={pauseMode:$('edit-pause-mode').value,pause:Number($('edit-pause').value)||0};const ps=pause(raw,e);text=`Anwesenheit: ${duration(raw)} Std. · Pause: ${ps} Min. · Netto: ${duration(raw-ps)} Std. · Tagessaldo: ${signed(raw-ps-p)} Std.${raw-ps>540&&ps<45?' · Achtung: mindestens 45 Min. Pause erforderlich!':''}`}
+ else{const a=mtime($('edit-start').value),b=mtime($('edit-end').value);if(a!==null&&b!==null&&b>=a){const raw=b-a,e={pauseMode:$('edit-pause-mode').value,pause:Number($('edit-pause').value)||0};const ps=pause(raw,e);text=`Anwesenheit: ${duration(raw)} Std. · Pause: ${ps} Min. · Netto: ${duration(raw-ps)} Std. · Tagessaldo: ${signed(raw-ps-p)} Std.${raw-ps>540&&ps<45?' · Achtung: Für mehr als 9 Std. Nettoarbeit mindestens 45 Min. Pause!':''}`}
  else if(a!==null){text=`Feierabend für ${duration(state.settings.dayGoal)} Std. netto: ${calcEnd($('edit-start').value,state.settings.dayGoal,{pauseMode:$('edit-pause-mode').value,pause:Number($('edit-pause').value)||0})} Uhr · reguläres Tagesziel: ${p?calcEnd($('edit-start').value,p,{pauseMode:$('edit-pause-mode').value,pause:Number($('edit-pause').value)||0})+' Uhr':'kein Soll'}.`}
  else text=`Geplante Tagesarbeitszeit: ${duration(p)} Std.`}
  $('edit-preview').textContent=text;}
@@ -436,7 +475,43 @@ function renderWeek(){const start=weekMonday(todayISO());const bars=[];
  }
  $('week-chart').innerHTML=bars.join('');$('week-chart').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{selected=b.dataset.weekDate;fillEditor();$('edit-card').scrollIntoView({behavior:'smooth',block:'start'});}));
 }
-function refresh(){refreshClock();refreshStats();renderWeek();displayMonth();vacationYear();renderPlanner();}
+const ATOSS_REFERENCE=[
+ ['2026-10-01','10:57','15:11',0,254,-208],
+ ['2026-10-02','08:50','13:46',0,296,-166],
+ ['2026-10-05','07:46','15:25',30,429,-33],
+ ['2026-10-06','07:44','15:23',30,429,-33],
+ ['2026-10-07','07:22','15:39',30,467,5],
+ ['2026-10-08','07:25','16:24',30,509,47]
+];
+function renderATOSS(){
+ const box=$('atoss-records');if(!box)return;
+ let matches=0,recorded=0,total=0;
+ box.innerHTML=ATOSS_REFERENCE.map(([iso,start,end,minutes,net,saldo])=>{
+   const e=state.entries[iso];let label='Nicht erfasst',status='pending';
+   const raw=e?.type==='work'?rawMinutes(iso,e):null;
+   if(raw!==null&&e.end){
+     recorded++;
+     const calculated=worked(iso,e),actualBalance=calculated-plan(iso);
+     const same=calculated===net&&actualBalance===saldo&&pause(raw,e)===minutes&&e.start===start&&e.end===end;
+     if(same){matches++;label='Stimmt';status='match'}
+     else{label=`Abweichung ${signed(calculated-net)} netto`;status='mismatch'}
+   }else if(e){label='Abweichender Eintrag';status='mismatch'}
+   total+=saldo;
+   return `<div class="atoss-record"><div><strong>${fmtShort(iso)}</strong><span>${start}–${end} · ${minutes} Min. Pause</span></div><div class="atoss-hours"><strong>${duration(net)} Std.</strong><span class="${dayClass(saldo)}">${signed(saldo)} Saldo</span></div><span class="atoss-status ${status}">${safe(label)}</span></div>`;
+ }).join('');
+ $('atoss-summary').innerHTML=`<div><span>ATOSS-Saldo (6 Tage)</span><strong class="bad">${signed(total)} Std.</strong></div><div><span>Übereinstimmung</span><strong>${matches} von ${ATOSS_REFERENCE.length} Tagen</strong><small>${recorded} vollständige eigene Einträge</small></div>`;
+ $('atoss-import').disabled=ATOSS_REFERENCE.every(([d])=>!!state.entries[d]);
+ $('atoss-import').textContent=$('atoss-import').disabled?'Alle sechs Tage sind erfasst':'Fehlende Tage vom Ausdruck übernehmen';
+}
+function importATOSS(){
+ const missing=ATOSS_REFERENCE.filter(([d])=>!state.entries[d]);
+ if(!missing.length)return toast('Alle sechs Tage sind bereits erfasst.');
+ if(!confirm(`${missing.length} fehlende Tage aus dem ATOSS-Ausdruck vom Oktober 2026 übernehmen? Vorhandene Einträge bleiben unverändert.`))return;
+ for(const [iso,start,end,minutes] of missing)state.entries[iso]={type:'work',start,end,pauseMode:'manual',pause:minutes,running:false,note:'Übernommen aus ATOSS-Ausdruck Oktober 2026'};
+ const earliest=missing[0][0];if(earliest<state.settings.trackingStart)state.settings.trackingStart=earliest;
+ monthCursor='2026-10';persist();fillSettings();refresh();toast(`${missing.length} Tage aus ATOSS übernommen.`);
+}
+function refresh(){refreshClock();refreshStats();renderWeek();displayMonth();vacationYear();renderPlanner();renderATOSS();}
 function stampIn(){const iso=todayISO(),old=state.entries[iso];if(old&&old.start)return toast('Für heute ist bereits ein Arbeitsbeginn vorhanden.');if(old&&old.type!=='work')return toast('Der heutige Tag ist bereits als Abwesenheit eingetragen.');const d=new Date();state.entries[iso]={type:'work',start:`${pad(d.getHours())}:${pad(d.getMinutes())}`,end:'',pauseMode:'auto',pause:state.settings.defaultBreak,running:true,note:old?.note||''};persist();selected=iso;fillEditor();refresh();toast('Arbeitsbeginn gespeichert.');}
 function stampOut(){const iso=todayISO(),e=state.entries[iso];if(!e||!e.running)return;const d=new Date(),v=`${pad(d.getHours())}:${pad(d.getMinutes())}`;if(mtime(v)<mtime(e.start))return toast('Feierabend liegt vor dem Arbeitsbeginn. Bitte manuell korrigieren.');e.end=v;e.running=false;persist();selected=iso;fillEditor();refresh();toast('Feierabend gespeichert.');}
 function saveDay(){const iso=$('edit-date').value,type=$('edit-type').value,start=$('edit-start').value,end=$('edit-end').value;if(!/^\d{4}-\d\d-\d\d$/.test(iso)||isNaN(parseDate(iso)))return toast('Bitte gültiges Datum wählen.');if(type==='work'&&end&&!start)return toast('Bitte zuerst den Arbeitsbeginn eingeben.');if(type==='work'&&start&&end&&mtime(end)<mtime(start))return toast('Feierabend darf nicht vor dem Beginn liegen.');const p=Number($('edit-pause').value);if($('edit-pause-mode').value==='manual'&&(!Number.isInteger(p)||p<0||p>240))return toast('Bitte eine Pause zwischen 0 und 240 Minuten eingeben.');const e={type,start:type==='work'?start:'',end:type==='work'?end:'',pauseMode:$('edit-pause-mode').value,pause:$('edit-pause-mode').value==='manual'?p:state.settings.defaultBreak,running:!!(type==='work'&&start&&!end&&iso===todayISO()),note:$('edit-note').value.trim().slice(0,500)};if(iso!==todayISO())e.running=false;state.entries[iso]=e;if(iso<state.settings.trackingStart)state.settings.trackingStart=iso;persist();selected=iso;fillSettings();refresh();fillEditor();toast('Arbeitstag gespeichert.');}
@@ -456,7 +531,7 @@ function exportCSV(){const header=['Datum','Tag','Art','Beginn','Ende','Pause Mi
  const csv=lines.map(row=>row.map(v=>{let s=String(v);if(/^[=+@]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"'}).join(';')).join('\r\n');download(`stempeluhr-zeiten-${todayISO()}.csv`,'\ufeff'+csv,'text/csv;charset=utf-8');toast('CSV-Tabelle erstellt.');}
 async function importJSON(file){if(!file)return;let parsed;try{parsed=JSON.parse(await file.text())}catch{return toast('Datei ist keine gültige JSON-Sicherung.')}if(parsed.version!==1||!parsed.settings||!parsed.entries||Array.isArray(parsed.entries))return toast('Diese Sicherung hat kein unterstütztes Format.');if(!confirm('Sicherung wiederherstellen? Deine bisherigen Einträge werden vollständig ersetzt.'))return;const clean=defaultState();clean.settings=validateSettings(parsed.settings,clean.settings);
  for(const [iso,e] of Object.entries(parsed.entries)){if(!/^\d{4}-\d\d-\d\d$/.test(iso)||isNaN(parseDate(iso))||!e||!TYPE_LABELS[e.type])continue;clean.entries[iso]={type:e.type,start:mtime(e.start)!==null?e.start:'',end:mtime(e.end)!==null?e.end:'',pauseMode:e.pauseMode==='manual'?'manual':'auto',pause:Number.isInteger(e.pause)?Math.max(0,Math.min(240,e.pause)):30,running:e.running===true,note:String(e.note||'').slice(0,500)}}state=clean;persist();selected=todayISO();monthCursor=selected.slice(0,7);fillSettings();fillEditor();holidayCache.clear();refresh();toast('Sicherung wiederhergestellt.');}
-function attach(){ $('dock-settings').addEventListener('click',()=>{$('settings-panel').open=true}); $('punch-in').addEventListener('click',stampIn);$('punch-out').addEventListener('click',stampOut);
+function attach(){ $('atoss-import').addEventListener('click',importATOSS); $('dock-settings').addEventListener('click',()=>{$('settings-panel').open=true}); $('punch-in').addEventListener('click',stampIn);$('punch-out').addEventListener('click',stampOut);
  $('prev-month').addEventListener('click',()=>{monthCursor=periodChange(monthCursor,-1);displayMonth()});$('next-month').addEventListener('click',()=>{monthCursor=periodChange(monthCursor,1);displayMonth()});
  $('go-today').addEventListener('click',()=>{selected=todayISO();monthCursor=selected.slice(0,7);fillEditor();displayMonth()});
  $('edit-date').addEventListener('change',()=>{selected=$('edit-date').value||todayISO();fillEditor()});$('edit-type').addEventListener('change',toggleEditor);$('edit-pause-mode').addEventListener('change',toggleEditor);['edit-start','edit-end','edit-pause'].forEach(id=>$(id).addEventListener('input',previewEditor));
