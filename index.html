@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#143c39">
+  <meta name="theme-color" content="#352b55">
   <meta name="description" content="Meine Stempeluhr: Zeitkonto, ATOSS-Vergleich, Pausen, Urlaub und lokale Datensicherung.">
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="icon" type="image/png" href="./icon-192.png">
@@ -14,8 +14,8 @@
 <div class="app">
 <header class="header" id="start">
   <div class="brand">
-    <div class="logo" aria-hidden="true"><svg viewBox="0 0 42 42" fill="none"><path d="M21 5.5a15.5 15.5 0 1 0 15.5 15.5" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M21 11v11l7 4" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34" cy="8" r="3.5" fill="#C5F2D7"/></svg></div>
-    <div><div class="brand-kicker">ZEIT, DIE DIR GEHÖRT</div><h1>Meine Stempeluhr<span class="brand-period">.</span></h1><span class="brand-version">VERSION 1.4.1</span></div>
+    <div class="logo" aria-hidden="true"><svg viewBox="0 0 42 42" fill="none"><path d="M21 5.5a15.5 15.5 0 1 0 15.5 15.5" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/><path d="M21 11v11l7 4" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="34" cy="8" r="3.5" fill="#F2CDE1"/></svg></div>
+    <div><div class="brand-kicker">ZEIT, DIE DIR GEHÖRT</div><h1>Meine Stempeluhr<span class="brand-period">.</span></h1><span class="brand-version">VERSION 1.4.3</span></div>
   </div>
   <nav class="top-nav" aria-label="Bereiche">
     <a href="#dashboard">Übersicht</a><a href="#monat">Monat</a><a href="#urlaubsplaner">Kalender & Urlaub</a><a href="#edit-card">Einträge</a>
@@ -28,11 +28,20 @@
     <div class="hero-glow" aria-hidden="true"></div>
     <div class="hero-header"><div class="hero-header-top"><span class="hero-eyebrow">DEIN ARBEITSTAG</span><span class="hero-date" id="hero-date">Heute</span></div><div class="status off" id="punch-status"><span class="dot"></span><span>Aktuell nicht eingestempelt</span></div></div>
     <div class="hero-main">
-      <div class="projection" id="projection" aria-live="polite"><div class="projection-lead">FEIERABEND OHNE MINUS</div><div class="projection-time">––:––</div><div class="projection-sub">Sollzeit und Pausen werden automatisch berücksichtigt.</div></div>
+      <div class="projection" id="projection" aria-live="polite"><div class="projection-lead">FEIERABEND OHNE MINUS</div><div class="projection-time">––:––</div><div class="projection-sub">Sollzeit und deine individuelle Pausenregel werden berücksichtigt.</div></div>
       <div class="time-ring" id="time-ring" style="--ring:0%"><div class="time-ring-inside"><span class="ring-label">HEUTE NETTO</span><span class="ring-value" id="live-net">0:00 <span>Std.</span></span><span class="ring-caption" id="ring-caption">von 7:42 Std.</span></div></div>
     </div>
     <div class="hero-targets" id="hero-targets" aria-label="Feierabendziele"><div class="hero-target"><span>Reguläres Soll</span><strong id="target-regular">––:––</strong></div><div class="hero-target"><span>Dein Wunschziel</span><strong id="target-personal">––:––</strong></div></div>
     <div class="hero-foot"><span class="hero-range" id="live-range">Noch keine Zeit erfasst</span><span class="hero-now" id="live-now"> </span></div>
+    <div class="hero-pause" id="hero-pause" aria-label="Pause für heute ändern">
+      <div class="hero-pause-head"><span>Pause heute</span><strong id="hero-pause-status">Noch keine Zeit erfasst</strong></div>
+      <div class="hero-pause-pills">
+        <button type="button" data-quick-pause="auto" aria-pressed="true">Auto</button>
+        <button type="button" data-quick-pause="30" aria-pressed="false">30 Min.</button>
+        <button type="button" data-quick-pause="45" aria-pressed="false">45 Min.</button>
+        <button type="button" data-quick-pause="edit" aria-label="Andere Pausenlänge eintragen">Andere…</button>
+      </div>
+    </div>
     <div class="hero-actions"><button class="btn btn-primary" id="punch-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg> Einstempeln</button><button class="btn btn-hero-alt" id="punch-out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="5" y="5" width="14" height="14" rx="2"/></svg> Ausstempeln</button></div>
   </div>
   <div class="card">
@@ -58,11 +67,22 @@
       <div class="field work-only"><label for="edit-start">Arbeitsbeginn</label><input type="time" id="edit-start" step="60"></div>
       <div class="field work-only"><label for="edit-end">Feierabend</label><input type="time" id="edit-end" step="60"></div>
       <div class="field work-only"><label for="edit-pause-mode">Pause</label><select id="edit-pause-mode"><option value="auto">Automatisch</option><option value="manual">Selbst eingeben</option></select></div>
-      <div class="field work-only" id="manual-pause-field"><label for="edit-pause">Pause in Minuten</label><input type="number" id="edit-pause" min="0" max="240" step="1" value="30"></div>
+      <div class="field work-only field-wide" id="edit-pause-quick"><label>Pause schnell anpassen</label>
+        <div class="pause-choices" role="group" aria-label="Pausendauer auswählen">
+          <button type="button" data-editor-pause="auto">Automatisch</button>
+          <button type="button" data-editor-pause="0">0 Min.</button>
+          <button type="button" data-editor-pause="15">15 Min.</button>
+          <button type="button" data-editor-pause="30">30 Min.</button>
+          <button type="button" data-editor-pause="45">45 Min.</button>
+          <button type="button" data-editor-pause="60">60 Min.</button>
+        </div>
+        <div class="field-help">Die Auswahl wird mit „Tag speichern“ übernommen.</div>
+      </div>
+      <div class="field work-only" id="manual-pause-field"><label for="edit-pause">Pause frei wählen (Minuten)</label><input type="number" id="edit-pause" min="0" max="240" step="1" value="30"></div>
       <div class="field field-wide"><label for="edit-note">Notiz (optional)</label><textarea id="edit-note" rows="2" placeholder="Zum Beispiel: früher Feierabend, Arzttermin ..."></textarea></div>
     </div>
     <div class="inline-actions"><button class="btn btn-primary" id="save-day">Tag speichern</button><button class="btn btn-danger" id="delete-day">Eintrag löschen</button></div>
-    <p class="helper" id="edit-preview">Deine Nettoarbeitszeit wird automatisch berechnet.</p><p class="helper">Automatische Pausenregel: bis 6 Stunden Anwesenheit kein Abzug, darüber in der Regel 30 Minuten, bei mehr als 9 Stunden errechneter Nettoarbeit mindestens 45 Minuten. Diese Automatik ersetzt keine echte Pausenerfassung. Abweichende oder tatsächlich genommene Pausen bitte manuell eintragen.</p>
+    <p class="helper" id="edit-preview">Deine Nettoarbeitszeit wird automatisch berechnet.</p><p class="helper">Automatische Pausenregel nach deiner betrieblichen Erfassung: bis 6 Stunden Anwesenheit kein Abzug, darüber 30 Minuten, bei mehr als 9 Stunden Anwesenheit 45 Minuten. Du kannst die Berechnungsgrundlage in den Einstellungen ändern und die tatsächliche Pause für jeden Tag selbst eintragen. Gesetzliche Mindestpausen richten sich nach der Arbeitszeit ohne Pausen.</p>
   </div>
 </section>
 <section class="stack">
@@ -138,7 +158,14 @@
       <div class="field-grid">
         <div class="field"><label for="setting-weekly">Wochenarbeitszeit (Std.)</label><input type="text" inputmode="decimal" id="setting-weekly" value="38,5"></div>
         <div class="field"><label for="setting-daygoal">Persönliches Tagesziel (Std.)</label><input type="text" inputmode="decimal" id="setting-daygoal" value="8"></div>
-        <div class="field"><label for="setting-break">Automatische Regelpause (Min.)</label><input type="number" id="setting-break" min="0" max="180" value="30"></div>
+        <div class="field"><label for="setting-break">Regelpause ab 6 Stunden (Min.)</label><input type="number" id="setting-break" min="30" max="180" value="30"></div>
+        <div class="field field-wide"><label for="setting-break-basis">Wann steigt die Pause auf 45 Minuten?</label>
+          <select id="setting-break-basis">
+            <option value="attendance">Bei mehr als 9 Stunden Anwesenheit (dein ATOSS-Abgleich)</option>
+            <option value="net">Bei mehr als 9 Stunden errechneter Nettoarbeitszeit</option>
+          </select>
+          <div class="field-help">Du bestimmst hier nur die Rechenregel deiner privaten App. Gesetzlich müssen Pausen tatsächlich genommen werden; ein automatischer Abzug ist kein Nachweis dafür.</div>
+        </div>
         <div class="field"><label for="setting-start">Erfassung beginnt am</label><input type="date" id="setting-start"></div>
         <div class="field field-wide"><label for="setting-vacation">Urlaubsanspruch pro Kalenderjahr (Tage, optional)</label><input type="number" id="setting-vacation" min="0" max="365" placeholder="Nicht festgelegt"></div>
         <div class="field field-wide"><label>Reguläre Arbeitstage</label><div class="workdays" id="settings-workdays"></div><div class="field-help">Die Wochenstunden werden auf deine gewählten Arbeitstage verteilt. Auf dieser Grundlage berechnet die App die täglichen ATOSS-ähnlichen Salden.</div></div>
@@ -153,7 +180,7 @@
   </details>
 </section>
 </main>
-<footer class="footer">Meine Stempeluhr <span class="footer-dot">●</span> Auf deinem Gerät gespeichert <span class="footer-dot">●</span> Version 1.4</footer>
+<footer class="footer">Meine Stempeluhr <span class="footer-dot">●</span> Auf deinem Gerät gespeichert <span class="footer-dot">●</span> Version 1.4.3</footer>
 </div>
 <nav class="mobile-dock" aria-label="Schnellnavigation">
  <a href="#dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></svg><span>Heute</span></a>
@@ -184,21 +211,23 @@ const duration=(m)=>{const a=Math.round(Math.abs(m));return `${m<0?'-':''}${Math
 const signed=(m)=>`${m>0?'+':m<0?'−':'±'}${duration(Math.abs(m))}`;
 const valNum=(v)=>Number(String(v).replace(',','.').trim());
 const safe=(s)=>String(s??'').replace(/[&<>"']/g,(x)=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
-function defaultState(){return {version:1,settings:{weekly:2310,dayGoal:480,workdays:[1,2,3,4,5],trackingStart:todayISO().slice(0,7)+'-01',defaultBreak:30,vacationAllowance:null,vacationAllowances:{'2027':30},region:'augsburg',mariaHoliday:true},entries:{}}}
-function validateSettings(settings,base){const o={...base};if(Number.isInteger(settings.weekly)&&settings.weekly>=60&&settings.weekly<=4800)o.weekly=settings.weekly;if(Number.isInteger(settings.dayGoal)&&settings.dayGoal>=60&&settings.dayGoal<=960)o.dayGoal=settings.dayGoal;if(Number.isInteger(settings.defaultBreak)&&settings.defaultBreak>=0&&settings.defaultBreak<=180)o.defaultBreak=settings.defaultBreak;if(/^\d{4}-\d\d-\d\d$/.test(settings.trackingStart||'')&&!isNaN(parseDate(settings.trackingStart)))o.trackingStart=settings.trackingStart;if(settings.vacationAllowance===null||(Number.isInteger(settings.vacationAllowance)&&settings.vacationAllowance>=0&&settings.vacationAllowance<=365))o.vacationAllowance=settings.vacationAllowance;if(settings.region==='augsburg'||REGIONS[settings.region])o.region=settings.region;if(typeof settings.mariaHoliday==='boolean')o.mariaHoliday=settings.mariaHoliday;if(settings.vacationAllowances&&typeof settings.vacationAllowances==='object'&&!Array.isArray(settings.vacationAllowances)){o.vacationAllowances={...o.vacationAllowances};for(const [y,n] of Object.entries(settings.vacationAllowances)){if(/^20\d{2}$/.test(y)&&Number.isInteger(n)&&n>=0&&n<=365)o.vacationAllowances[y]=n}}if(Array.isArray(settings.workdays)){const arr=[...new Set(settings.workdays)].filter(x=>Number.isInteger(x)&&x>=0&&x<=6).sort((a,b)=>(a+6)%7-(b+6)%7);if(arr.length)o.workdays=arr}return o;}
+function defaultState(){return {version:1,settings:{weekly:2310,dayGoal:480,workdays:[1,2,3,4,5],trackingStart:todayISO().slice(0,7)+'-01',defaultBreak:30,breakBasis:'attendance',vacationAllowance:null,vacationAllowances:{'2027':30},region:'augsburg',mariaHoliday:true},entries:{}}}
+function validateSettings(settings,base){const o={...base};if(Number.isInteger(settings.weekly)&&settings.weekly>=60&&settings.weekly<=4800)o.weekly=settings.weekly;if(Number.isInteger(settings.dayGoal)&&settings.dayGoal>=60&&settings.dayGoal<=960)o.dayGoal=settings.dayGoal;if(Number.isInteger(settings.defaultBreak)&&settings.defaultBreak>=0&&settings.defaultBreak<=180)o.defaultBreak=settings.defaultBreak;if(settings.breakBasis==='attendance'||settings.breakBasis==='net')o.breakBasis=settings.breakBasis;if(/^\d{4}-\d\d-\d\d$/.test(settings.trackingStart||'')&&!isNaN(parseDate(settings.trackingStart)))o.trackingStart=settings.trackingStart;if(settings.vacationAllowance===null||(Number.isInteger(settings.vacationAllowance)&&settings.vacationAllowance>=0&&settings.vacationAllowance<=365))o.vacationAllowance=settings.vacationAllowance;if(settings.region==='augsburg'||REGIONS[settings.region])o.region=settings.region;if(typeof settings.mariaHoliday==='boolean')o.mariaHoliday=settings.mariaHoliday;if(settings.vacationAllowances&&typeof settings.vacationAllowances==='object'&&!Array.isArray(settings.vacationAllowances)){o.vacationAllowances={...o.vacationAllowances};for(const [y,n] of Object.entries(settings.vacationAllowances)){if(/^20\d{2}$/.test(y)&&Number.isInteger(n)&&n>=0&&n<=365)o.vacationAllowances[y]=n}}if(Array.isArray(settings.workdays)){const arr=[...new Set(settings.workdays)].filter(x=>Number.isInteger(x)&&x>=0&&x<=6).sort((a,b)=>(a+6)%7-(b+6)%7);if(arr.length)o.workdays=arr}return o;}
 function load(){const baseline=defaultState();try{const raw=JSON.parse(localStorage.getItem(STORAGE));if(raw&&raw.version===1){baseline.settings=validateSettings(raw.settings||{},baseline.settings);if(raw.entries&&typeof raw.entries==='object'&&!Array.isArray(raw.entries)){for(const [key,e] of Object.entries(raw.entries)){if(!/^\d{4}-\d\d-\d\d$/.test(key)||!e||!TYPE_LABELS[e.type])continue;baseline.entries[key]={type:e.type,start:mtime(e.start)!==null?e.start:'',end:mtime(e.end)!==null?e.end:'',pauseMode:e.pauseMode==='manual'?'manual':'auto',pause:Number.isInteger(e.pause)?Math.min(240,Math.max(0,e.pause)):30,running:e.running===true,note:String(e.note||'').slice(0,500)}}}}}catch(err){console.warn('Speicherdatei nicht lesbar',err)}const earliest=Object.keys(baseline.entries).sort()[0];if(earliest&&earliest<baseline.settings.trackingStart){baseline.settings.trackingStart=earliest;try{localStorage.setItem(STORAGE,JSON.stringify(baseline))}catch(_){}}return baseline}
 let state=load();let selected=todayISO();let monthCursor=todayISO().slice(0,7);let timer=null;
 function persist(){try{localStorage.setItem(STORAGE,JSON.stringify(state));return true}catch(err){toast('Speichern fehlgeschlagen. Bitte Speicherplatz prüfen.');return false}}
 function toast(message){const e=$('toast');e.textContent=message;e.classList.add('show');clearTimeout(timer);timer=setTimeout(()=>e.classList.remove('show'),3300)}
 function plan(iso){if(isoCompare(iso,state.settings.trackingStart)<0||getHoliday(iso))return 0;const day=parseDate(iso).getDay();const days=state.settings.workdays;if(!days.includes(day))return 0;const e=state.entries[iso];if(e&&e.type==='free')return 0;const idx=days.indexOf(day),base=Math.floor(state.settings.weekly/days.length),extra=state.settings.weekly%days.length;return base+(idx<extra?1:0)}
 function pause(raw,e){
- if(e.pauseMode==='manual')return Math.max(0,Math.min(raw,e.pause||0));
- // Auto is an estimation of planned breaks, not proof a real break was taken.
+ // Every day's manual override is authoritative for this private estimate.
+ if(e?.pauseMode==='manual')return Math.max(0,Math.min(raw,Number(e.pause)||0));
  if(raw<=360)return 0;
- const usual=Math.max(0,state.settings.defaultBreak);
- const base=Math.max(30,usual);
- // Over 9 hours of net work a total of 45 minutes is required.
- return Math.min(raw,raw-base>540?Math.max(45,usual):base);
+ // A 30-minute baseline for attendance over 6 hours; values stay editable.
+ const base=Math.max(30,Number(state.settings.defaultBreak)||0);
+ const basis=state.settings.breakBasis==='net'?'net':'attendance';
+ // 'attendance': strictly MORE than 9 h at work; 'net': MORE than 9 h estimated work after base break.
+ const exceedsNine=basis==='attendance'?raw>540:raw-base>540;
+ return Math.min(raw,exceedsNine?Math.max(45,base):base);
 }
 function rawMinutes(iso,e){const start=mtime(e.start),end=mtime(e.end);if(start===null)return null;if(end!==null)return end>=start?end-start:null;if(e.running&&iso===todayISO()){const n=new Date();return Math.max(0,n.getHours()*60+n.getMinutes()-start)}return null}
 function worked(iso,e){if(!e||e.type!=='work')return 0;const raw=rawMinutes(iso,e);if(raw===null)return 0;return Math.max(0,raw-pause(raw,e))}
@@ -218,6 +247,41 @@ function calcEnd(start,net,e){
  // Find earliest attendance duration that fulfils net target after auto break.
  for(let raw=0;raw<=1440;raw++)if(raw-pause(raw,{pauseMode:'auto'})>=net)return timetxt(n+raw);
  return null;
+}
+function updateHeroPause(entry,raw){
+ const isWork=!!(entry&&entry.type==='work'&&entry.start);
+ const mins=isWork&&raw!==null?pause(raw,entry):null;
+ $('hero-pause-status').textContent=!isWork?'Erst einstempeln':mins===null?'Noch offen':mins+' Minuten '+(entry.pauseMode==='manual'?'· manuell':'· automatisch');
+ document.querySelectorAll('[data-quick-pause]').forEach(btn=>{
+  const val=btn.dataset.quickPause;
+  btn.disabled=!isWork;
+  btn.classList.toggle('is-selected',isWork&&(val==='auto'?entry.pauseMode!=='manual':entry.pauseMode==='manual'&&String(entry.pause)===val));
+  if(val!=='edit')btn.setAttribute('aria-pressed',String(btn.classList.contains('is-selected')));
+ });
+}
+function setTodayPause(value){
+ const iso=todayISO(),e=state.entries[iso];
+ if(!e||e.type!=='work'||!e.start)return toast('Bitte zuerst den Arbeitstag erfassen.');
+ if(value==='edit'){
+  selected=iso;fillEditor();$('edit-card').scrollIntoView({behavior:'smooth',block:'start'});
+  $('edit-pause-mode').value='manual';$('edit-pause').value=e.pauseMode==='manual'?e.pause:(rawMinutes(iso,e)===null?30:pause(rawMinutes(iso,e),e));
+  toggleEditor();$('edit-pause').focus();return;
+ }
+ if(value==='auto'){e.pauseMode='auto';e.pause=state.settings.defaultBreak;}
+ else{e.pauseMode='manual';e.pause=Number(value);}
+ persist();selected=iso;fillEditor();refresh();toast(value==='auto'?'Automatische Pause aktiviert.':'Pause für heute: '+value+' Minuten.');
+}
+function selectEditorPause(value){
+ if(value==='auto'){$('edit-pause-mode').value='auto';}
+ else{$('edit-pause-mode').value='manual';$('edit-pause').value=value;}
+ toggleEditor();
+}
+function updateEditorPauseChoices(){
+ const mode=$('edit-pause-mode').value,val=$('edit-pause').value;
+ document.querySelectorAll('[data-editor-pause]').forEach(b=>{
+  const selected=b.dataset.editorPause==='auto'?mode==='auto':mode==='manual'&&b.dataset.editorPause===val;
+  b.classList.toggle('is-selected',selected);b.setAttribute('aria-pressed',String(selected));
+ });
 }
 function refreshClock(){
  const now=new Date(),iso=todayISO(),entry=state.entries[iso],live=entry?worked(iso,entry):0;
@@ -243,6 +307,7 @@ function refreshClock(){
  const diff=live-required;
  const target=required?duration(required):'0:00';
  const breakPlanned=entry?.pauseMode==='manual'?Math.max(0,entry.pause||0):state.settings.defaultBreak;
+ updateHeroPause(entry,rawMinutes(iso,entry||{}));
  const info=start?`Soll ${target} Std. netto · Beginn ${safe(start)} Uhr`:`Sollzeit ${target} Std. · Regelpause ab 6 Std. Anwesenheit`;
  let message='';
  if(start&&required){
@@ -457,7 +522,7 @@ function attachPlanner(){
 }
 
 function vacationYear(){const year=todayISO().slice(0,4);let count=0;for(const [iso,e] of Object.entries(state.entries)){if(iso.startsWith(year)&&e.type==='vacation'&&plan(iso)>0)count++}const allowance=state.settings.vacationAllowances?.[year]??state.settings.vacationAllowance;const rest=allowance===null?'':` · Rest: <strong>${allowance-count} Tage</strong>`;$('vacation-stat').innerHTML=`Urlaub ${year}: <strong>${count} Arbeitstage eingetragen</strong>${rest}`;}
-function toggleEditor(){const t=$('edit-type').value;document.querySelectorAll('.work-only').forEach(x=>x.classList.toggle('hidden',t!=='work'));$('manual-pause-field').classList.toggle('hidden',t!=='work'||$('edit-pause-mode').value!=='manual');previewEditor()}
+function toggleEditor(){const t=$('edit-type').value;document.querySelectorAll('.work-only').forEach(x=>x.classList.toggle('hidden',t!=='work'));$('manual-pause-field').classList.toggle('hidden',t!=='work'||$('edit-pause-mode').value!=='manual');updateEditorPauseChoices();previewEditor()}
 function fillEditor(){const e=state.entries[selected]||{type:'work',start:'',end:'',pauseMode:'auto',pause:state.settings.defaultBreak,note:''};$('edit-date').value=selected;$('edit-type').value=e.type;$('edit-start').value=e.start||'';$('edit-end').value=e.end||'';$('edit-pause-mode').value=e.pauseMode||'auto';$('edit-pause').value=e.pause??state.settings.defaultBreak;$('edit-note').value=e.note||'';toggleEditor()}
 function previewEditor(){let text='';const type=$('edit-type').value,iso=$('edit-date').value||selected,p=dayTarget(iso);
  if(type!=='work'){text=`${TYPE_LABELS[type]}: ${type==='free'?'kein Soll und keine Zeitgutschrift':duration(plan(iso))+' Std. Zeitgutschrift'} am Arbeitstag.`}
@@ -517,14 +582,14 @@ function stampOut(){const iso=todayISO(),e=state.entries[iso];if(!e||!e.running)
 function saveDay(){const iso=$('edit-date').value,type=$('edit-type').value,start=$('edit-start').value,end=$('edit-end').value;if(!/^\d{4}-\d\d-\d\d$/.test(iso)||isNaN(parseDate(iso)))return toast('Bitte gültiges Datum wählen.');if(type==='work'&&end&&!start)return toast('Bitte zuerst den Arbeitsbeginn eingeben.');if(type==='work'&&start&&end&&mtime(end)<mtime(start))return toast('Feierabend darf nicht vor dem Beginn liegen.');const p=Number($('edit-pause').value);if($('edit-pause-mode').value==='manual'&&(!Number.isInteger(p)||p<0||p>240))return toast('Bitte eine Pause zwischen 0 und 240 Minuten eingeben.');const e={type,start:type==='work'?start:'',end:type==='work'?end:'',pauseMode:$('edit-pause-mode').value,pause:$('edit-pause-mode').value==='manual'?p:state.settings.defaultBreak,running:!!(type==='work'&&start&&!end&&iso===todayISO()),note:$('edit-note').value.trim().slice(0,500)};if(iso!==todayISO())e.running=false;state.entries[iso]=e;if(iso<state.settings.trackingStart)state.settings.trackingStart=iso;persist();selected=iso;fillSettings();refresh();fillEditor();toast('Arbeitstag gespeichert.');}
 function deleteDay(){const iso=$('edit-date').value;if(!state.entries[iso])return toast('Für diesen Tag gibt es keinen Eintrag.');if(!confirm(`Eintrag vom ${formatDate(iso)} wirklich löschen?`))return;delete state.entries[iso];persist();selected=iso;fillEditor();refresh();toast('Eintrag gelöscht.');}
 function absence(){const from=$('absence-from').value,to=$('absence-to').value,type=$('absence-type').value;if(!from||!to||isoCompare(from,to)>0)return toast('Bitte einen gültigen Zeitraum wählen.');if((parseDate(to)-parseDate(from))/86400000>366)return toast('Bitte höchstens ein Jahr auf einmal eintragen.');let wrote=0,skipped=0;for(let d=from;isoCompare(d,to)<=0;d=addDays(d,1)){if(isoCompare(d,state.settings.trackingStart)<0){skipped++;continue}const old=state.entries[d];if((type==='vacation'&&(!state.settings.workdays.includes(parseDate(d).getDay())||getHoliday(d)))||(old&&old.type==='work'&&old.start)){skipped++;continue}state.entries[d]={type,start:'',end:'',pauseMode:'auto',pause:state.settings.defaultBreak,running:false,note:old?.note||''};wrote++}persist();monthCursor=from.slice(0,7);refresh();toast(`${wrote} Tage eingetragen${skipped?', '+skipped+' vorhandene Arbeitstage/ältere Tage übersprungen':''}.`);}
-function fillSettings(){const s=state.settings;$('setting-weekly').value=String(s.weekly/60).replace('.',',');$('setting-daygoal').value=String(s.dayGoal/60).replace('.',',');$('setting-break').value=s.defaultBreak;$('setting-start').value=s.trackingStart;$('setting-vacation').value=s.vacationAllowance===null?'':s.vacationAllowance;
+function fillSettings(){const s=state.settings;$('setting-weekly').value=String(s.weekly/60).replace('.',',');$('setting-daygoal').value=String(s.dayGoal/60).replace('.',',');$('setting-break').value=s.defaultBreak;$('setting-break-basis').value=s.breakBasis||'attendance';$('setting-start').value=s.trackingStart;$('setting-vacation').value=s.vacationAllowance===null?'':s.vacationAllowance;
  $('settings-workdays').innerHTML=WEEKDAY_NAMES.map((t,i)=>{const wd=(i+1)%7;return `<label><input type="checkbox" value="${wd}" ${s.workdays.includes(wd)?'checked':''}>${t}</label>`}).join('');}
 function saveSettings(){const weekly=valNum($('setting-weekly').value),daily=valNum($('setting-daygoal').value),br=Number($('setting-break').value),days=[...$('settings-workdays').querySelectorAll('input:checked')].map(x=>Number(x.value)),start=$('setting-start').value,allow=$('setting-vacation').value;
  if(!Number.isFinite(weekly)||weekly<1||weekly>80||!Number.isInteger(Math.round(weekly*60))||Math.abs(weekly*60-Math.round(weekly*60))>.001)return toast('Bitte Wochenstunden in ganzen Minuten eingeben (z. B. 38,5).');
  if(!Number.isFinite(daily)||daily<1||daily>16||Math.abs(daily*60-Math.round(daily*60))>.001)return toast('Bitte gültiges Tagesziel eingeben.');
- if(!Number.isInteger(br)||br<0||br>180)return toast('Bitte gültige Pausenlänge angeben.');if(!days.length)return toast('Bitte mindestens einen Arbeitstag auswählen.');if(!start||isNaN(parseDate(start)))return toast('Bitte gültiges Startdatum eingeben.');if(allow!==''&&(!Number.isInteger(Number(allow))||Number(allow)<0||Number(allow)>365))return toast('Bitte gültigen Urlaubsanspruch eingeben.');
+ if(!Number.isInteger(br)||br<30||br>180)return toast('Bitte eine Regelpause von mindestens 30 Minuten angeben.');if(!days.length)return toast('Bitte mindestens einen Arbeitstag auswählen.');if(!start||isNaN(parseDate(start)))return toast('Bitte gültiges Startdatum eingeben.');if(allow!==''&&(!Number.isInteger(Number(allow))||Number(allow)<0||Number(allow)>365))return toast('Bitte gültigen Urlaubsanspruch eingeben.');
  const old=state.settings.trackingStart;if(old!==start&&Object.keys(state.entries).some(k=>isoCompare(k,start)<0)&&!confirm('Einige Einträge liegen vor dem neuen Erfassungsbeginn und zählen dann nicht ins Zeitkonto. Fortfahren?'))return;
- state.settings={...state.settings,weekly:Math.round(weekly*60),dayGoal:Math.round(daily*60),defaultBreak:br,workdays:days.sort((a,b)=>(a+6)%7-(b+6)%7),trackingStart:start,vacationAllowance:allow===''?null:Number(allow)};persist();refresh();fillEditor();toast('Einstellungen gespeichert.');}
+ state.settings={...state.settings,weekly:Math.round(weekly*60),dayGoal:Math.round(daily*60),defaultBreak:br,breakBasis:$('setting-break-basis').value==='net'?'net':'attendance',workdays:days.sort((a,b)=>(a+6)%7-(b+6)%7),trackingStart:start,vacationAllowance:allow===''?null:Number(allow)};persist();refresh();fillEditor();toast('Einstellungen gespeichert.');}
 function download(name,content,type){const blob=new Blob([content],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function exportJSON(){download(`stempeluhr-sicherung-${todayISO()}.json`,JSON.stringify({...state,exportedAt:new Date().toISOString()},null,2),'application/json');toast('Sicherung als JSON erstellt.');}
 function exportCSV(){const header=['Datum','Tag','Art','Beginn','Ende','Pause Minuten','Netto Minuten','Wochensoll-Anteil Minuten','Wochenkonto-Differenz Minuten','Tagessoll Minuten','Tagessaldo Minuten','Notiz'];const list=Object.keys(state.entries).sort();const lines=[header];for(const iso of list){const e=state.entries[iso],r=rawMinutes(iso,e),ps=e.type==='work'&&r!==null?pause(r,e):0,net=credit(iso),p=plan(iso);lines.push([iso,DAY_NAMES[parseDate(iso).getDay()],TYPE_LABELS[e.type],e.start||'',e.end||'',ps,net,p,net-p,dayTarget(iso),dayBalance(iso),e.note||''])}
@@ -534,7 +599,7 @@ async function importJSON(file){if(!file)return;let parsed;try{parsed=JSON.parse
 function attach(){ $('atoss-import').addEventListener('click',importATOSS); $('dock-settings').addEventListener('click',()=>{$('settings-panel').open=true}); $('punch-in').addEventListener('click',stampIn);$('punch-out').addEventListener('click',stampOut);
  $('prev-month').addEventListener('click',()=>{monthCursor=periodChange(monthCursor,-1);displayMonth()});$('next-month').addEventListener('click',()=>{monthCursor=periodChange(monthCursor,1);displayMonth()});
  $('go-today').addEventListener('click',()=>{selected=todayISO();monthCursor=selected.slice(0,7);fillEditor();displayMonth()});
- $('edit-date').addEventListener('change',()=>{selected=$('edit-date').value||todayISO();fillEditor()});$('edit-type').addEventListener('change',toggleEditor);$('edit-pause-mode').addEventListener('change',toggleEditor);['edit-start','edit-end','edit-pause'].forEach(id=>$(id).addEventListener('input',previewEditor));
+ $('edit-date').addEventListener('change',()=>{selected=$('edit-date').value||todayISO();fillEditor()});$('edit-type').addEventListener('change',toggleEditor);$('edit-pause-mode').addEventListener('change',toggleEditor);document.querySelectorAll('[data-editor-pause]').forEach(b=>b.addEventListener('click',()=>selectEditorPause(b.dataset.editorPause)));document.querySelectorAll('[data-quick-pause]').forEach(b=>b.addEventListener('click',()=>setTodayPause(b.dataset.quickPause)));['edit-start','edit-end','edit-pause'].forEach(id=>$(id).addEventListener('input',()=>{updateEditorPauseChoices();previewEditor()}));
  $('save-day').addEventListener('click',saveDay);$('delete-day').addEventListener('click',deleteDay);$('save-absence').addEventListener('click',absence);attachPlanner();$('save-settings').addEventListener('click',saveSettings);
  $('export-json').addEventListener('click',exportJSON);$('export-csv').addEventListener('click',exportCSV);$('import-button').addEventListener('click',()=>$('import-file').click());$('import-file').addEventListener('change',async(e)=>{await importJSON(e.target.files[0]);e.target.value=''});
  $('reset-all').addEventListener('click',()=>{if(!confirm('Wirklich alle gespeicherten Zeiten und Einstellungen löschen? Dies kann nicht rückgängig gemacht werden.'))return;state=defaultState();persist();selected=todayISO();monthCursor=selected.slice(0,7);fillSettings();fillEditor();holidayCache.clear();refresh();toast('Daten zurückgesetzt.');});
